@@ -231,7 +231,7 @@ class _LoginState extends State<VehicleEdit> {
                                           )
                                       ),
                                       Text(
-                                        "Create Vehicle",
+                                        "Update Vehicle",
                                         textAlign: TextAlign.center ,
                                         style: TextStyle(
                                             color: Colors.black,fontWeight: FontWeight.bold,fontSize: 26),),

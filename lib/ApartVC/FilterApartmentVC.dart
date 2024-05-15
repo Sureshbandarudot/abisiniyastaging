@@ -300,26 +300,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   // shrinkWrap: true,
                                                   scrollDirection: Axis.vertical,
                                                   itemCount: snapshot.data['data'].length ,
+                                                  //itemCount: snapshot.data?["data"]['pictures'].length ?? '',
+
                                                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                   itemBuilder: (BuildContext context, int index) {
-                                                    var picstrr = snapshot.data['data'];
-                                                    for (var record in picstrr) {
-                                                      var pictures = record['pictures'];
-                                                      print(pictures);
-                                                      for(var pics in pictures) {
-                                                        //var picname = pics['imageUrl'];
-                                                        imageID = (snapshot.data['data'][index]['id']);
-                                                        print('iD value...');
-                                                        print(imageID);
-                                                        if (30 == 30) {
-                                                          var picname = pics['imageUrl'];
-                                                          var picimg = pics['imageName'];
-                                                          print('pic names');
-                                                          print(picname);
-                                                          print(picimg);
-                                                        }
-                                                      }
-                                                    }
+                                                    // var picstrr = snapshot.data['data'];
+                                                    // for (var record in picstrr) {
+                                                    //   var pictures = record['pictures'];
+                                                    //   print(pictures);
+                                                    //   for(var pics in pictures) {
+                                                    //     //var picname = pics['imageUrl'];
+                                                    //     imageID = (snapshot.data['data'][index]['id']);
+                                                    //     print('iD value...');
+                                                    //     print(imageID);
+                                                    //     if (30 == 30) {
+                                                    //       var picname = pics['imageUrl'];
+                                                    //       var picimg = pics['imageName'];
+                                                    //       print('pic names');
+                                                    //       print(picname);
+                                                    //       print(picimg);
+                                                    //     }
+                                                    //   }
+                                                    // }
                                                     return Container(
                                                       height: 510,
                                                       width: 300,
@@ -369,9 +371,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                   Container(
                                                                     height: 200,
                                                                     //color: Colors.green,
+                                                                    // decoration: BoxDecoration(
+                                                                    //     image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                                                    //     ]['imageUrl'] ?? ''),
+                                                                    //         fit: BoxFit.cover)
+                                                                    // ),
                                                                     decoration: BoxDecoration(
-                                                                        image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
-                                                                        ]['imageUrl']),
+                                                                      // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                                                      // ]['imageUrl']),
+                                                                        image: DecorationImage(image: NetworkImage(snapshot.data?['data'][index]['pictures'].isEmpty ? 'Empty image'
+                                                                            : snapshot.data?["data"][index]['pictures'][0]['imageUrl'].toString() ?? 'empty'),
                                                                             fit: BoxFit.cover)
                                                                     ),
                                                                   ),

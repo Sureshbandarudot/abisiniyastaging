@@ -6,39 +6,72 @@ import 'package:tourstravels/Auth/Register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:tourstravels/shared_preferences.dart';
 import 'package:tourstravels/Auth/forgotpwdemailVerify.dart';
+import 'package:tourstravels/Seat%20Booking/MybusesVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
-
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-import 'MyvehicleVC.dart';
-
-//import 'My_AprtmetsVC.dart';
-
+// import '../My_AprtmetsVC.dart';
+// import 'MyvehicleVC.dart';
 
 
 
 
 
-class CreateVehice extends StatefulWidget {
+
+
+class BusEdit extends StatefulWidget {
 
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<CreateVehice> {
+class _LoginState extends State<BusEdit> {
   String RetrivedBearertoekn = '';
+  String RetrivedName = '';
+  String RetrivedAddress = '';
+  String RetrivedCity = '';
+  String RetrivedCountry = '';
+  int YearValue = 0;
+  int RetrivedBedroom = 0;
+  int RetrivedBathroom = 0;
+  int RetrivedPrice = 0;
+  int BusID = 0;
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      // RetrivedEmail = prefs.getString('emailkey') ?? "";
-      // RetrivedPwd = prefs.getString('passwordkey') ?? "";
+      // prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
+      nameController.text = prefs.getString('namekey') ?? "";
+      NoofSeats_Controller.text = prefs.getString('seaterkey') ?? "";
+      addressController.text = prefs.getString('addresskey') ?? "";
+      cityController.text = prefs.getString('citykey') ?? "";
+      countryController.text = prefs.getString('countrykey') ?? "";
+      makeController.text = prefs.getString('makekey') ?? "";
+      modelController.text = prefs.getString('modelkey') ?? "";
+      YearValue = prefs.getInt('yearkey') ?? 0;
+      yearController.text = YearValue.toString();
+      engine_sizeController.text = prefs.getString('engine_sizekey') ?? "";
+      fuel_typeController.text = prefs.getString('fuel_typekey') ?? "";
+      weightController.text = prefs.getString('weightkey') ?? "";
+      colorController.text = prefs.getString('colorkey') ?? "";
+
+      transmissionController.text = prefs.getString('transmissionkey') ?? "";
+
+
+      RetrivedPrice = prefs.getInt('pricekey') ?? 0;
+      BusID = prefs.getInt('userbusId') ?? 0;
+      print('price...');
+      print(RetrivedPrice);
+      print(BusID);
+      priceController.text = RetrivedPrice.toString();
+      // guestController.text = prefs.getInt(''guestkey'') ?? 0.toString();
+      //ApartmentId = prefs.getInt('userbookingId') ?? 0;
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
       print('create Apartment token');
       print(RetrivedBearertoekn);
@@ -49,24 +82,36 @@ class _LoginState extends State<CreateVehice> {
   bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController NoofSeats_Controller = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController makeController = TextEditingController();
   TextEditingController modelController = TextEditingController();
   TextEditingController yearController = TextEditingController();
-  TextEditingController enginesizeController = TextEditingController();
-  TextEditingController fuelsizeController = TextEditingController();
+  TextEditingController engine_sizeController = TextEditingController();
+  TextEditingController fuel_typeController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController colorController = TextEditingController();
-  TextEditingController transmisionController = TextEditingController();
+  TextEditingController transmissionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  // nameController.text = RetrivedName;
+  // String tokenvalue = '';
 
 
 
 
+  String dropdownvalue = 'Active';
 
-  String tokenvalue = '';
+// List of items in our dropdown menu
+  var items = [
+    'Select Status',
+    'Active',
+    'Inactive',
+    'Pending',
+  ];
+
+
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -77,74 +122,55 @@ class _LoginState extends State<CreateVehice> {
   File? galleryFile;
   final picker = ImagePicker();
   @override
-  Future addProduct() async{
-    print('entered.....');
-    var header = {
-      "Authorization":"Bearer $RetrivedBearertoekn",
-    "Accept": "application/json",
-    "Content-Type": "application/json"
-    };
-    final request = await http.MultipartRequest(
-      'POST',
-      // Uri.parse('https://staging.abisiniya.com/api/v1/vehicle/add'),
-      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'vehicle/add'),
+  //Update API Request
+  Future<String> Update() async {
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'bus/update/$BusID';
+    print('url...');
+    print(url);
+    final response = await http.put(
+      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'bus/update/$BusID'),
+      // NB: you don't need to fill headers field
+      // headers: {
+      //   'Content-Type': 'application/json' // 'application/x-www-form-urlencoded' or whatever you need
+      // },
 
+      headers: {
+        "Authorization":"Bearer $RetrivedBearertoekn",
+        //     "Accept": "application/json",
+        // "Content-Type": "application/json"
+      },
+      body: {
+        'name': nameController.text,
+        'seater': NoofSeats_Controller.text,
+        'address': addressController.text,
+        'city': cityController.text,
+        'country': countryController.text,
+        'make': makeController.text,
+        'model': modelController.text,
+        'year': yearController.text,
+        'engine_size': engine_sizeController.text,
+        'fuel_type': fuel_typeController.text,
+        'weight': weightController.text,
+        'color': colorController.text,
+        'transmission': transmissionController.text,
+        'price': priceController.text.toString(),
+        'status': dropdownvalue,
+      },
     );
-    request.headers.addAll(header);
-    request.fields['name'] = nameController.text;
-    request.fields['address'] = addressController.text;
-    request.fields['city'] = cityController.text;
-    request.fields['country'] = countryController.text;
-    request.fields['make'] = makeController.text.toString();
-    request.fields['model'] = modelController.text.toString();
-    request.fields['year'] = yearController.text.toString();
-    request.fields['engine_size'] = enginesizeController.text;
-    request.fields['fuel_type'] = fuelsizeController.text.toString();
-    request.fields['weight'] = weightController.text;
-    request.fields['color'] = colorController.text.toString();
-    request.fields['transmission'] = transmisionController.text.toString();
-    request.fields['price'] = priceController.text.toString();
-    request.fields['pictures[]'] = '[]';
-    var takenPicture = await http.MultipartFile.fromPath("pictures[]",galleryFile!.path);
-    print(takenPicture);
-    request.files.add(takenPicture);
-    var response = await request.send();
-    print(response);
-    if(response.statusCode == 200) {
-      print('Vehicles........');
-      var responseData = await response.stream.toBytes();
-      var responseToString = String.fromCharCodes(responseData);
-      // final List parsedList = json.decode(responseToString);
-      // final snackBar = SnackBar(
-      //   content: Text('Apartment created successfully'),
-      // );
-      // // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MyVehicleScreen()
-        ),
-      );
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (context) => MyApartmentScreen()
-      //   ),
-      // );
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('tokenkey', RetrivedBearertoekn);
 
-      var jsonBody = jsonDecode(responseToString);
-      setState(() {
-        print(jsonBody);
-      });
+    print('status code...');
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print('succesfully Edited');
+      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+        builder: (_) => MyBusesScreen(),
+      ),);
+      return response.body;
     } else {
-      final snackBar = SnackBar(
-        content: Text(''),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return "Error ${response.statusCode}: ${response.body}";
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +202,7 @@ class _LoginState extends State<CreateVehice> {
                           child: Column(
                             children: [
                               Container(
-                                  height: 1150.0,
+                                  height: 1000.0,
                                   width: 325.0,
                                   decoration: const BoxDecoration(
                                     //color: Color(0xFFffffff),
@@ -209,7 +235,7 @@ class _LoginState extends State<CreateVehice> {
                                           )
                                       ),
                                       Text(
-                                        "Create Vehicle",
+                                        "Update Bus",
                                         textAlign: TextAlign.center ,
                                         style: TextStyle(
                                             color: Colors.black,fontWeight: FontWeight.bold,fontSize: 26),),
@@ -233,7 +259,26 @@ class _LoginState extends State<CreateVehice> {
                                             //disable single line border below the text field
 
                                             new InputDecoration.collapsed(
-                                                hintText: 'name')),
+                                                hintText: 'Number of seats')),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            controller: NoofSeats_Controller,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Number of Seats')),
                                       ),
 
                                       SizedBox(height: 10,),
@@ -345,8 +390,6 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: yearController,
-                                            keyboardType: TextInputType.number,
-
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -365,8 +408,7 @@ class _LoginState extends State<CreateVehice> {
                                         width: 300.0,
                                         height: 40.0,
                                         child: TextField(
-                                            controller: enginesizeController,
-                                            keyboardType: TextInputType.number,
+                                            controller: engine_sizeController,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -385,7 +427,7 @@ class _LoginState extends State<CreateVehice> {
                                         width: 300.0,
                                         height: 40.0,
                                         child: TextField(
-                                            controller: fuelsizeController,
+                                            controller: fuel_typeController,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -393,7 +435,6 @@ class _LoginState extends State<CreateVehice> {
                                             new InputDecoration.collapsed(
                                                 hintText: 'Fuel Type')),
                                       ),
-
                                       SizedBox(height: 10,),
                                       Container(
                                         margin: const EdgeInsets.all(00.0),
@@ -406,8 +447,6 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: weightController,
-                                            keyboardType: TextInputType.number,
-
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -415,7 +454,6 @@ class _LoginState extends State<CreateVehice> {
                                             new InputDecoration.collapsed(
                                                 hintText: 'Weight')),
                                       ),
-
                                       SizedBox(height: 10,),
                                       Container(
                                         margin: const EdgeInsets.all(00.0),
@@ -446,7 +484,7 @@ class _LoginState extends State<CreateVehice> {
                                         width: 300.0,
                                         height: 40.0,
                                         child: TextField(
-                                            controller: transmisionController,
+                                            controller: transmissionController,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -454,7 +492,6 @@ class _LoginState extends State<CreateVehice> {
                                             new InputDecoration.collapsed(
                                                 hintText: 'Transmission')),
                                       ),
-
                                       SizedBox(height: 10,),
                                       Container(
                                         margin: const EdgeInsets.all(00.0),
@@ -467,8 +504,6 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: priceController,
-                                            keyboardType: TextInputType.number,
-
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -480,21 +515,50 @@ class _LoginState extends State<CreateVehice> {
                                       SizedBox(
                                         height: 15,
                                       ),
-                                      ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor: MaterialStateProperty.all(Colors.green)),
-                                        child: const Text('Select Image from Gallery and Camera',style: TextStyle(color: Colors.white),),
-                                        onPressed: () {
-                                          _showPicker(context: context);
-                                        },
+
+
+                                      Container(
+                                        height: 50,
+                                        width: 300,
+                                        color: Colors.white,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            DropdownButton(
+
+                                              isExpanded: true,
+
+                                              // Initial Value
+                                              value: dropdownvalue,
+
+                                              // Down Arrow Icon
+                                              icon: const Icon(Icons.keyboard_arrow_down),
+
+                                              // Array list of items
+                                              items: items.map((String items) {
+                                                return DropdownMenuItem(
+                                                  value: items,
+                                                  child: Text(items),
+                                                );
+                                              }).toList(),
+                                              // After selecting the desired option,it will
+                                              // change button value to selected value
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownvalue = newValue!;
+                                                });
+                                              },
+                                            ),
+                                          ],
+
+                                        ),
+
                                       ),
                                       SizedBox(
-                                        height: 200.0,
-                                        width: 300.0,
-                                        child: galleryFile == null
-                                            ? const Center(child: Text('Sorry nothing selected!!',style: TextStyle(color: Colors.red),))
-                                            : Center(child: Image.file(galleryFile!)),
+                                        height: 10,
                                       ),
+
+
                                       Container(
                                         child:isLoading
                                             ? Center(child: CircularProgressIndicator())
@@ -509,103 +573,11 @@ class _LoginState extends State<CreateVehice> {
                                               textStyle: const TextStyle(fontSize: 20)),
                                           // child: Text('Book Now'),
 
-                                          child: const Text('Send',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                                          child: const Text('Update',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
                                           onPressed: () async {
-                                            // setState(() => isLoading = true);
-                                            // addProduct();
-                                            if(nameController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill name'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(addressController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill address'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(cityController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill city'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(countryController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill country'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(makeController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill make'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(modelController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill model'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(yearController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill year'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(enginesizeController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill enginesize'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(fuelsizeController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill fueltype'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(weightController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill weight'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(colorController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill color'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(transmisionController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill transimission'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(priceController.text.isEmpty) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please Fill price'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else if(galleryFile == null) {
-                                              final snackBar = SnackBar(
-                                                content: Text('Please select image from gallery..'),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                            } else {
-                                              print('product calling...');
-                                              addProduct();
-
-                                            }
-                                            // _postData();
-                                            //login(emailController.text.toString(), passwordController.text.toString());
-
+                                            setState(() => isLoading = true);
+                                            Update();
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                             // print('booking id...');
                                             // print(snapshot.data['data'][index]['id']);
@@ -616,8 +588,8 @@ class _LoginState extends State<CreateVehice> {
 
 
                                             print('token value....');
-                                            print(tokenvalue);
-                                            prefs.setString('tokenkey', tokenvalue);
+                                            // print(tokenvalue);
+                                            // prefs.setString('tokenkey', tokenvalue);
                                             await Future.delayed(Duration(seconds: 2), () => () {});
                                             setState(() => isLoading = false);
                                           },

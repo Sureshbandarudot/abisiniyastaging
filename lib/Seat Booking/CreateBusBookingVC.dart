@@ -17,7 +17,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-import 'MyvehicleVC.dart';
+import 'MybusesVC.dart';
+
 
 //import 'My_AprtmetsVC.dart';
 
@@ -26,13 +27,13 @@ import 'MyvehicleVC.dart';
 
 
 
-class CreateVehice extends StatefulWidget {
+class CreateBuseatBookingScreen extends StatefulWidget {
 
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<CreateVehice> {
+class _LoginState extends State<CreateBuseatBookingScreen> {
   String RetrivedBearertoekn = '';
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,6 +50,7 @@ class _LoginState extends State<CreateVehice> {
   bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController noofSeatsController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -81,17 +83,18 @@ class _LoginState extends State<CreateVehice> {
     print('entered.....');
     var header = {
       "Authorization":"Bearer $RetrivedBearertoekn",
-    "Accept": "application/json",
-    "Content-Type": "application/json"
+      "Accept": "application/json",
+      "Content-Type": "application/json"
     };
     final request = await http.MultipartRequest(
       'POST',
       // Uri.parse('https://staging.abisiniya.com/api/v1/vehicle/add'),
-      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'vehicle/add'),
+      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'bus/add'),
 
     );
     request.headers.addAll(header);
     request.fields['name'] = nameController.text;
+    request.fields['seater'] = noofSeatsController.text;
     request.fields['address'] = addressController.text;
     request.fields['city'] = cityController.text;
     request.fields['country'] = countryController.text;
@@ -110,27 +113,24 @@ class _LoginState extends State<CreateVehice> {
     request.files.add(takenPicture);
     var response = await request.send();
     print(response);
-    if(response.statusCode == 200) {
-      print('Vehicles........');
+    print('response...');
+    print(response.statusCode);
+    if(response.statusCode == 201) {
+      print('Bus........');
       var responseData = await response.stream.toBytes();
       var responseToString = String.fromCharCodes(responseData);
-      // final List parsedList = json.decode(responseToString);
+      //final List parsedList = json.decode(responseToString);
       // final snackBar = SnackBar(
       //   content: Text('Apartment created successfully'),
       // );
-      // // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => MyVehicleScreen()
+            builder: (context) => MyBusesScreen()
         ),
       );
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (context) => MyApartmentScreen()
-      //   ),
-      // );
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('tokenkey', RetrivedBearertoekn);
 
@@ -176,7 +176,7 @@ class _LoginState extends State<CreateVehice> {
                           child: Column(
                             children: [
                               Container(
-                                  height: 1150.0,
+                                  height: 1200.0,
                                   width: 325.0,
                                   decoration: const BoxDecoration(
                                     //color: Color(0xFFffffff),
@@ -209,7 +209,7 @@ class _LoginState extends State<CreateVehice> {
                                           )
                                       ),
                                       Text(
-                                        "Create Vehicle",
+                                        "Create Bus",
                                         textAlign: TextAlign.center ,
                                         style: TextStyle(
                                             color: Colors.black,fontWeight: FontWeight.bold,fontSize: 26),),
@@ -233,9 +233,32 @@ class _LoginState extends State<CreateVehice> {
                                             //disable single line border below the text field
 
                                             new InputDecoration.collapsed(
-                                                hintText: 'name')),
+                                                hintText: 'Company name/Owner name')),
                                       ),
 
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            controller: noofSeatsController,
+                                            keyboardType: TextInputType.number,
+
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Number of Seats')),
+                                      ),
                                       SizedBox(height: 10,),
                                       Container(
                                         margin: const EdgeInsets.all(00.0),
@@ -517,6 +540,12 @@ class _LoginState extends State<CreateVehice> {
                                             if(nameController.text.isEmpty) {
                                               final snackBar = SnackBar(
                                                 content: Text('Please Fill name'),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                                            } else if(noofSeatsController.text.isEmpty) {
+                                              final snackBar = SnackBar(
+                                                content: Text('Please Fill number of seats'),
                                               );
                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
 

@@ -67,6 +67,8 @@ class _RegisterState extends State<Register> {
             'password_confirmation' : confirmpwdController.text.toString(),
             'phone' : phoneController.text.toString(),
           });
+      print('sts code...');
+      print(response.statusCode);
 
       if(response.statusCode == 200){
         var data = jsonDecode(response.body.toString());
@@ -89,54 +91,121 @@ class _RegisterState extends State<Register> {
         print(data);
         print(data['token']);
         print('Register  successfully');
-      }else if (response.statusCode == 400) {
+      }
+
+      if (response.statusCode == 400) {
         var data1 = jsonDecode(response.body);
         print('valid response data1');
         print(data1);
         print(data1['message']['email']);
-        if(data1['message']['email'] != null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
-          print('email valid...');
+
+
+        if (nameController.text.isEmpty) {
           final snackBar = SnackBar(
-            content: Text('email,phone has already been taken and password confirmation does not match'),
+            content: Text('Please Fll firstname'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }   else if(data1['message']['email'] != null && data1['message']['phone'] == null && data1['message']['password'] != null  ){
-          print('email valid...');
+        } else if (surnameController.text.isEmpty) {
           final snackBar = SnackBar(
-            content: Text('email has already been taken and password confirmation does not match'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if(data1['message']['email'] == null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
-          print('email valid...');
-          final snackBar = SnackBar(
-            content: Text('phone has already been taken and password confirmation does not match'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }else if(data1['message']['email'] == null && data1['message']['phone'] == null && data1['message']['password'] == null  ){
-          print('email valid...');
-          final snackBar = SnackBar(
-            content: Text('email , phone has already been taken '),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if(data1['message']['email'] != null){
-          print('email valid...');
-          final snackBar = SnackBar(
-            content: Text('email has already been taken '),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }else if(data1['message']['phone'] != null){
-          print('email valid...');
-          final snackBar = SnackBar(
-            content: Text('phone has already been taken '),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }else if(data1['message']['password'] != null){
-          print('email valid...');
-          final snackBar = SnackBar(
-            content: Text('password confirmation does not match '),
+            content: Text('Please Fill surname'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
+
+        else if (phoneController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill Mobile number'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (emailController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill Email'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (passwordController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill password'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (confirmpwdController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill password confirmation'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+
+        else if ((data1['message']['phone']) != null && (data1['message']['email']) != null) {
+         // showAlertDialog(context);
+          final snackBar = SnackBar(
+            content: Text('The email and phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else if ((data1['message']['phone']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //Phonenumber_showAlertDialog(context);
+
+
+        } else if ((data1['message']['email']) != null) {
+          //Email_showAlertDialog(context);
+
+          final snackBar = SnackBar(
+            content: Text('The  email has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else if ((data1['message']['password']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The password confirmation does not match.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        // else if(data1['message']['email'] != null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('email,phone has already been taken and password confirmation does not match'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }   else if(data1['message']['email'] != null && data1['message']['phone'] == null && data1['message']['password'] != null  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('email has already been taken and password confirmation does not match'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if(data1['message']['email'] == null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('phone has already been taken and password confirmation does not match'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }else if(data1['message']['email'] == null && data1['message']['phone'] == null && data1['message']['password'] == null  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('email , phone has already been taken '),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if(data1['message']['email'] != null){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('email has already been taken '),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }else if(data1['message']['phone'] != null){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('phone has already been taken '),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }else if(data1['message']['password'] != null){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('password confirmation does not match '),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }
 
 
 

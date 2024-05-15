@@ -739,7 +739,7 @@ class _BusHireWidgetState extends State<BusHire> {
                                               children: [
                                                 Container(
                                                   height: 30,
-                                                  width: 140,
+                                                  width: 180,
                                                   child:Text('${(snapshot.data['data'][index]['year'].toString()) + '|' + (snapshot.data['data'][index]['make'].toString())}',textAlign: TextAlign.left,
                                                     style: (TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.green)),),
                                                 ),
@@ -786,7 +786,7 @@ class _BusHireWidgetState extends State<BusHire> {
                                                             Container(
                                                               height: 30,
                                                               width: 140,
-                                                              child:Text('${(snapshot.data['data'][index]['price'].toString())}.00/Day.',textAlign: TextAlign.left,
+                                                              child:Text('${(snapshot.data['data'][index]['price'].toString())}.00/Km.',textAlign: TextAlign.left,
                                                                 style: (TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.green)),),
                                                             ),
                                                           ],
@@ -832,7 +832,7 @@ class _BusHireWidgetState extends State<BusHire> {
                                                               // login(RetrivedEmail, RetrivedPwd);
                                                             }
                                                           },
-                                                          child: const Text('Hire Now',style: (TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18)),),
+                                                          child: const Text('Book Now',style: (TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18)),),
                                                         ),
                                                       )
 
@@ -843,6 +843,30 @@ class _BusHireWidgetState extends State<BusHire> {
                                               ],
 
                                             )
+
+                                          ],
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 300,
+                                        color: Colors.white,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 30,
+                                                  width: 140,
+                                                  child:Text('${(snapshot.data['data'][index]['name'].toString())}',textAlign: TextAlign.start,
+                                                    style: (TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: Colors.black)),),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -904,9 +928,11 @@ class _BusHireWidgetState extends State<BusHire> {
                                                           color: Colors.green,
                                                           child: Align(
                                                             alignment: Alignment.center,
-                                                            child:Text('${(snapshot.data['data'][index]['transmission'].toString())}',textAlign: TextAlign.center,
-                                                              style: (TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: Colors.white)),),
-                                                          ),
+                                                            // child:Text('${(snapshot.data['data'][index]['seater'].toString())}',textAlign: TextAlign.center,
+                                                            //   style: (TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: Colors.white)),),
+                                                            child:Text('${(snapshot.data['data'][index]['seater'].toString())} seater',
+                                                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18)
+                                                              ,textAlign: TextAlign.center,),)
                                                         ),
                                                       )
                                                     ],

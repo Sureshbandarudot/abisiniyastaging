@@ -205,7 +205,70 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
         setState(() {
           //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
         });
-      } else if (response.statusCode == 404){
+      }
+      if (response.statusCode == 422) {
+        print('already entered existing data1...');
+        var data = jsonDecode(response.body);
+        print('email...');
+        print(data['message']['email']);
+        //String emailstr = (data['message']['email']);
+        //print(emailstr);
+        print(data['message']['phone']);
+
+        print(data['message']['password']);
+        print(data['message']['end_date']);
+        if (FromdateInputController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please select start date'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (TodateInputController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please select end date'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else if ((data['message']['password']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The password confirmation does not match.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else if ((data['message']['end_date']) != null) {
+          print('date....');
+          final snackBar = SnackBar(
+            content: Text('The end date must be a date after start date.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          print('nullll.....');
+        }
+        // if ((data['message']['email']) != '[The email has already been taken.]' && (data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The email and phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //
+        // }  else if ((data['message']['email']) != '[The email has already been taken.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The email  has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The  phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The end date must be a date after start date.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }
+      }
+
+
+      else if (response.statusCode == 404){
         var data = jsonDecode(response.body.toString());
         final snackBar = SnackBar(
           content: Text('You cant book your own vehicle.'),
@@ -468,7 +531,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
                                                             color: Colors.white,
                                                             child: Text('${((snapshot.data?['data'].isEmpty ? 'Empty name'
                                                                 : snapshot.data?["data"]['price'].toString()
-                                                                ?? 'empty'))} /night',style: (TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black)),),
+                                                                ?? 'empty'))} /Day',style: (TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black)),),
 
                                                           )
                                                         ],
@@ -629,9 +692,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
                                                             height: 20,
                                                           ),
                                                           Container(
-                                                            child:isLoading
-                                                                ? Center(child: CircularProgressIndicator())
-                                                                : TextButton(
+                                                            child: TextButton(
                                                               style: TextButton.styleFrom(
                                                                   fixedSize: const Size(340, 50),
                                                                   foregroundColor: Colors.white,

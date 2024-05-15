@@ -321,7 +321,47 @@ class HomeState extends State<CarHire_NewUserBooking> {
         //print(emailstr);
         print(data['message']['phone']);
         print(data['message']['end_date']);
-        if ((data['message']['phone']) != null && (data['message']['email']) != null) {
+        if (namecontroller.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fll firstname'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (surnamecontroller.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill surname'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (phonecontroller.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill Mobile number'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (emailcontroller.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill Email'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (passwordcontroller.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill password'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (pwd_confirmcontroller.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please Fill password confirmation'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (FromdateInputController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please select start date'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (TodateInputController.text.isEmpty) {
+          final snackBar = SnackBar(
+            content: Text('Please select end date'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['phone']) != null && (data['message']['email']) != null) {
           showAlertDialog(context);
           // final snackBar = SnackBar(
           //   content: Text('The email and phone has already been taken.'),
@@ -757,7 +797,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
                                                             color: Colors.white,
                                                             child: Text('${((snapshot.data?['data'].isEmpty ? 'Empty name'
                                                                 : snapshot.data?["data"]['price'].toString()
-                                                                ?? 'empty'))} /night',style: (TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black)),),
+                                                                ?? 'empty'))} /Day',style: (TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black)),),
 
                                                           )
                                                         ],
