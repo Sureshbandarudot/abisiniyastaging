@@ -6,22 +6,28 @@ import 'package:tourstravels/Auth/Login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
+import '../ViewApartmentVC.dart';
 import 'VehicleViewVC.dart';
+
+
+//import 'VehicleViewVC.dart';
 
 
 //void main() => runApp(RatingScreen());
 
-class RatingScreen extends StatefulWidget {
+class VehicleRatingScreen extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<RatingScreen> {
+class _MyAppState extends State<VehicleRatingScreen> {
   final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
-  int VehicleId = 0;
+  int VehicleID = 0;
   int Picture_Id = 0;
   late final _ratingController;
   late double _rating;
@@ -40,11 +46,11 @@ class _MyAppState extends State<RatingScreen> {
       // RetrivedEmail = prefs.getString('emailkey') ?? "";
       // RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      VehicleId = prefs.getInt('userbookingId') ?? 0;
+      VehicleID = prefs.getInt('userbookingId') ?? 0;
       Picture_Id = prefs.getInt('Picturekey') ?? 0;
 
       print('Retrived Ids....');
-      print(VehicleId);
+      print(VehicleID);
       print(Picture_Id);
 
       print('view Apartment... ');
@@ -54,12 +60,13 @@ class _MyAppState extends State<RatingScreen> {
   Future<void> _postReviewData() async {
     try {
       String apiUrl = '';
+      //apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/booking/newuser';
       // apiUrl = 'https://staging.abisiniya.com/api/v1/rating/add';
       apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'rating/add';
 
       print('vehicle url.....1');
       print(apiUrl);
-      print(VehicleId);
+      print(VehicleID);
       print('call rat...');
       print(_rating.toInt());
       print(RetrivedBearertoekn);
@@ -73,8 +80,8 @@ class _MyAppState extends State<RatingScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'rating_type': 'App/Models/Apartments',
-          'rating_id': VehicleId,
+          'rating_type': 'App\\Models\\Vehicle',
+          'rating_id': VehicleID,
           'score': _rating.toInt(),
           'comment': _ratingController.text,
           // Add any other data you want to send in the body
@@ -234,7 +241,7 @@ class _MyAppState extends State<RatingScreen> {
                                 elevation: 2,
                                 backgroundColor: Colors.green),
                           ),
-                         ),
+                        ),
                       ],
                     ),
                     // child: TextFormField(

@@ -542,13 +542,18 @@ class _userDashboardState extends State<newuserDashboard> {
                     title: const Text('My Vehicles',
                         style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
                     //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-                    onTap: () {
+                    onTap: () async{
                       //Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyVehicleScreen()),
                       );
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('Profilenamekey', profileNamestr);
+                      prefs.setString('Profileemailkey', profileEmailstr);
+
+
                     },
                   ),
                   ListTile(

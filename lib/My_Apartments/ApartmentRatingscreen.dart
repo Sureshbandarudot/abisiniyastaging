@@ -78,10 +78,10 @@ class _MyAppState extends State<ApartmentRatingScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'rating_type': 'App/Models/Vehicles',
-          'rating_id': ApartmentId,
-          'score': _rating.toInt(),
-          'comment': _ratingController.text,
+          'rating_type': 'App\Models\Apartment',
+          'rating_id': 166,
+          'score': 3,
+          'comment': 'Hi',
           // Add any other data you want to send in the body
         }),
       );
@@ -91,7 +91,7 @@ class _MyAppState extends State<ApartmentRatingScreen> {
       if (response.statusCode == 201) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('Vehicle fresh user data successfully posted');
+        print('Apartment fresh user data successfully posted');
         print(responseData);
         // var data = jsonDecode(response.body.toString());
         // print(data['message']);
