@@ -41,11 +41,7 @@ class _userDashboardState extends State<ViewVehicle> {
   String AvgRating_review = '';
   int avgRating = 0;
   var avglistMessage = '';
-
   //num Rating_review = 0.0;
-
-
-
   var ViewApartmentList = [];
   var Reviewlist = [];
   var scoreRatinglist = [];
@@ -72,15 +68,11 @@ class _userDashboardState extends State<ViewVehicle> {
     });
   }
 //@override
-
   Future<dynamic> Review() async {
     //String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/list/$VehicleId';
     //https://staging.abisiniya.com/api/v1/rating/vehicle/avgrating/81
 
     String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/vehicle/avgrating/$VehicleId';
-
-    print('url...');
-    print(url);
     var response = await http.get(
       Uri.parse(
           url),
@@ -88,7 +80,6 @@ class _userDashboardState extends State<ViewVehicle> {
         // 'Authorization':
         // 'Bearer <--your-token-here-->',
         "Authorization": "Bearer $RetrivedBearertoekn",
-
       },
     );
     if (response.statusCode == 200) {

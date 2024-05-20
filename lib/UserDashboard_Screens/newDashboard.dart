@@ -527,6 +527,9 @@ class _userDashboardState extends State<newuserDashboard> {
                       prefs.setString('logoutkey', ('LogoutDashboard'));
                       prefs.setString('Property_type', ('Apartment'));
                       prefs.setString('tokenkey',RetrivedBearertoekn );
+
+                      prefs.setString('Profilenamekey', profileNamestr);
+                      prefs.setString('Profileemailkey', profileEmailstr);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -565,13 +568,17 @@ class _userDashboardState extends State<newuserDashboard> {
                     title: const Text('My Buses',
                         style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-                    onTap: () {
+                    onTap: () async {
                       //Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyBusesScreen()),
                       );
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('Profilenamekey', profileNamestr);
+                      prefs.setString('Profileemailkey', profileEmailstr);
+
                     },
                   ),
                   ListTile(

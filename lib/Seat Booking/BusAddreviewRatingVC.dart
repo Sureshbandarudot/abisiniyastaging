@@ -5,27 +5,24 @@ import 'package:http/http.dart';
 import 'package:tourstravels/Auth/Login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
-
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
-import 'ViewApartmentVC.dart';
-
+import 'BusSeatBookingViewVC.dart';
+import 'MybusesVC.dart';
 //import 'VehicleViewVC.dart';
 
 
 //void main() => runApp(RatingScreen());
 
-class ApartmentRatingScreen extends StatefulWidget {
+class busRatingScreen extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<ApartmentRatingScreen> {
+class _MyAppState extends State<busRatingScreen> {
   final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
-  int ApartmentId = 0;
+  int BusID = 0;
   int Picture_Id = 0;
   late final _ratingController;
   late double _rating;
@@ -44,14 +41,11 @@ class _MyAppState extends State<ApartmentRatingScreen> {
       // RetrivedEmail = prefs.getString('emailkey') ?? "";
       // RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      ApartmentId = prefs.getInt('userbookingId') ?? 0;
+      BusID = prefs.getInt('userbusId') ?? 0;
       Picture_Id = prefs.getInt('Picturekey') ?? 0;
-
       print('Retrived Ids....');
-      print(ApartmentId);
+      print(BusID);
       print(Picture_Id);
-
-      print('view Apartment... ');
       print(RetrivedBearertoekn);
     });
   }
@@ -64,7 +58,7 @@ class _MyAppState extends State<ApartmentRatingScreen> {
 
       print('vehicle url.....1');
       print(apiUrl);
-      print(ApartmentId);
+      print(BusID);
       print('call rat...');
       print(_rating.toInt());
       print(RetrivedBearertoekn);
@@ -78,9 +72,8 @@ class _MyAppState extends State<ApartmentRatingScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          //App\Models\Apartment
-          'rating_type': 'App\\Models\\Apartment ',
-          'rating_id': ApartmentId,
+          'rating_type': 'App\\Models\\bus',
+          'rating_id': BusID,
           'score': _rating.toInt(),
           'comment': _ratingController.text,
           // Add any other data you want to send in the body
@@ -92,21 +85,21 @@ class _MyAppState extends State<ApartmentRatingScreen> {
       if (response.statusCode == 201) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('Apartment fresh user data successfully posted');
+        print('bus fresh user data successfully posted');
         print(responseData);
         // var data = jsonDecode(response.body.toString());
         // print(data['message']);
         // RetrivedBearertoekn = data['data']['token'];
         // print('token generated...');
         // print(RetrivedBearertoekn);
-        // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-        //   builder: (_) => ViewVehicle(),
-        // ),);
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+          builder: (_) => busRatingScreen(),
+        ),);
 
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ViewApartmnt()
+              builder: (context) => ViewBusSearBookingScreen()
           ),
         );
 
