@@ -16,6 +16,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import '../Auth/profileUpdateVC.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
+import '../Seat Booking/LocationStops/BuslocationsVC.dart';
 import '../Seat Booking/MybusesVC.dart';
 import '../ServiceDasboardVC.dart';
 import '../flyScreens/MyflightRequest.dart';
@@ -458,6 +459,7 @@ class _userDashboardState extends State<newuserDashboard> {
                       ],
                     ),
                   ),
+
                     ListTile(
                     trailing: Icon(
                       Icons.login,
@@ -559,28 +561,157 @@ class _userDashboardState extends State<newuserDashboard> {
 
                     },
                   ),
-                  ListTile(
-                    trailing: Icon(
-                      Icons.bus_alert_sharp,
-                      color: Colors.green,
-                    ),
-                    //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-                    title: const Text('My Buses',
+                  ExpansionTile(
+                    //title: Text("Buses"),
+                    collapsedIconColor: Colors.green,
+                    // sets the color of the arrow when expanded
+                    iconColor: Colors.green,
+                    title: const Text('Buses',
                         style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                    //leading: Icon(Icons.person),
+                    // leading: Icon(
+                    //   Icons.bus_alert_sharp,
+                    //   color: Colors.green,
+                    // ),//add icon
+                    childrenPadding: EdgeInsets.only(left:30), //children padding
+                    children: [
+                      ListTile(
+                        trailing: Icon(
+                          Icons.bus_alert_sharp,
+                          color: Colors.green,
+                        ),
+                        //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                        title: const Text('My Buses',
+                            style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-                    onTap: () async {
-                      //Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyBusesScreen()),
-                      );
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('Profilenamekey', profileNamestr);
-                      prefs.setString('Profileemailkey', profileEmailstr);
+                        onTap: () async {
+                          //Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyBusesScreen()),
+                          );
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('Profilenamekey', profileNamestr);
+                          prefs.setString('Profileemailkey', profileEmailstr);
 
-                    },
+                        },
+                      ),
+                      ListTile(
+                        // trailing: Icon(
+                        //   Icons.bus_alert_sharp,
+                        //   color: Colors.green,
+                        // ),
+                        //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                        title: const Text('Bus Stops/Locations',
+                            style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+                        onTap: () async {
+                          //Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MybusLocationStopscreen()),
+                          );
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('Profilenamekey', profileNamestr);
+                          prefs.setString('Profileemailkey', profileEmailstr);
+
+                        },
+                      ),
+                      ListTile(
+                        // trailing: Icon(
+                        //   Icons.bus_alert_sharp,
+                        //   color: Colors.green,
+                        // ),
+                        //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                        title: const Text('Bus Routes',
+                            style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+                        onTap: () async {
+                          //Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyBusesScreen()),
+                          );
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('Profilenamekey', profileNamestr);
+                          prefs.setString('Profileemailkey', profileEmailstr);
+
+                        },
+                      ),
+                      ListTile(
+                        // trailing: Icon(
+                        //   Icons.bus_alert_sharp,
+                        //   color: Colors.green,
+                        // ),
+                        //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                        title: const Text('Rides',
+                            style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+                        onTap: () async {
+                          //Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyBusesScreen()),
+                          );
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('Profilenamekey', profileNamestr);
+                          prefs.setString('Profileemailkey', profileEmailstr);
+
+                        },
+                      ),
+                      ListTile(
+                        // trailing: Icon(
+                        //   Icons.bus_alert_sharp,
+                        //   color: Colors.green,
+                        // ),
+                        //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                        title: const Text('Booking',
+                            style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+                        onTap: () async {
+                          //Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyBusesScreen()),
+                          );
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('Profilenamekey', profileNamestr);
+                          prefs.setString('Profileemailkey', profileEmailstr);
+
+                        },
+                      ),
+                    ],
                   ),
+                  // ListTile(
+                  //   trailing: Icon(
+                  //     Icons.bus_alert_sharp,
+                  //     color: Colors.green,
+                  //   ),
+                  //   //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                  //   title: const Text('My Buses',
+                  //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                  //
+                  //   onTap: () async {
+                  //     //Navigator.pop(context);
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => MyBusesScreen()),
+                  //     );
+                  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+                  //     prefs.setString('Profilenamekey', profileNamestr);
+                  //     prefs.setString('Profileemailkey', profileEmailstr);
+                  //
+                  //   },
+                  // ),
+
+
+
                   ListTile(
                     trailing: Icon(
                       Icons.airport_shuttle,
