@@ -7,26 +7,19 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
-import 'BusSeatBookingViewVC.dart';
-import 'MybusesVC.dart';
-//import 'VehicleViewVC.dart';
-
-
-//void main() => runApp(RatingScreen());
-
-class busRatingScreen extends StatefulWidget {
+import 'ViewAirportshuttleVC.dart';
+class AirportshuttleRatingScreen extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<busRatingScreen> {
+class _MyAppState extends State<AirportshuttleRatingScreen> {
   final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
-  int BusID = 0;
+  int AirportshuttleID = 0;
   int Picture_Id = 0;
   late final _ratingController;
   late double _rating;
-
   double _userRating = 3.0;
   int _ratingBarMode = 1;
   double _initialRating = 1.0;
@@ -41,10 +34,10 @@ class _MyAppState extends State<busRatingScreen> {
       // RetrivedEmail = prefs.getString('emailkey') ?? "";
       // RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      BusID = prefs.getInt('userbusId') ?? 0;
+      AirportshuttleID = prefs.getInt('userAirportIdkey') ?? 0;
       Picture_Id = prefs.getInt('Picturekey') ?? 0;
       print('Retrived Ids....');
-      print(BusID);
+      print(AirportshuttleID);
       print(Picture_Id);
       print(RetrivedBearertoekn);
     });
@@ -56,18 +49,13 @@ class _MyAppState extends State<busRatingScreen> {
       // apiUrl = 'https://staging.abisiniya.com/api/v1/rating/add';
       apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'rating/add';
 
-      print('vehicle url.....1');
+      print('AirportshuttleID url.....1');
       print(apiUrl);
+      print(AirportshuttleID);
+      print('call rat...');
       print(_rating.toInt());
       print(RetrivedBearertoekn);
       //print(bookable_type);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      BusID = prefs.getInt('userbusId') ?? 0;
-      print('bus id....');
-      print(BusID);
-
-
-
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
@@ -77,20 +65,20 @@ class _MyAppState extends State<busRatingScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'rating_type': 'App\\Models\\bus',
-          'rating_id': BusID,
+          'rating_type': 'App\\Models\\Shuttle',
+          'rating_id': AirportshuttleID,
           'score': _rating.toInt(),
           'comment': _ratingController.text,
           // Add any other data you want to send in the body
         }),
       );
 
-      print('bus sts...');
+      print('vehicle sts...');
       print(response.statusCode);
       if (response.statusCode == 201) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('bus fresh user data successfully posted');
+        print('AirportshuttleID fresh user data successfully posted');
         print(responseData);
         // var data = jsonDecode(response.body.toString());
         // print(data['message']);
@@ -98,13 +86,13 @@ class _MyAppState extends State<busRatingScreen> {
         // print('token generated...');
         // print(RetrivedBearertoekn);
         // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-        //   builder: (_) => busRatingScreen(),
+        //   builder: (_) => ViewAirportshuttleBookingScreen(),
         // ),);
 
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ViewBusSearBookingScreen()
+              builder: (context) => ViewAirportshuttleBookingScreen()
           ),
         );
 

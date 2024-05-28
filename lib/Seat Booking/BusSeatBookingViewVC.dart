@@ -20,6 +20,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
+import '../UserDashboard_Screens/newDashboard.dart';
 import 'BusAddreviewRatingVC.dart';
 import 'ViewManagepicturesVC.dart';
 
@@ -78,6 +79,8 @@ class _userDashboardState extends State<ViewBusSearBookingScreen> {
     print('review apt id');
     print(BusID);
     String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/bus/avgrating/$BusID';
+    print('bus avg api');
+    print(url);
     var response = await http.get(
       Uri.parse(
           url),
@@ -91,7 +94,7 @@ class _userDashboardState extends State<ViewBusSearBookingScreen> {
       final data1 = jsonDecode(response.body);
       // var data1 = jsonDecode(response.body.toString());
 
-      var ReviewData = data1['data']['ratingDetails'];
+      var ReviewData = data1['data']['showRating'];
       print('Review data.....');
       print(ReviewData);
       AvgRating_review = data1['data']['avgRating'];
@@ -174,9 +177,22 @@ class _userDashboardState extends State<ViewBusSearBookingScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        iconTheme: IconThemeData(
-            color: Colors.green
-        ),
+          leading: BackButton(
+            onPressed: () async{
+              print("back Pressed");
+              // SharedPreferences prefs = await SharedPreferences.getInstance();
+              // // prefs.setString('logoutkey', ('LogoutDashboard'));
+              // //prefs.setString('Property_type', ('Apartment'));
+              // prefs.setString('LoggedinUserkey', LoggedInUser);
+
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => newuserDashboard()),
+              );
+            },
+          ),
         title: Text('ABISINIYA',textAlign: TextAlign.center,
             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
@@ -646,7 +662,7 @@ class _userDashboardState extends State<ViewBusSearBookingScreen> {
                                                             shrinkWrap: true,
                                                             //itemCount:50,
                                                             // itemCount: snapshot.data['data'].length ?? '',
-                                                            itemCount: snapshot.data["data"]['ratingDetails'].length ?? '',
+                                                            itemCount: snapshot.data["data"]['showRating'].length ?? '',
 
                                                             //itemCount: snapshot.data?['data']['bookings'].length ?? "" ,
                                                             //itemCount: snapshot.data!['data'][0]['bookings'][0].length ?? 0,
@@ -958,7 +974,8 @@ class _userDashboardState extends State<ViewBusSearBookingScreen> {
                                                   builder: (context) => busRatingScreen()),
                                             );
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
-                                            print('bus id...');
+                                            print('rev.bus id...');
+                                            print(BusID);
                                             prefs.setInt('userbusId', BusID);
                                             prefs.setString('tokenkey', RetrivedBearertoekn);
                                           }, // Handle your onTap

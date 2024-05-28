@@ -13,6 +13,7 @@ import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+import '../Airportshuttlescreens/AirportshuttleVC.dart';
 import '../Auth/profileUpdateVC.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
@@ -718,11 +719,19 @@ class _userDashboardState extends State<newuserDashboard> {
                       color: Colors.green,
                     ),
                     //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-                    title: const Text('My Shuttle',
+                    title: const Text('Airport Shuttle',
                         style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-                    onTap: () {
-                      Navigator.pop(context);
+                    onTap: () async {
+                      //Navigator.pop(context);
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => MyAirportshuttleScreen()),
+              );
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('Profilenamekey', profileNamestr);
+                      prefs.setString('Profileemailkey', profileEmailstr);
                     },
                   ),
                   ListTile(
