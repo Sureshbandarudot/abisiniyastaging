@@ -17,7 +17,6 @@ import 'BuslocationsVC.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-
 class BusLocationEditVC extends StatefulWidget {
 
   @override
@@ -55,11 +54,6 @@ class _LoginState extends State<BusLocationEditVC> {
     print(url);
     final response = await http.put(
       Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'bus/buslocation/update/$locationID'),
-      // NB: you don't need to fill headers field
-      // headers: {
-      //   'Content-Type': 'application/json' // 'application/x-www-form-urlencoded' or whatever you need
-      // },
-
       headers: {
         "Authorization":"Bearer $RetrivedBearertoekn",
         //     "Accept": "application/json",
@@ -69,7 +63,6 @@ class _LoginState extends State<BusLocationEditVC> {
         'buslocation': locationController.text,
       },
     );
-
     print('status code...');
     print(response.statusCode);
     if (response.statusCode == 200) {
@@ -131,7 +124,6 @@ class _LoginState extends State<BusLocationEditVC> {
             "Authorization":"Bearer $RetrivedBearertoekn",
             "Accept": "application/json",
             //"Content-Type": "application/json"
-
           }
       );
       print('loc sts..');
@@ -143,13 +135,6 @@ class _LoginState extends State<BusLocationEditVC> {
         var data = jsonDecode(response.body.toString());
         var data1 = jsonDecode(response.body.toString());
         print(data1['data']);
-        // print(data1['data']['token']);
-        // tokenvalue = (data1['data']['token']);
-        // String namestr = (data1['data']['name']);
-        // print('token value....');
-        // print(tokenvalue);
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // prefs.setString('tokenkey', tokenvalue);
         showAlertDialog(context);
       } else if(response.statusCode == 422) {
         final snackBar = SnackBar(
@@ -306,19 +291,6 @@ class _LoginState extends State<BusLocationEditVC> {
                                             print('loction token..');
                                             print(RetrivedBearertoekn);
                                             prefs.setString('tokenkey',RetrivedBearertoekn );
-                                            //  Navigator.push(
-                                            //    context,
-                                            //    MaterialPageRoute(
-                                            //        builder: (context) => MybusLocationStopscreen()
-                                            //    ),
-                                            //  );
-                                            // _postData();
-                                            //  locationAdd(locationController.text.toString());
-                                            //   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                            //   print('token value....');
-                                            //   print(tokenvalue);
-                                            //   prefs.setString('tokenkey', tokenvalue);
-                                            //   await Future.delayed(Duration(seconds: 2), () => () {});
                                             setState(() => isLoading = false);
                                           },
                                         ),

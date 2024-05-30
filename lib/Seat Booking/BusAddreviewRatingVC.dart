@@ -9,11 +9,6 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'BusSeatBookingViewVC.dart';
 import 'MybusesVC.dart';
-//import 'VehicleViewVC.dart';
-
-
-//void main() => runApp(RatingScreen());
-
 class busRatingScreen extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -26,7 +21,6 @@ class _MyAppState extends State<busRatingScreen> {
   int Picture_Id = 0;
   late final _ratingController;
   late double _rating;
-
   double _userRating = 3.0;
   int _ratingBarMode = 1;
   double _initialRating = 1.0;
@@ -65,9 +59,6 @@ class _MyAppState extends State<busRatingScreen> {
       BusID = prefs.getInt('userbusId') ?? 0;
       print('bus id....');
       print(BusID);
-
-
-
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
@@ -92,15 +83,6 @@ class _MyAppState extends State<busRatingScreen> {
         final responseData = jsonDecode(response.body);
         print('bus fresh user data successfully posted');
         print(responseData);
-        // var data = jsonDecode(response.body.toString());
-        // print(data['message']);
-        // RetrivedBearertoekn = data['data']['token'];
-        // print('token generated...');
-        // print(RetrivedBearertoekn);
-        // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-        //   builder: (_) => busRatingScreen(),
-        // ),);
-
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -158,20 +140,6 @@ class _MyAppState extends State<busRatingScreen> {
         builder: (context) => Scaffold(
           appBar: AppBar(
             title: Text('Flutter Rating Bar'),
-            // actions: [
-            //   IconButton(
-            //     icon: Icon(Icons.settings),
-            //     color: Colors.white,
-            //     onPressed: () async {
-            //       _selectedIcon = await showDialog<IconData>(
-            //         context: context,
-            //         builder: (context) => IconAlert(),
-            //       );
-            //       _ratingBarMode = 1;
-            //       setState(() {});
-            //     },
-            //   ),
-            // ],
           ),
           body: Directionality(
             textDirection: _isRTLMode ? TextDirection.rtl : TextDirection.ltr,
@@ -206,14 +174,6 @@ class _MyAppState extends State<busRatingScreen> {
                               border: OutlineInputBorder(),
                               hintText: 'Enter Review',
                               labelText: 'Review',
-                              // suffixIcon: MaterialButton(
-                              //   onPressed: () {
-                              //     _userRating =
-                              //         double.parse(_ratingController.text ?? '0.0');
-                              //     setState(() {});
-                              //   },
-                              //   child: Text('Rate'),
-                              // ),
                             ),
                           ),
                         ),
@@ -241,31 +201,6 @@ class _MyAppState extends State<busRatingScreen> {
                         ),
                       ],
                     ),
-                    // child: TextFormField(
-                    //   controller: _ratingController,
-                    //   //keyboardType: TextInputType.number,
-                    //   decoration: InputDecoration(
-                    //     border: OutlineInputBorder(),
-                    //     hintText: 'Enter Review',
-                    //     labelText: 'Review',
-                    //     // suffixIcon: MaterialButton(
-                    //     //   onPressed: () {
-                    //     //     _userRating =
-                    //     //         double.parse(_ratingController.text ?? '0.0');
-                    //     //     setState(() {});
-                    //     //   },
-                    //     //   child: Text('Rate'),
-                    //     // ),
-                    //   ),
-                    // ),
-                    // child:TextButton(
-                    //
-                    //   onPressed: () {},
-                    //   style: TextButton.styleFrom(
-                    //       foregroundColor: Colors.red,
-                    //       elevation: 2,
-                    //       backgroundColor: Colors.amber),
-                    // ),
                   ),
                 ],
 
@@ -277,29 +212,6 @@ class _MyAppState extends State<busRatingScreen> {
       ),
     );
   }
-
-  // Widget _radio(int value) {
-  //   return Expanded(
-  //     // child: RadioListTile<int>(
-  //     //   value: value,
-  //     //   groupValue: _ratingBarMode,
-  //     //   dense: true,
-  //     //   title: Text(
-  //     //     'Mode $value',
-  //     //     style: TextStyle(
-  //     //       fontWeight: FontWeight.w300,
-  //     //       fontSize: 12.0,
-  //     //     ),
-  //     //   ),
-  //     //   onChanged: (value) {
-  //     //     setState(() {
-  //     //       _ratingBarMode = value!;
-  //     //     });
-  //     //   },
-  //     // ),
-  //   );
-  // }
-
   Widget _ratingBar(int mode) {
     switch (mode) {
       case 1:

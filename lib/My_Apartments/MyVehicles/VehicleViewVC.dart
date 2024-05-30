@@ -26,11 +26,9 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 //import 'NewUserbooking.dart';
 class ViewVehicle extends StatefulWidget {
   const ViewVehicle({super.key});
-
   @override
   State<ViewVehicle> createState() => _userDashboardState();
 }
-
 class _userDashboardState extends State<ViewVehicle> {
   //suresh
   final baseDioSingleton = BaseSingleton();
@@ -42,7 +40,6 @@ class _userDashboardState extends State<ViewVehicle> {
   String AvgRating_review = '';
   int avgRating = 0;
   var avglistMessage = '';
-  //num Rating_review = 0.0;
   var ViewApartmentList = [];
   var Reviewlist = [];
   var scoreRatinglist = [];
@@ -51,8 +48,6 @@ class _userDashboardState extends State<ViewVehicle> {
   int Picture_Id = 0;
   String RetrivedProfileNamestr = '';
   String RetrivedProfileEmailstr = '';
-
-
   var controller = ScrollController();
   int count = 15;
   _retrieveValues() async {
@@ -62,7 +57,6 @@ class _userDashboardState extends State<ViewVehicle> {
       RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
       VehicleId = prefs.getInt('userbookingId') ?? 0;
-      print('view Apartment... ');
       print(RetrivedBearertoekn);
       RetrivedProfileNamestr = prefs.getString('Profilenamekey') ?? "";
       RetrivedProfileEmailstr = prefs.getString('Profileemailkey') ?? "";
@@ -70,9 +64,7 @@ class _userDashboardState extends State<ViewVehicle> {
   }
 //@override
   Future<dynamic> Review() async {
-    //String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/list/$VehicleId';
     //https://staging.abisiniya.com/api/v1/rating/vehicle/avgrating/81
-
     String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/vehicle/avgrating/$VehicleId';
     print('avg vehicle rating...');
     print(url);
@@ -88,19 +80,14 @@ class _userDashboardState extends State<ViewVehicle> {
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
      // var data1 = jsonDecode(response.body.toString());
-
       var ReviewData = data1['data']['ratingDetails'];
       print('Review data.....');
       print(ReviewData);
       AvgRating_review = data1['data']['avgRating'];
-
-
       for (var Reviewmsg in ReviewData){
         var picReviewData = Reviewmsg['rating_comment'];
         var scoreArray = Reviewmsg['rating_score'];
         var createDateArray = Reviewmsg['created_at'];
-
-
         print('review array...');
         print(picReviewData);
         Reviewlist.add(picReviewData);
@@ -130,7 +117,6 @@ class _userDashboardState extends State<ViewVehicle> {
         // 'Authorization':
         // 'Bearer <--your-token-here-->',
         "Authorization": "Bearer $RetrivedBearertoekn",
-
       },
     );
     if (response.statusCode == 200) {
@@ -139,19 +125,15 @@ class _userDashboardState extends State<ViewVehicle> {
       var viewApartmentdata = data1['data'];
       print('vehicle data.....');
       print(viewApartmentdata);
-
       for (var pics in viewApartmentdata){
-
         var picData = pics['pictures'];
         for (var picArray in picData){
           var img = picArray['imageUrl'];
-
           Picture_Id = picArray['id'];
           print('img....');
           print(img);
           ViewApartmentList.add(img);
           PicArrayList.add(Picture_Id);
-
         }
       }
       print('View Apartment success....');
@@ -162,8 +144,6 @@ class _userDashboardState extends State<ViewVehicle> {
       throw Exception('Failed to load post');
     }
   }
-
-
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -185,7 +165,6 @@ class _userDashboardState extends State<ViewVehicle> {
                     builder: (context) => newuserDashboard()),
               );
             },
-
           ),  iconTheme: IconThemeData(
             color: Colors.green
         ),
@@ -212,8 +191,6 @@ class _userDashboardState extends State<ViewVehicle> {
                     style: TextStyle(color: Colors.white),
                   );
                 } else {
-                  //return InkWell(
-
                   return Column(
                     children: <Widget>[
                       Container(color: Colors.white, height: 10),
@@ -249,13 +226,6 @@ class _userDashboardState extends State<ViewVehicle> {
                                                 style: TextStyle(
                                                     color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),
                                               )
-                                              // child: Text(
-                                              //   (snapshot.data?['data'].isEmpty ? 'Empty name'
-                                              //       : snapshot.data?["data"][0]['user_detail']?['name']?.toString()
-                                              //       ?? 'empty'),
-                                              //   style: TextStyle(
-                                              //       color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),
-                                              // )
                                           ),
                                           Align(
                                               alignment: Alignment.topLeft,
@@ -264,13 +234,6 @@ class _userDashboardState extends State<ViewVehicle> {
                                                 style: TextStyle(
                                                     color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),
                                               )
-                                              // child: Text(
-                                              //   (snapshot.data?['data'].isEmpty ? 'Empty name'
-                                              //       : snapshot.data?["data"][0]['user_detail']?['email']?.toString()
-                                              //       ?? 'empty'),
-                                              //   style: TextStyle(
-                                              //       color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),
-                                              // )
                                           ),
                                         ],
                                       ),
@@ -617,22 +580,14 @@ class _userDashboardState extends State<ViewVehicle> {
                                                       style: TextStyle(color: Colors.white),
                                                     );
                                                   } else {
-                                                    //return SingleChildScrollView(
-                                                    //scrollDirection: Axis.horizontal,
-                                                    //physics: ScrollPhysics(),
-
                                                     print('avg...');
                                                     print(AvgRating_review);
                                                     var myDouble = double.parse(AvgRating_review);
                                                     print(myDouble);
-
                                                     print(ReviewcreateDatelist.length);
                                                     avglistMessage = '${AvgRating_review}  average based on ${ReviewcreateDatelist.length} reviews.';
-
                                                     return Column(
                                                       children: [
-
-                                                       // SizedBox(height: 30,),
                                                         Column(
                                                           children: [
                                                //Text('User Ratings',style: TextStyle(fontSize: 25,fontWeight:FontWeight.w900),),
@@ -679,8 +634,6 @@ class _userDashboardState extends State<ViewVehicle> {
                                                               // (snapshot.data?['data'].isEmpty ? 'Empty name'
                                                               //     : snapshot.data?["data"][0]['user_detail']?['name']?.toString()
                                                               //     ?? 'empty'),
-
-
                                                               print('rating....');
                                                               print(Reviewlist[index].toString());
                                                               //print(scoreRatinglist[index].toString());
@@ -694,8 +647,6 @@ class _userDashboardState extends State<ViewVehicle> {
 //                                                              Rating_review = snapshot.data['data'][index]['score'];
 //                                                              print(Rating_review.toDouble());
 // //    itemBuilder: (context,index){
-
-
                                                               return Container(
                                                                 height: 220,
                                                                 width: 100,
@@ -715,12 +666,9 @@ class _userDashboardState extends State<ViewVehicle> {
                                                                           children: [
                                                                             Column(
                                                                               children: [
-
-                                                                                Text(RetrivedProfileNamestr,style: TextStyle(fontSize: 18,fontWeight:FontWeight.w900),),                                                                              ],
-
+                                                                                Text(RetrivedProfileNamestr,style: TextStyle(fontSize: 18,fontWeight:FontWeight.w900),),
+                                                                              ],
                                                                             ),
-
-
                                                                         RatingBarIndicator(
                                                                                         rating: Rating_review.toDouble(),
                                                                                         itemCount: 5,
@@ -746,8 +694,6 @@ class _userDashboardState extends State<ViewVehicle> {
                                                                                   // child:Text(snapshot.data?['data'].isEmpty ? 'Empty name'
                                                                                   //     : snapshot.data?["data"][index]?['comment']?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black))),
                                                                                   child:Text(Reviewlist[index].toString(),style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black))),
-
-
                                                                                 )
                                                                               ],
                                                                             ),
@@ -771,22 +717,10 @@ class _userDashboardState extends State<ViewVehicle> {
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                      // Container(
-                                                                      //   height: 50,
-                                                                      //   width: 340,
-                                                                      //   color: Colors.green,
-                                                                      //   child: const Align(
-                                                                      //     alignment: Alignment.center,
-                                                                      //     child: Text('Review',
-                                                                      //         style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
-                                                                      //         ),
-                                                                      //         textAlign: TextAlign.center),
-                                                                      //   ),
-                                                                      // ),
+
                                                                     ],
                                                                   ),
                                                                   onTap: () async{
-
                                                                     // Navigator.push(
                                                                     //   context,
                                                                     //   MaterialPageRoute(

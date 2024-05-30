@@ -60,10 +60,7 @@ class _LoginState extends State<BusEdit> {
       fuel_typeController.text = prefs.getString('fuel_typekey') ?? "";
       weightController.text = prefs.getString('weightkey') ?? "";
       colorController.text = prefs.getString('colorkey') ?? "";
-
       transmissionController.text = prefs.getString('transmissionkey') ?? "";
-
-
       RetrivedPrice = prefs.getInt('pricekey') ?? 0;
       BusID = prefs.getInt('userbusId') ?? 0;
       print('price...');
@@ -97,10 +94,6 @@ class _LoginState extends State<BusEdit> {
   TextEditingController priceController = TextEditingController();
   // nameController.text = RetrivedName;
   // String tokenvalue = '';
-
-
-
-
   String dropdownvalue = 'Active';
 
 // List of items in our dropdown menu
@@ -110,15 +103,11 @@ class _LoginState extends State<BusEdit> {
     'Inactive',
     'Pending',
   ];
-
-
   void initState() {
     // TODO: implement initState
     super.initState();
     _retrieveValues();
   }
-
-
   File? galleryFile;
   final picker = ImagePicker();
   @override
@@ -129,11 +118,6 @@ class _LoginState extends State<BusEdit> {
     print(url);
     final response = await http.put(
       Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'bus/update/$BusID'),
-      // NB: you don't need to fill headers field
-      // headers: {
-      //   'Content-Type': 'application/json' // 'application/x-www-form-urlencoded' or whatever you need
-      // },
-
       headers: {
         "Authorization":"Bearer $RetrivedBearertoekn",
         //     "Accept": "application/json",
@@ -182,10 +166,7 @@ class _LoginState extends State<BusEdit> {
           ),
           title: Text('ABISINIYA',textAlign: TextAlign.center,
               style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-
         ),
-
-
         body: Column(
           children: <Widget>[
             Container(color: Colors.white, height: 50),

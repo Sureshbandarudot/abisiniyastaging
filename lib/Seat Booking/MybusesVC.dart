@@ -25,9 +25,6 @@ import 'BusSeatBookingViewVC.dart';
 import 'CreateBusBookingVC.dart';
 import 'Edit_BusVC.dart';
 
-// import 'Apartment_EditVC.dart';
-// import 'CreateApartmentVC.dart';
-//import 'NewUserbooking.dart';
 class MyBusesScreen extends StatefulWidget {
   const MyBusesScreen({super.key});
 
@@ -37,7 +34,6 @@ class MyBusesScreen extends StatefulWidget {
 
 class _userDashboardState extends State<MyBusesScreen> {
   final baseDioSingleton = BaseSingleton();
-
   int bookingID = 0;
   var API = '';
   String status = '';
@@ -70,8 +66,6 @@ class _userDashboardState extends State<MyBusesScreen> {
       print('My BusID token');
       print(RetrivedBearertoekn);
 
-
-
     });
   }
 //@override
@@ -83,20 +77,7 @@ class _userDashboardState extends State<MyBusesScreen> {
     //  BookingDashboardUsers = DashboardBooking_fetchUsers();
     //pics = fetchpics();
   }
-  // String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/list';
-  // Future<List<DashboardApart>> DashboardBooking_fetchUsers() async {
-  //   final response = await http.get(Uri.parse(url));
-  //   if (response.statusCode == 200) {
-  //     final data1 = jsonDecode(response.body);
-  //     var getUsersData = data1['data'] as List;
-  //     //print(getUsersData);
-  //     var listUsers = getUsersData.map((i) => DashboardApart.fromJSON(i)).toList();
-  //     return listUsers;
-  //
-  //   } else {
-  //     throw Exception('Error');
-  //   }
-  // }
+
 
   // Future deletePost() async {
   //   print('delete url...');
@@ -269,45 +250,18 @@ class _userDashboardState extends State<MyBusesScreen> {
       },
     );
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const Text(
-      //     'Abisiniya',
-      //   ),
-      //   // backgroundColor: const Color(0xff764abc),
-      //   backgroundColor: Colors.green,
-      //
-      // ),
       appBar: AppBar(
         centerTitle: true,
         leading: BackButton(
           onPressed: () async{
-            print("back Pressed");
-            // SharedPreferences prefs = await SharedPreferences.getInstance();
-            // // prefs.setString('logoutkey', ('LogoutDashboard'));
-            // //prefs.setString('Property_type', ('Apartment'));
-            // prefs.setString('LoggedinUserkey', LoggedInUser);
-
-
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => newuserDashboard()),
             );
-            // LoggedInUser = 'LoggedUser';
-            // prefs.setString('LoggedinUserkey', LoggedInUser);
-            //
-            // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
-            // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-            // print(' dashboard logged in user...');
-            // print(LoggedInUSerstr);
-            // print(NewBookingUserstr);
-
           },
 
         ),
@@ -318,157 +272,9 @@ class _userDashboardState extends State<MyBusesScreen> {
             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
       ),
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   leading: Padding(
-      //     // padding: const EdgeInsets.all(0.0),
-      //     padding: EdgeInsets.only(left: 15.0, top: 0.0),
-      //     child: Image.asset(
-      //       "images/logo.jpg",
-      //     ),),
-      //   title: Text('ABISINIYA',textAlign: TextAlign.center,
-      //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-      //   iconTheme: IconThemeData(color: Colors.green),),
-      // endDrawer: Drawer(
-      //   child: ListView(
-      //
-      //     // Important: Remove any padding from the ListView.
-      //     padding: EdgeInsets.zero,
-      //     children: [
-      //       DrawerHeader(
-      //
-      //         //child: Text('Categories', style: TextStyle(color: Colors.white)),
-      //         decoration: BoxDecoration(color: Color(0xffffff
-      //         ),),
-      //         padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-      //
-      //         child: Image.asset(
-      //           'images/logo2.png',
-      //           width: 50,height: 50,
-      //         ),
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.login,
-      //           color: Colors.green,
-      //         ),
-      //         title: const Text('My Bookings',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-      //
-      //         onTap: () {
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //                 builder: (context) => Login()),
-      //           );
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.money,
-      //           color: Colors.green,
-      //         ),
-      //         title: const Text('Booking Commision',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-      //
-      //
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.flight,
-      //           color: Colors.green,
-      //         ),
-      //
-      //         title: const Text('My Flight Requests',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-      //
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.apartment,
-      //           color: Colors.green,
-      //         ),
-      //
-      //
-      //         title: const Text('My Apartments',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-      //
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.bus_alert,
-      //           color: Colors.green,
-      //         ),
-      //         title: const Text('My Vehicles',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-      //         //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.bus_alert_sharp,
-      //           color: Colors.green,
-      //         ),
-      //         //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-      //         title: const Text('My Buses',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-      //
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.airport_shuttle,
-      //           color: Colors.green,
-      //         ),
-      //         //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-      //         title: const Text('My Shuttle',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-      //
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         trailing: Icon(
-      //           Icons.logout,
-      //           color: Colors.green,
-      //         ),
-      //         //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
-      //         title: const Text('Logout',
-      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-      //         //onTap: () async {
-      //         onTap: ()async{
-      //           SharedPreferences prefs = await SharedPreferences.getInstance();
-      //           prefs.setString('logoutkey', ('LogoutDashboard'));
-      //           prefs.setString('Property_type', ('Apartment'));
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //                 builder: (context) => tabbar()),
-      //           );
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: FutureBuilder<dynamic>(
-
         //future: BookingDashboardUsers,
           future: getData(),
-
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:

@@ -17,6 +17,7 @@ import '../Airportshuttlescreens/AirportshuttleVC.dart';
 import '../Auth/profileUpdateVC.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
+import '../Seat Booking/Bus Routes/BusRouteVC.dart';
 import '../Seat Booking/LocationStops/BuslocationsVC.dart';
 import '../Seat Booking/MybusesVC.dart';
 import '../ServiceDasboardVC.dart';
@@ -628,13 +629,12 @@ class _userDashboardState extends State<newuserDashboard> {
                         //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
                         title: const Text('Bus Routes',
                             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
                         onTap: () async {
                           //Navigator.pop(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyBusesScreen()),
+                                builder: (context) => MyBusRoutescreen()),
                           );
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setString('Profilenamekey', profileNamestr);

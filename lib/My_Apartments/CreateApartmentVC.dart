@@ -15,14 +15,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-
 import 'My_AprtmetsVC.dart';
-
-
-
-
-
-
 class CreateApartment extends StatefulWidget {
 
   @override
@@ -77,12 +70,6 @@ class _LoginState extends State<CreateApartment> {
       }
 
     }
-    // if(nameController.text.isEmpty) {
-    //   final snackBar = SnackBar(
-    //     content: Text('Please Fill name'),
-    //   );
-    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    //   }
 
     //var token = '238|ykUFIyUUUX0xsykL24ckNe5XfYJGganQogKCf3ic';
     var header = {
@@ -116,17 +103,6 @@ class _LoginState extends State<CreateApartment> {
     if(response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseToString = String.fromCharCodes(responseData);
-      // final List parsedList = json.decode(responseToString);
-      // final snackBar = SnackBar(
-      //   content: Text('Apartment created successfully'),
-      // );
-      // // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (context) => MyApartmentScreen()
-      //   ),
-      // );
       Navigator.push(
         context,
         MaterialPageRoute(

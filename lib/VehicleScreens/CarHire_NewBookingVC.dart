@@ -33,10 +33,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
   TextEditingController TodateInputController = TextEditingController();
 
   final baseDioSingleton = BaseSingleton();
-//   print(baseDioSingleton.Appname);
-  //List listUsers= [];
-  //Future? listUsers;;
-
   String RetrivedBearertoekn = '';
   bool isLoading = false;
   int Bookable_iD = 0;
@@ -46,8 +42,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
   String toDatestr = '';
   String bookable_type = '';
   String newBookingUser = '';
-
-
   int idnum = 0;
   int aptId = 0;
   int RetrivedId = 0;
@@ -280,14 +274,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
           //   builder: (_) => newuserDashboard(),
           // ),);
         }
-
-        // else if (data['message'] != 'Start date should be greater or equal to booking day') {
-        //   final snackBar = SnackBar(
-        //     content: Text('Start date should be greater or equal to booking day'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //
-        // }
         else {
           print('calling....');
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
@@ -302,14 +288,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
           prefs.setString('newBookingUserkey', newBookingUser);
-          // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-          //   builder: (_) => newuserDashboard(),
-          // ),);
-          // print('calling token....');
-          // print(RetrivedBearertoekn);
-          // SharedPreferences prefs = await SharedPreferences.getInstance();
-          // prefs.setString('tokenkey', RetrivedBearertoekn);
-
         }
       }
       if (response.statusCode == 422) {
@@ -399,28 +377,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
         } else {
           print('nullll.....');
         }
-        // if ((data['message']['email']) != '[The email has already been taken.]' && (data['message']['phone']) != '[The phone has already been taken.]'){
-        //   final snackBar = SnackBar(
-        //     content: Text('The email and phone has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //
-        // }  else if ((data['message']['email']) != '[The email has already been taken.]') {
-        //   final snackBar = SnackBar(
-        //     content: Text('The email  has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
-        //   final snackBar = SnackBar(
-        //     content: Text('The  phone has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
-        //   final snackBar = SnackBar(
-        //     content: Text('The end date must be a date after start date.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }
       }
       else {
         // If the server returns an error response, throw an exception
@@ -432,65 +388,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
       });
     }
   }
-  //     print('vehicle sts...');
-  //     print(response.statusCode);
-  //     if (response.statusCode == 200) {
-  //       // Successful POST request, handle the response here
-  //       final responseData = jsonDecode(response.body);
-  //       print('Vehicle fresh user data successfully posted');
-  //       print(responseData);
-  //       var data = jsonDecode(response.body.toString());
-  //       print(data['message']);
-  //       RetrivedBearertoekn = data['data']['token'];
-  //       print('token generated...');
-  //       print(RetrivedBearertoekn);
-  //
-  //
-  //
-  //       if (data['message'] == 'Thank you for booking request')
-  //       {
-  //         final snackBar = SnackBar(
-  //           content: Text(data['message']),
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //         // print('calling....');
-  //         // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-  //         //   builder: (_) => newuserDashboard(),
-  //         // ),);
-  //       } else {
-  //         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-  //           builder: (_) => newuserDashboard(),
-  //         ),);
-  //         print('vehi calling token....');
-  //         print(RetrivedBearertoekn);
-  //         SharedPreferences prefs = await SharedPreferences.getInstance();
-  //         prefs.setString('tokenkey', RetrivedBearertoekn);
-  //
-  //       }
-  //       setState(() {
-  //         //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
-  //       });
-  //     } else if (response.statusCode == 422) {
-  //       final responseData = jsonDecode(response.body);
-  //       print('false.....');
-  //
-  //       print(responseData);
-  //       var data = jsonDecode(response.body.toString());
-  //       final snackBar = SnackBar(
-  //         content: Text('The email or phone has already been taken.'),
-  //       );
-  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //     }
-  //       else {
-  //       // If the server returns an error response, throw an exception
-  //       throw Exception('Failed to post data');
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       result = 'Error: $e';
-  //     });
-  //   }
-  // }
 
   //@override
   void initState() {
@@ -503,65 +400,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
     carHiregetData();
   }
   String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-  // Future<List<Apart>> fetchUsers() async {
-  //   final response = await http.get(Uri.parse(url));
-  //   if (response.statusCode == 200) {
-  //     final data1 = jsonDecode(response.body);
-  //     var getUsersData = data1['data'] as List;
-  //     //print(getUsersData);
-  //     var listUsers = getUsersData.map((i) => Apart.fromJSON(i)).toList();
-  //     // print('list.....');
-  //     // print(listUsers);
-  //     return listUsers;
-  //     //var recordsList = data["records"];
-  //     // for (var record in tagsJson) {
-  //     //   //var apartmentlists = record['name'];
-  //     //   print('name...');
-  //     //   //print(name);
-  //     //   var pictures = record['pictures'];
-  //     //   for(var pics in pictures) {
-  //     //     var picname = pics['imageUrl'];
-  //     //     print('pictures...');
-  //     //     print(picname);
-  //     //   }
-  //     // }
-  //     //List<Apart> list = parseAgents(response.body);
-  //     //return list;
-  //   } else {
-  //     throw Exception('Error');
-  //   }
-  // }
-
-  // Future<List<Picture>> fetchpics() async {
-  //   final response = await http.get(Uri.parse(url));
-  //   if (response.statusCode == 200) {
-  //     final data1 = jsonDecode(response.body);
-  //     var getpicsData = [];
-  //     var picstrr = data1['data'];
-  //     for (var record in picstrr) {
-  //       idnum = record['id'];
-  //       var pictures = record['pictures'];
-  //       for (var picid in pictures) {
-  //         aptId = picid['apartmentId'];
-  //       }
-  //       print(RetrivedId);
-  //       if (aptId == RetrivedId) {
-  //         for (var pics in pictures) {
-  //           print(pics);
-  //           getpicsData.add(pics);
-  //           print(getpicsData);
-  //         }
-  //       }
-  //
-  //     }
-  //     var pics = getpicsData.map((i) => Picture.fromJSON(i)).toList();
-  //     return pics;
-  //
-  //   } else {
-  //     throw Exception('Error');
-  //   }
-  // }
-
 
   @override
   Widget build(BuildContext context) {

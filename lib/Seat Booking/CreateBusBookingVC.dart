@@ -10,23 +10,11 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
-
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-
 import 'MybusesVC.dart';
-
-
-//import 'My_AprtmetsVC.dart';
-
-
-
-
-
-
 class CreateBuseatBookingScreen extends StatefulWidget {
 
   @override
@@ -63,10 +51,6 @@ class _LoginState extends State<CreateBuseatBookingScreen> {
   TextEditingController colorController = TextEditingController();
   TextEditingController transmisionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-
-
-
-
 
   String tokenvalue = '';
   void initState() {
@@ -130,10 +114,8 @@ class _LoginState extends State<CreateBuseatBookingScreen> {
             builder: (context) => MyBusesScreen()
         ),
       );
-
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('tokenkey', RetrivedBearertoekn);
-
       var jsonBody = jsonDecode(responseToString);
       setState(() {
         print(jsonBody);
@@ -636,14 +618,7 @@ class _LoginState extends State<CreateBuseatBookingScreen> {
                                             //login(emailController.text.toString(), passwordController.text.toString());
 
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
-                                            // print('booking id...');
-                                            // print(snapshot.data['data'][index]['id']);
-                                            // prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                            // prefs.setString('citykey', snapshot.data['data'][index]['city']);
-                                            // prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                             prefs.setString('tokenkey', RetrivedBearertoekn);
-
-
                                             print('token value....');
                                             print(tokenvalue);
                                             prefs.setString('tokenkey', tokenvalue);

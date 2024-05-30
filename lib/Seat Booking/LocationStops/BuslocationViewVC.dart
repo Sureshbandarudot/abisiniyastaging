@@ -12,11 +12,8 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
-
 import 'BuslocationsVC.dart';
-
 class BusLocationViewVC extends StatefulWidget {
-
   @override
   _LoginState createState() => _LoginState();
 }
@@ -43,9 +40,6 @@ class _LoginState extends State<BusLocationViewVC> {
       print(locationID);
       print(location);
       locationController.text = prefs.getString('buslocationkey') ?? "";
-
-
-
       print(RetrivedBearertoekn);
     });
   }
@@ -271,19 +265,6 @@ class _LoginState extends State<BusLocationViewVC> {
                                             print('loction token..');
                                             print(RetrivedBearertoekn);
                                             prefs.setString('tokenkey',RetrivedBearertoekn );
-                                           //  Navigator.push(
-                                           //    context,
-                                           //    MaterialPageRoute(
-                                           //        builder: (context) => MybusLocationStopscreen()
-                                           //    ),
-                                           //  );
-                                            // _postData();
-                                          //  locationAdd(locationController.text.toString());
-                                          //   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          //   print('token value....');
-                                          //   print(tokenvalue);
-                                          //   prefs.setString('tokenkey', tokenvalue);
-                                          //   await Future.delayed(Duration(seconds: 2), () => () {});
                                             setState(() => isLoading = false);
                                           },
                                         ),

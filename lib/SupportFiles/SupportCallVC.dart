@@ -6,27 +6,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../supportVC.dart';
 
 
-// function to trigger the app build
-//void main() => runApp(const MyApp());
-
-// _makingPhoneCall() async {
-//   var url = Uri.parse(_phoneController);
-//   if (await canLaunchUrl(url)) {
-//     await launchUrl(url);
-//   } else {
-//     throw 'Could not launch $url';
-//   }
-// }
 class CallToAbisiniya extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 class _LoginState extends State<CallToAbisiniya> {
-
-//class CallToAbisiniya extends StatelessWidget {
-
-
-  //CallToAbisiniya({Key? key}) : super(key: key);
   late TextEditingController _phoneController = TextEditingController();
   String dropdownvalue = 'Please select Country';
 
@@ -222,14 +206,6 @@ class _LoginState extends State<CallToAbisiniya> {
                 //   child: const Text('   Call   '),
                 // ), // ElevatedButton
 
-
-                // DEPRECATED
-                // RaisedButton(
-                // onPressed: _makingPhoneCall,
-                // child: Text('Call'),
-                // textColor: Colors.black,
-                // padding: const EdgeInsets.all(5.0),
-                // ),
               ],
             ),
           ),

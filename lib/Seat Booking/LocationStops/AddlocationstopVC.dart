@@ -10,11 +10,8 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
-
 import 'BuslocationsVC.dart';
-
 class AddBusLocationVC extends StatefulWidget {
-
   @override
   _LoginState createState() => _LoginState();
 }
@@ -23,7 +20,6 @@ class _LoginState extends State<AddBusLocationVC> {
   final baseDioSingleton = BaseSingleton();
   bool isLoading = false;
   String RetrivedBearertoekn = '';
-
   final globalKey = GlobalKey<ScaffoldState>();
   TextEditingController locationController = TextEditingController();
   String tokenvalue = '';
@@ -97,13 +93,6 @@ class _LoginState extends State<AddBusLocationVC> {
         var data = jsonDecode(response.body.toString());
         var data1 = jsonDecode(response.body.toString());
         print(data1['data']);
-        // print(data1['data']['token']);
-        // tokenvalue = (data1['data']['token']);
-        // String namestr = (data1['data']['name']);
-        // print('token value....');
-        // print(tokenvalue);
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // prefs.setString('tokenkey', tokenvalue);
         showAlertDialog(context);
       } else if(response.statusCode == 422) {
         final snackBar = SnackBar(
@@ -122,15 +111,11 @@ class _LoginState extends State<AddBusLocationVC> {
       print(e.toString());
     }
   }
-
-
   void initState() {
     // TODO: implement initState
     super.initState();
     _retrieveValues();
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -9,29 +9,16 @@ import 'package:tourstravels/Auth/Login.dart';
 import 'package:tourstravels/Auth/forgotpwdemailVerify.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
-
-
 import 'package:tourstravels/tabbar.dart';
-
 class Register extends StatefulWidget {
-
    String registerinputemailData = '';
-
-
-
   @override
-
   _RegisterState createState() => _RegisterState();
 }
-
 class _RegisterState extends State<Register> {
-
   final baseDioSingleton = BaseSingleton();
   bool isLoading = false;
-
   String _email = '';
-
-
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -47,14 +34,11 @@ class _RegisterState extends State<Register> {
       //print(ageController.text);
     });
   }
-
   @override
   void initState() {
     super.initState();
     _retrieveValues();
   }
-
-
   void RegisterAPI(String name , surname , email , password , password_confirmation , phone) async {
     try{
       Response response = await post(
@@ -69,7 +53,6 @@ class _RegisterState extends State<Register> {
           });
       print('sts code...');
       print(response.statusCode);
-
       if(response.statusCode == 200){
         var data = jsonDecode(response.body.toString());
         print('response data');
@@ -98,8 +81,6 @@ class _RegisterState extends State<Register> {
         print('valid response data1');
         print(data1);
         print(data1['message']['email']);
-
-
         if (nameController.text.isEmpty) {
           final snackBar = SnackBar(
             content: Text('Please Fll firstname'),
@@ -111,7 +92,6 @@ class _RegisterState extends State<Register> {
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
-
         else if (phoneController.text.isEmpty) {
           final snackBar = SnackBar(
             content: Text('Please Fill Mobile number'),
@@ -133,7 +113,6 @@ class _RegisterState extends State<Register> {
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
-
         else if ((data1['message']['phone']) != null && (data1['message']['email']) != null) {
          // showAlertDialog(context);
           final snackBar = SnackBar(
@@ -163,73 +142,6 @@ class _RegisterState extends State<Register> {
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
-        // else if(data1['message']['email'] != null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('email,phone has already been taken and password confirmation does not match'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }   else if(data1['message']['email'] != null && data1['message']['phone'] == null && data1['message']['password'] != null  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('email has already been taken and password confirmation does not match'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if(data1['message']['email'] == null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('phone has already been taken and password confirmation does not match'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }else if(data1['message']['email'] == null && data1['message']['phone'] == null && data1['message']['password'] == null  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('email , phone has already been taken '),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if(data1['message']['email'] != null){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('email has already been taken '),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }else if(data1['message']['phone'] != null){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('phone has already been taken '),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }else if(data1['message']['password'] != null){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('password confirmation does not match '),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }
-
-
-
-        // else if(data1['message']['email'] != '[The email has already been taken.]' && data1['message']['phone'] == '[The phone has already been taken.]' && data1['message']['password'] == '[The password confirmation does not match.]'  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('email has already been taken'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if(data1['message']['email'] == '[The email has already been taken.]' && data1['message']['phone'] != '[The phone has already been taken.]' && data1['message']['password'] == '[The password confirmation does not match.]'  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('phone has already been taken'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if(data1['message']['email'] == '[The email has already been taken.]' && data1['message']['phone'] == '[The phone has already been taken.]' && data1['message']['password'] != '[The password confirmation does not match.]'  ){
-        //   print('email valid...');
-        //   final snackBar = SnackBar(
-        //     content: Text('The password confirmation does not match.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }
-
-
       }
         else {
         print('failed');
@@ -252,15 +164,6 @@ class _RegisterState extends State<Register> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(
-      //   backgroundColor: PrimaryColor,
-      //
-      //   centerTitle: true,
-      //   title: Text('Login',
-      //     textAlign: TextAlign.center,
-      //     style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18,),),
-      // ),
-
         appBar: AppBar(
           backgroundColor: Colors.lightGreen,
           flexibleSpace: Container(
@@ -279,14 +182,6 @@ class _RegisterState extends State<Register> {
           title: const Text('Registration',
               textAlign: TextAlign.center,
               style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-
-
-
-          // title: const Text('Registration',
-          //     textAlign: TextAlign.center,
-          //     style: TextStyle(
-          //         color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-          // backgroundColor: Colors.grey,
         ),
         body: Column(
           children: <Widget>[
@@ -382,8 +277,6 @@ class _RegisterState extends State<Register> {
                                             new InputDecoration.collapsed(
                                                 hintText: 'Lastname')),
                                       ),
-
-
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -407,7 +300,6 @@ class _RegisterState extends State<Register> {
                                             new InputDecoration.collapsed(
                                                 hintText: 'Mobile number')),
                                       ),
-
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -486,34 +378,20 @@ class _RegisterState extends State<Register> {
                                               borderRadius: BorderRadius.circular(00),
                                             ),
                                             textStyle: const TextStyle(fontSize: 20)),
-                                        //onPressed: () {
-
                                         onPressed: () async {
-
                                           setState(() => isLoading = true);
-
-
-    //RegisterAPI(nameController.text.toString(),surnameController.text.toString(),phoneController.text,toString(),emailController.text.toString(), passwordController.text.toString(), pwdController.text.toString());
-
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           prefs.setString('emailkey', emailController.text);
                                           print('email.....');
                                           print(emailController.text);
-
                                           print(emailController.text.toString());
-
-
                                           RegisterAPI(nameController.text.toString(), surnameController.text.toString(), emailController.text.toString(), passwordController.text.toString(),confirmpwdController.text.toString(),phoneController.text.toString());
-
                                           await Future.delayed(Duration(seconds: 2), () => () {});
                                           setState(() => isLoading = false);
                                         },
                                         //child: const Text('Register'),
                                         child: const Text('Register',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-
                                       ),
-
-
                                       Container(
                                         padding: EdgeInsets.all(5),
                                         child: Row(
@@ -569,31 +447,6 @@ class _RegisterState extends State<Register> {
                                     ],
                                   )
                               ),
-                              // Container(
-                              //   width: 320,
-                              //   height: 400,
-                              //   color: Colors.white,
-                              //
-                              //   child: Column(
-                              //     children: [
-                              //       Container(
-                              //           width: 125,
-                              //           child: CircleAvatar(
-                              //             backgroundColor: Colors.transparent,
-                              //             radius: 70.0,
-                              //             child: Image.asset(
-                              //                 "images/logo.jpg",
-                              //                 height: 100.0,
-                              //                 width: 125.0,
-                              //                 fit: BoxFit.fill
-                              //             ),
-                              //           )
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-
-
                               // middle widget goes here
                               Expanded(
                                 child: Container(),

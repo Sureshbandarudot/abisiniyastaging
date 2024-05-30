@@ -109,56 +109,6 @@ class _userDashboardState extends State<ViewApartmnt> {
       throw Exception('Failed to load post');
     }
   }
-
-  // Future<dynamic> Review() async {
-  //   print('Apartment.....');
-  //   print(ApartmentId);
-  //   String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/vehicle/avgrating/$VehicleId';
-  //
-  //   // String url = 'https://staging.abisiniya.com/api/v1/rating/list/$ApartmentId';
-  //   String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/list/$ApartmentId';
-  //
-  //   print('url...');
-  //   print(url);
-  //   var response = await http.get(
-  //     Uri.parse(
-  //         url),
-  //     headers: {
-  //       // 'Authorization':
-  //       // 'Bearer <--your-token-here-->',
-  //       "Authorization": "Bearer $RetrivedBearertoekn",
-  //
-  //     },
-  //   );
-  //   if (response.statusCode == 200) {
-  //     final data1 = jsonDecode(response.body);
-  //     var getpicsData = [];
-  //     var viewApartmentdata = data1['data'];
-  //     print('data.....');
-  //
-  //     // for (var pics in viewApartmentdata){
-  //     //
-  //     //   var picData = pics['pictures'];
-  //     //   for (var picArray in picData){
-  //     //     var img = picArray['imageUrl'];
-  //     //
-  //     //     Picture_Id = picArray['id'];
-  //     //     print('img....');
-  //     //     print(img);
-  //     //     ViewApartmentList.add(img);
-  //     //     PicArrayList.add(Picture_Id);
-  //     //
-  //     //   }
-  //     // }
-  //     print('Review success....');
-  //     // print(ViewApartmentList);
-  //     return json.decode(response.body);
-  //   } else {
-  //     // If that call was not successful, throw an error.
-  //     throw Exception('Failed to load post');
-  //   }
-  // }
-
   Future<dynamic> getData() async {
     print('Apartmentid.....');
     print(ApartmentId);
@@ -219,13 +169,6 @@ class _userDashboardState extends State<ViewApartmnt> {
           centerTitle: true,
             leading: BackButton(
               onPressed: () async{
-                print("back Pressed");
-                // SharedPreferences prefs = await SharedPreferences.getInstance();
-                // // prefs.setString('logoutkey', ('LogoutDashboard'));
-                // //prefs.setString('Property_type', ('Apartment'));
-                // prefs.setString('LoggedinUserkey', LoggedInUser);
-
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -670,10 +613,7 @@ class _userDashboardState extends State<ViewApartmnt> {
                                                                               children: [
 
                                                                                 Text(RetrivedProfileNamestr,style: TextStyle(fontSize: 18,fontWeight:FontWeight.w900),),                                                                              ],
-
                                                                             ),
-
-
                                                                             RatingBarIndicator(
                                                                                 rating: Rating_review.toDouble(),
                                                                                 itemCount: 5,
@@ -724,36 +664,9 @@ class _userDashboardState extends State<ViewApartmnt> {
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                      // Container(
-                                                                      //   height: 50,
-                                                                      //   width: 340,
-                                                                      //   color: Colors.green,
-                                                                      //   child: const Align(
-                                                                      //     alignment: Alignment.center,
-                                                                      //     child: Text('Review',
-                                                                      //         style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
-                                                                      //         ),
-                                                                      //         textAlign: TextAlign.center),
-                                                                      //   ),
-                                                                      // ),
                                                                     ],
                                                                   ),
                                                                   onTap: () async{
-
-                                                                    // Navigator.push(
-                                                                    //   context,
-                                                                    //   MaterialPageRoute(
-                                                                    //       builder: (context) => RatingScreen()),
-                                                                    // );
-                                                                    // SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                                    //   print('booking id...');
-                                                                    //   print(snapshot.data['data'][index]['id']);
-                                                                    //   prefs.setString('makekey', snapshot.data['data'][index]['make']);
-                                                                    //   prefs.setString('modelkey', snapshot.data['data'][index]['model']);
-                                                                    //   prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                                    //   prefs.setString('citykey', snapshot.data['data'][index]['city']);
-                                                                    //   prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
-                                                                    //   prefs.setString('tokenkey', RetrivedBearertoekn);
                                                                   },
                                                                 ),
                                                               );
@@ -767,167 +680,6 @@ class _userDashboardState extends State<ViewApartmnt> {
                                         )
                                       ],
                                     ),
-
-
-
-
-//                                     Column(
-//                                       children:<Widget>[
-//                                         FutureBuilder<dynamic>(
-//                                             future: Review(),
-//                                             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-//                                               switch (snapshot.connectionState) {
-//                                                 case ConnectionState.none:
-//                                                   return Text('');
-//                                                 case ConnectionState.waiting:
-//                                                   return Center(child: CircularProgressIndicator());
-//                                                 case ConnectionState.active:
-//                                                   print('imagename......');
-//                                                   return Text('');
-//                                                 case ConnectionState.done:
-//                                                   if (snapshot.hasError) {
-//                                                     return Text(
-//                                                       '${snapshot.error}',
-//                                                       style: TextStyle(color: Colors.white),
-//                                                     );
-//                                                   } else {
-//                                                     //return SingleChildScrollView(
-//                                                     //scrollDirection: Axis.horizontal,
-//                                                     //physics: ScrollPhysics(),
-//
-//                                                     return Column(
-//                                                       children: [
-//                                                         SizedBox(height: 30,),
-//                                                         Text('User Ratings',style: TextStyle(fontSize: 25,fontWeight:FontWeight.w900),),
-//                                                         ListView.separated(
-//                                                             physics: NeverScrollableScrollPhysics(),
-//                                                             shrinkWrap: true,
-//                                                             //itemCount:50,
-//                                                             itemCount: snapshot.data['data'].length ?? '',
-//                                                             //itemCount: snapshot.data?['data']['bookings'].length ?? "" ,
-//                                                             //itemCount: snapshot.data!['data'][0]['bookings'][0].length ?? 0,
-//                                                             //itemCount: snapshot.data?.length ?? 0,
-//                                                             separatorBuilder: (BuildContext context, int index) => const Divider(),
-//                                                             itemBuilder: (BuildContext context, int index) {
-//                                                               //bookingID = snapshot.data['data'][index]['id'];
-//
-//                                                               print('id....');
-//                                                               Rating_review = snapshot.data['data'][index]['score'];
-//                                                               print(Rating_review.toDouble());
-// //    itemBuilder: (context,index){
-//
-//                                                               return Container(
-//                                                                 height: 220,
-//                                                                 width: 100,
-//                                                                 alignment: Alignment.center,
-//                                                                 color: Colors.white,
-//                                                                 child: InkWell(
-//                                                                   child: Column(
-//                                                                     children: [
-//                                                                       Container(
-//                                                                         height: 165,
-//                                                                         width: 340,
-//                                                                         color: Colors.black12,
-//                                                                         child: Column(
-//                                                                           children: [
-//                                                                             RatingBarIndicator(
-//                                                                                 rating: Rating_review.toDouble(),
-//                                                                                 itemCount: 5,
-//                                                                                 itemSize: 40.0,
-//                                                                                 itemBuilder: (context, _) => const Icon(
-//                                                                                   Icons.star,
-//                                                                                   color: Colors.orange,
-//                                                                                 )),
-//                                                                             Row(
-//                                                                               children: [
-//                                                                                 Container(
-//                                                                                   height: 60,
-//                                                                                   width: 140,
-//                                                                                   color: Colors.white,
-//                                                                                   child: Text('Review:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-//                                                                                 ),
-//                                                                                 Container(
-//                                                                                   height: 60,
-//                                                                                   width: 200,
-//                                                                                   color: Colors.white,
-//                                                                                   //child:Text(snapshot.data['data'][index]['name'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
-//
-//                                                                                   child:Text(snapshot.data?['data'].isEmpty ? 'Empty name'
-//                                                                                       : snapshot.data?["data"][index]?['comment']?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black))),
-//                                                                                 )
-//                                                                               ],
-//                                                                             ),
-//                                                                             Row(
-//                                                                               children: [
-//                                                                                 Container(
-//                                                                                   height: 60,
-//                                                                                   width: 140,
-//                                                                                   color: Colors.white,
-//                                                                                   child: Text('Date:',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
-//                                                                                 ),
-//                                                                                 Container(
-//                                                                                   height: 60,
-//                                                                                   width: 200,
-//                                                                                   color: Colors.white,
-//                                                                                   //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-//                                                                                   child:Text(snapshot.data['data'][index]['created_at'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 16,color: Colors.black)),),
-//                                                                                 )
-//                                                                               ],
-//                                                                             ),
-//                                                                           ],
-//                                                                         ),
-//
-//
-//
-//
-//                                                                       ),
-//                                                                       // Container(
-//                                                                       //   height: 50,
-//                                                                       //   width: 340,
-//                                                                       //   color: Colors.green,
-//                                                                       //   child: const Align(
-//                                                                       //     alignment: Alignment.center,
-//                                                                       //     child: Text('Review',
-//                                                                       //         style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
-//                                                                       //         ),
-//                                                                       //         textAlign: TextAlign.center),
-//                                                                       //   ),
-//                                                                       // ),
-//                                                                     ],
-//                                                                   ),
-//
-//
-//
-//
-//                                                                   onTap: () async{
-//
-//                                                                     // Navigator.push(
-//                                                                     //   context,
-//                                                                     //   MaterialPageRoute(
-//                                                                     //       builder: (context) => RatingScreen()),
-//                                                                     // );
-//                                                                     // SharedPreferences prefs = await SharedPreferences.getInstance();
-//                                                                     //   print('booking id...');
-//                                                                     //   print(snapshot.data['data'][index]['id']);
-//                                                                     //   prefs.setString('makekey', snapshot.data['data'][index]['make']);
-//                                                                     //   prefs.setString('modelkey', snapshot.data['data'][index]['model']);
-//                                                                     //   prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-//                                                                     //   prefs.setString('citykey', snapshot.data['data'][index]['city']);
-//                                                                     //   prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
-//                                                                     //   prefs.setString('tokenkey', RetrivedBearertoekn);
-//                                                                   },
-//                                                                 ),
-//                                                               );
-//                                                               //return  Text('Some text');
-//                                                             })
-//                                                       ],
-//                                                     );
-//                                                   }
-//                                               }
-//                                             }
-//                                         )
-//                                       ],
-//                                     ),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
@@ -959,31 +711,11 @@ class _userDashboardState extends State<ViewApartmnt> {
                                                   textAlign: TextAlign.center),
                                             ),
                                           ),
-
                                         )
-
-                                        // Container(
-                                        //   height: 50,
-                                        //   width: 340,
-                                        //   color: Colors.green,
-                                        //   child: const Align(
-                                        //     alignment: Alignment.center,
-                                        //     child: Text('Review',
-                                        //         style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
-                                        //         ),
-                                        //         textAlign: TextAlign.center),
-                                        //   ),
-                                        // ),
                                       ],
                                     ),
                                   ],
                                 ),
-
-
-
-
-
-
                               );
                             },
                           ),

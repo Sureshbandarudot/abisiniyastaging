@@ -77,8 +77,6 @@ class _userDashboardState extends State<MybusLocationStopscreen> {
     super.initState();
     _retrieveValues();
     getData();
-    //  BookingDashboardUsers = DashboardBooking_fetchUsers();
-    //pics = fetchpics();
   }
   Future<void> _deleteData(int ApartmentId) async {
     try {
@@ -88,15 +86,11 @@ class _userDashboardState extends State<MybusLocationStopscreen> {
       var url = '';
       // url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/BusID');
       url = (baseDioSingleton.AbisiniyaBaseurl + 'bus/delete/$BusID');
-
       print(url);
       final response = await http
           .delete(Uri.parse(url),
         headers: {
-          // 'Authorization':
-          // 'Bearer <--your-token-here-->',
           "Authorization": "Bearer $RetrivedBearertoekn",
-
         },
       );
 

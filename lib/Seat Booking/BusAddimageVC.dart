@@ -10,23 +10,11 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
-
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-
 import 'MybusesVC.dart';
-
-// import 'My_AprtmetsVC.dart';
-// import 'ViewApartmentVC.dart';
-//
-
-
-
-
-
 class BusAddpicScreen extends StatefulWidget {
 
   @override
@@ -71,12 +59,10 @@ class _LoginState extends State<BusAddpicScreen> {
     var header = {
       "Authorization":"Bearer $RetrivedBearertoekn"
     };
-
     final request = await http.MultipartRequest(
       'POST',
       // Uri.parse('https://staging.abisiniya.com/api/v1/vehicle/pictures/add'),
       Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'bus/pictures/add'),
-
     );
     request.headers.addAll(header);
     request.fields['bus_id'] = BusID.toString();
@@ -90,17 +76,6 @@ class _LoginState extends State<BusAddpicScreen> {
       print('img added successfuly in bus...');
       var responseData = await response.stream.toBytes();
       var responseToString = String.fromCharCodes(responseData);
-      // final List parsedList = json.decode(responseToString);
-      // final snackBar = SnackBar(
-      //   content: Text('Apartment created successfully'),
-      // );
-      // // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (context) => MyApartmentScreen()
-      //   ),
-      // );
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -215,11 +190,7 @@ class _LoginState extends State<BusAddpicScreen> {
 
                                           onPressed: () async {
                                             setState(() => isLoading = true);
-                                            // addProduct();
                                             addProduct();
-                                            // _postData();
-                                            //login(emailController.text.toString(), passwordController.text.toString());
-
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                             prefs.setString('tokenkey', RetrivedBearertoekn);
                                             print(tokenvalue);

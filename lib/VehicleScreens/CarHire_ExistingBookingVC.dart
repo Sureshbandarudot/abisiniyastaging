@@ -34,12 +34,6 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
   TextEditingController pwd_confirmcontroller = TextEditingController();
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
-
-  //final baseDioSingleton = BaseSingleton();
-//   print(baseDioSingleton.Appname);
-  //List listUsers= [];
-  //Future? listUsers;;
-
   String bookable_type = '';
   String RetrivedBearertoekn = '';
   bool isLoading = false;
@@ -49,8 +43,6 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
   String fromDatestr = '';
   String toDatestr = '';
   String newBookingUser = '';
-
-
   int idnum = 0;
   int aptId = 0;
   int RetrivedId = 0;
@@ -91,10 +83,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
       Uri.parse(
           url),
       headers: {
-        // 'Authorization':
-        // 'Bearer <--your-token-here-->',
         "Authorization": "Bearer $RetrivedBearertoekn",
-
       },
     );
     if (response.statusCode == 200) {
@@ -139,12 +128,6 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          // 'name': namecontroller.text,
-          // 'surname': surnamecontroller.text,
-          // 'email': emailcontroller.text,
-          // 'phone': phonecontroller.text,
-          // 'password': passwordcontroller.text,
-          // 'password_confirmation': pwd_confirmcontroller.text,
           'start_date': FromdateInputController.text,
           'end_date': TodateInputController.text,
           'bookable_type': bookable_type,
@@ -243,31 +226,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
         } else {
           print('nullll.....');
         }
-        // if ((data['message']['email']) != '[The email has already been taken.]' && (data['message']['phone']) != '[The phone has already been taken.]'){
-        //   final snackBar = SnackBar(
-        //     content: Text('The email and phone has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //
-        // }  else if ((data['message']['email']) != '[The email has already been taken.]') {
-        //   final snackBar = SnackBar(
-        //     content: Text('The email  has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
-        //   final snackBar = SnackBar(
-        //     content: Text('The  phone has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
-        //   final snackBar = SnackBar(
-        //     content: Text('The end date must be a date after start date.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }
       }
-
-
       else if (response.statusCode == 404){
         var data = jsonDecode(response.body.toString());
         final snackBar = SnackBar(
