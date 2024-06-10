@@ -19,13 +19,6 @@ import 'package:http/http.dart' as http;
 
 import 'MyvehicleVC.dart';
 
-//import 'My_AprtmetsVC.dart';
-
-
-
-
-
-
 class CreateVehice extends StatefulWidget {
 
   @override

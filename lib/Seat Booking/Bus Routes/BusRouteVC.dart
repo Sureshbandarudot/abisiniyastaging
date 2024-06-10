@@ -411,7 +411,7 @@ class _userDashboardState extends State<MyBusRoutescreen> {
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['routes'][index]['name'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
+                                                              child:Text(snapshot.data['routes'][index]['routeName'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -427,7 +427,7 @@ class _userDashboardState extends State<MyBusRoutescreen> {
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
-                                                              child:Text(snapshot.data['routes'][index]['location_count'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
+                                                              child:Text(snapshot.data['routes'][index]['locids'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
                                                               // child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             )
                                                           ],
@@ -445,7 +445,7 @@ class _userDashboardState extends State<MyBusRoutescreen> {
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['routes'][index]['total_minutes'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
+                                                              child:Text(snapshot.data['routes'][index]['minutes'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -462,7 +462,7 @@ class _userDashboardState extends State<MyBusRoutescreen> {
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['routes'][index]['total_prices'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
+                                                              child:Text(snapshot.data['routes'][index]['prices'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),

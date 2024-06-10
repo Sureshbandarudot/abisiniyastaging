@@ -80,9 +80,6 @@ class _userDashboardState extends State<MybusLocationStopscreen> {
   }
   Future<void> _deleteData(int ApartmentId) async {
     try {
-      print('delete url...');
-      print('bus id for Delete...');
-      print(BusID);
       var url = '';
       // url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/BusID');
       url = (baseDioSingleton.AbisiniyaBaseurl + 'bus/delete/$BusID');
@@ -112,7 +109,6 @@ class _userDashboardState extends State<MybusLocationStopscreen> {
   Future<dynamic> getData() async {
     // String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/list';
     String url = baseDioSingleton.AbisiniyaBaseurl + 'bus/buslocation/list';
-
     var response = await http.get(
       Uri.parse(
           url),
@@ -120,7 +116,6 @@ class _userDashboardState extends State<MybusLocationStopscreen> {
         // 'Authorization':
         // 'Bearer <--your-token-here-->',
         "Authorization": "Bearer $RetrivedBearertoekn",
-
       },
     );
     if (response.statusCode == 200) {
@@ -339,7 +334,6 @@ class _userDashboardState extends State<MybusLocationStopscreen> {
 
                                                           height: 45,
                                                           width: 120,
-                                                          child: Text(snapshot.data['data'][index]['buslocation'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                         ),
                                                         Container(
                                                           height: 45,

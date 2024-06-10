@@ -17,6 +17,7 @@ import '../Airportshuttlescreens/AirportshuttleVC.dart';
 import '../Auth/profileUpdateVC.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
+import '../Seat Booking/Bus Routes/BusRouteAddVC.dart';
 import '../Seat Booking/Bus Routes/BusRouteVC.dart';
 import '../Seat Booking/LocationStops/BuslocationsVC.dart';
 import '../Seat Booking/MybusesVC.dart';
@@ -634,7 +635,8 @@ class _userDashboardState extends State<newuserDashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyBusRoutescreen()),
+                                builder: (context) => BusRouteAddscreen()
+                            ),
                           );
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setString('Profilenamekey', profileNamestr);
