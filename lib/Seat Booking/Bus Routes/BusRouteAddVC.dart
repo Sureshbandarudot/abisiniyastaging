@@ -80,16 +80,11 @@ class _SOFState extends State<SOF> {
   var locationnamestr = '';
   var minutesstr = '';
   var pricestr = '';
-
-
   var locationName = '';
   String? dropdownvalue;
   var locationmultplevalues = [];
   var minutesmultplevalues = [];
   var pricemultplevalues = [];
-
-
-
   List<String> items = [];
   List<String> LocationIdItems = [];
 

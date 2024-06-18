@@ -6,6 +6,7 @@ import 'ApartVC/Apartment.dart';
 import 'ApartVC/Authenticated_Userbookingscreen.dart';
 import 'Auth/Login.dart';
 import 'Authenticated_Vehiclescreen.dart';
+import 'Flight_Amadeus_Screens/FlightSearchVC.dart';
 import 'UserDashboard_Screens/newDashboard.dart';
 import 'flyScreens/Auth_flightRequestVC.dart';
 import 'flyScreens/Flights.dart';
@@ -168,27 +169,33 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                       ),
                     ),
                     onTap: () async{
-                      LoggedinUserlist.add(LoggedInUSerstr);
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-                      LoggedinUserlist.add(LoggedInUSerstr);
-                      if (LoggedInUSerstr == 'LoggedUser') {
-                        print('login...');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AuthFlightScreen()),
-                        );
-                        SharedPreferences prefrences = await SharedPreferences.getInstance();
-                        await prefrences.remove("LoggedinUserkey");
 
-                      }  else{
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FlightScreen()),
+                              builder: (context) => FlightSearchVC()),
                         );
-                      }
+                      // LoggedinUserlist.add(LoggedInUSerstr);
+                      // SharedPreferences prefs = await SharedPreferences.getInstance();
+                      // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
+                      // LoggedinUserlist.add(LoggedInUSerstr);
+                      // if (LoggedInUSerstr == 'LoggedUser') {
+                      //   print('login...');
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => AuthFlightScreen()),
+                      //   );
+                      //   SharedPreferences prefrences = await SharedPreferences.getInstance();
+                      //   await prefrences.remove("LoggedinUserkey");
+                      //
+                      // }  else{
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => FlightScreen()),
+                      //   );
+                      // }
                     },
                   ),
                 ),
