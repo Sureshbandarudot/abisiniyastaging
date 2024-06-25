@@ -13,6 +13,9 @@ import 'flyScreens/Flights.dart';
 import 'Vehicles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 class ServiceDashboardScreen extends StatefulWidget {
   const ServiceDashboardScreen({super.key});
   @override
@@ -27,6 +30,7 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
   String LoggedInUSerstr = '';
   String NewBookingUserstr = '';
   String Signoutstr = '';
+  String flightTokenstr = '';
 
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -39,10 +43,126 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
        }
     });
   }
+
+  Future<void> _postData() async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://test.travel.api.amadeus.com/v2/shopping/flight-offers'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+            "currencyCode": "ZAR",
+            "originDestinations": [
+              {
+                "id": "1",
+                "originLocationCode": "CDG",
+                "destinationLocationCode": "WAW",
+                "departureDateTimeRange": {
+                  "date": "2024-09-12"
+                }
+              },
+              {
+                "id": "2",
+                "originLocationCode": "WAW",
+                "destinationLocationCode": "CDG",
+                "departureDateTimeRange": {
+                  "date": "2024-09-17"
+                }
+              }
+            ],
+            "travelers": [
+              {
+                "id": "1",
+                "travelerType": "ADULT",
+                "fareOptions": [
+                  "STANDARD"
+                ]
+              }
+            ],
+            "sources": [
+              "GDS"
+            ],
+            "searchCriteria": {
+              "additionalInformation": {
+                "chargeableCheckedBags": false,
+                "brandedFares": false
+              },
+              "pricingOptions": {
+                "fareType": [
+                  "PUBLISHED",
+                  "NEGOTIATED"
+                ],
+                "includedCheckedBagsOnly": false
+              },
+              "flightFilters": {
+                "carrierRestrictions": {
+                  "includedCarrierCodes": [
+                    "LO"
+                  ]
+                }
+              }
+            }
+
+        }),
+      );
+
+      print('Flight search API response.......');
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        // Successful POST request, handle the response here
+        final responseData = jsonDecode(response.body);
+        setState(() {
+          //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
+        });
+      } else {
+        // If the server returns an error response, throw an exception
+        throw Exception('Failed to post data');
+      }
+    } catch (e) {
+      setState(() {
+        //result = 'Error: $e';
+      });
+    }
+  }
+
+
+
+  Future<void> AmadeusPost() async {
+    const Map<String, String> header = {
+      'Content-type': 'application/x-www-form-urlencoded',
+      // 'Accept': 'application/json',
+    };
+    var response = await http.post(
+        Uri.parse("https://test.travel.api.amadeus.com/v1/security/oauth2/token"),
+        body: ({
+          // 'user_id': userController.text,
+          // 'token': apiController.text,
+          // 'device': "Android",
+          "grant_type": "client_credentials",
+          "client_id": "3xzMCq3eez5H14GWGesCOGdr02AKCnpj",
+          "client_secret": "zIQ5idVReq6NsBtw",
+        })
+    );
+
+    print('status code...');
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      print(body);
+      flightTokenstr = body['access_token'];
+      print('flightTokenstr....');
+      print(flightTokenstr);
+      //GetUserCarModel getUserCarModel = GetUserCarModel.fromJson(body);
+      //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully Login")));
+    }
+  }
   void initState() {
     // TODO: implement initState
     super.initState();
+    _postData();
     _retrieveValues();
+    AmadeusPost();
   }
   // This widget is the root of your application
   @override
@@ -170,11 +290,16 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                     ),
                     onTap: () async{
 
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('flightTokenstrKey', flightTokenstr);
+                      print('flight token sending...');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => FlightSearchVC()),
                         );
+
+
                       // LoggedinUserlist.add(LoggedInUSerstr);
                       // SharedPreferences prefs = await SharedPreferences.getInstance();
                       // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";

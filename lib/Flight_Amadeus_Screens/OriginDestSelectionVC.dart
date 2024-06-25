@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'FlightSearchVC.dart';
 import 'OriginDesmodelVC.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class SourceDestinationCityVC extends StatefulWidget {
   // HomePage({Key key}) : super(key: key);
@@ -15,8 +18,21 @@ class _HomePageState extends State<SourceDestinationCityVC> {
   List<UserDetails> _searchResult = [];
   List<UserDetails> _userDetails = [];
   TextEditingController controller = new TextEditingController();
+  String OnewayDeparturestr = '';
+  String OnewayArrivalstr = '';
+  _retrieveValues() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      OnewayDeparturestr = prefs.getString('OnewayDeparturekey') ?? "";
+      OnewayArrivalstr = prefs.getString('OnewayArrivalkey') ?? "";
+      print('Oneway source and desti');
+      print(OnewayDeparturestr);
+      print(OnewayArrivalstr);
+    });
+  }
 
-  // Get json result and convert it to model. Then add
+
+      // Get json result and convert it to model. Then add
   Future<Null> getUserDetails() async {
     print('calling....');
     // final response = await http.get(url as Uri);
@@ -33,8 +49,6 @@ class _HomePageState extends State<SourceDestinationCityVC> {
       var jsonData = json.decode(response.body);
       print('Airport list.....');
       print(jsonData.toString());
-
-
       setState(() {
         for (Map user in jsonData) {
           _userDetails.add(UserDetails.fromJson(user as Map<String, dynamic>));
@@ -49,6 +63,7 @@ class _HomePageState extends State<SourceDestinationCityVC> {
     super.initState();
 
     getUserDetails();
+    _retrieveValues();
   }
 
   Widget _buildUsersList() {
@@ -68,13 +83,38 @@ class _HomePageState extends State<SourceDestinationCityVC> {
               title: new Text(_userDetails[index].Name +
                   '  - ' +
                   _userDetails[index].iata),
-              onTap: () {
+              onTap: () async{
 
                 print('selected value....');
                 print((_userDetails[index].Name +
                     '  - ' +
                     _userDetails[index].iata));
                 controller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata;
+                print('selected ind v');
+                if (OnewayDeparturestr == "OnewayDeparture"){
+                  print('departurar....');
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setString('sourcekey', controller.text);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FlightSearchVC()),
+                  );
+                }
+                if(OnewayArrivalstr == 'OnewayArrival') {
+                  print('arrival....');
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setString('destinationkey', controller.text);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FlightSearchVC()),
+                  );
+                }
+
+
+
+
 
               }
           ),
@@ -104,10 +144,25 @@ class _HomePageState extends State<SourceDestinationCityVC> {
 
               title: new Text(
                   _searchResult[index].Name + '   -' +(_searchResult[index].iata)),
-              onTap: () {
+              onTap: () async{
                 print('filter....');
                 print(controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata);
                 controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata;
+
+                // if (OnewayDeparturestr == "OnewayDeparture"){
+                //   SharedPreferences prefs = await SharedPreferences.getInstance();
+                //   prefs.setString('sourcekey', controller.text);
+                // } else if(OnewayArrivalstr == 'OnewayArrival') {
+                //   SharedPreferences prefs = await SharedPreferences.getInstance();
+                //   prefs.setString('destinationkey', controller.text);
+                // }
+                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                // prefs.setString('SourceDestinationkey', controller.text);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FlightSearchVC()),
+                );
               }
           ),
 
@@ -145,16 +200,10 @@ class _HomePageState extends State<SourceDestinationCityVC> {
   Widget _buildBody() {
     return new Column(
       children: <Widget>[
-         Container(
-        height:40,
-        width: 320,
-             color: Color.fromRGBO(133, 193, 233, 0.5),
-            // color: Theme.of(context).primaryColor, child: _buildSearchBox()
-            //color: Theme.of(context).primaryColor,
-            child: _buildSearchBox()
+        new Container(
+            color: Theme.of(context).primaryColor,
 
-
-        ),
+            child: _buildSearchBox()),
         new Expanded(
             child: _searchResult.length != 0 || controller.text.isNotEmpty
                 ? _buildSearchResults()

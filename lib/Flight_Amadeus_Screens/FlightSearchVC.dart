@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../flyScreens/Flights.dart';
 import '../flyScreens/airlineVC.dart';
+import 'OnwardJourneyVC.dart';
 import 'OriginDestSelectionVC.dart';
 import 'flightClasstypesVC.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,11 @@ class FlightSearchVC extends StatefulWidget {
 class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProviderStateMixin {
   String classstr = '';
   String passengerliststr = '';
+  String flightTokenstr = '';
  // int selectedindex = 0;
   int currentpage = 0;
+  String OrginAirportcitystr = '';
+  String DestinationAirportcitystr = '';
   //TabController _tabController;
   late TabController _tabController;
 
@@ -31,6 +35,12 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
       classstr = prefs.getString('classkey') ?? "";
       passengerliststr = prefs.getString('passengerlistkey') ?? "";
       currentpage = prefs.getInt('Roundtripindexkey') ?? 0;
+      flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+      OrginAirportcitystr = prefs.getString('sourcekey') ?? '';
+      DestinationAirportcitystr = prefs.getString('destinationkey') ?? '';
+
+      print('flight token received...');
+      print(flightTokenstr);
       print('current page...');
       print(currentpage );
       print('class value...');
@@ -112,17 +122,16 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
     TextEditingController returnFromdateInputController = TextEditingController();
     TextEditingController TodateInputController = TextEditingController();
     TextEditingController passengerController = TextEditingController();
+    TextEditingController OriginAirportCityController = TextEditingController();
+    TextEditingController DestinationAirportCityController = TextEditingController();
+    OriginAirportCityController.text = OrginAirportcitystr;
+    DestinationAirportCityController.text = DestinationAirportcitystr;
     passengerController.text = passengerliststr + " ," + classstr;
-
     bool first = false;
     String returnfromDatestr = '';
     String toDatestr = '';
-
     return DefaultTabController(
-
       length: 2,
-
-
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -136,7 +145,6 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
             width: 320,
             // color: Colors.grey,
             color: Color.fromRGBO(133, 193, 233, 0.5),
-
             child: TabBar(
                 //controller: _tabController,
                 onTap: (index) {
@@ -196,12 +204,13 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       height: 50,
                       width: 300,
                       color: Colors.white,
+
                       child: TextField(
+                        controller: OriginAirportCityController,
                         readOnly: true,
                         style: TextStyle(fontSize: 16),
 
                         onTap: () async{
-                          print('Economy class clicked...');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -211,6 +220,9 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           print(selectedindex);
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setInt('selectedIndexkey', selectedindex);
+                          prefs.setString("OnewayDeparturekey", 'OnewayDeparture');
+
+
 
                         },
                         decoration: InputDecoration(
@@ -236,6 +248,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       width: 300,
                       color: Colors.white,
                         child: TextField(
+                          controller: DestinationAirportCityController,
                           readOnly: true,
                           style: TextStyle(fontSize: 16),
 
@@ -250,6 +263,8 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                             print(selectedindex);
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.setInt('selectedIndexkey', selectedindex);
+                            prefs.setString("OnewayArrivalkey", 'OnewayArrival');
+
 
                           },
                         decoration: InputDecoration(
@@ -350,27 +365,81 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                     SizedBox(
                       height: 30,
                     ),
-                    Container(
-                        height: 50,
-                        width: 300,
-                        color: Colors.deepPurple,
+
+                  InkWell(
+                    child: Container(
+                    height: 50,
+                    width: 300,
+                     color: Colors.deepPurple,
+
                         child: Align(
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {
+                          alignment: Alignment.center,
+                          child: Text(
+                              "Search",
+                              style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white),
+                              textAlign: TextAlign.center
+                          ),
+                        )
 
-
-                              },
-                              child: Text('Search',
-                                  style: TextStyle(
-                                    height: 1.2,
-                                    fontFamily: 'Dubai',
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800,
-                                  )),
-                            ))
                     ),
+                    onTap: () async {
+                      print("tapped on container");
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+                                  print('tap..');
+                                   print(flightTokenstr);
+                                  flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+                                  prefs.setString("flightTokenstrKey", flightTokenstr);
+
+
+
+                                  print('Tapped onward....');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FlightOnWardJourney()),
+                                  );
+                    },
+                  )
+
+
+
+                    // Container(
+                    //     height: 50,
+                    //     width: 300,
+                    //     color: Colors.deepPurple,
+                    //     child: Align(
+                    //         alignment: Alignment.center,
+                    //         child: GestureDetector(
+                    //           onTap: () async{
+                    //             SharedPreferences prefs = await SharedPreferences.getInstance();
+                    //             flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+                    //             print('tap..');
+                    //              print(flightTokenstr);
+                    //             flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+                    //             prefs.setString("flightTokenstrKey", flightTokenstr);
+                    //
+                    //
+                    //
+                    //             print('Tapped onward....');
+                    //             Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => FlightOnWardJourney()),
+                    //             );
+                    //
+                    //           },
+                    //           child: Text('Search1',
+                    //               style: TextStyle(
+                    //                 height: 1.2,
+                    //                 fontFamily: 'Dubai',
+                    //                 fontSize: 20,
+                    //                 color: Colors.white,
+                    //                 fontWeight: FontWeight.w800,
+                    //               )),
+                    //         )
+                    //     )
+                    // ),
                   ],
                 ),
               ),
