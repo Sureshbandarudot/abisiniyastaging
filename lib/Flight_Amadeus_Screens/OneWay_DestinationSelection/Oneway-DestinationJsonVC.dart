@@ -2,27 +2,28 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'FlightSearchVC.dart';
-import 'OriginDesmodelVC.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../FlightSearchVC.dart';
+import '../OriginDesmodelVC.dart';
 
-class SourceDestinationCityVC extends StatefulWidget {
+
+class OnewwayDestinationCityVC extends StatefulWidget {
   // HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
-class _HomePageState extends State<SourceDestinationCityVC> {
+class _HomePageState extends State<OnewwayDestinationCityVC> {
   List<UserDetails> _searchResult = [];
   List<UserDetails> _userDetails = [];
-  TextEditingController controller = new TextEditingController();
+  TextEditingController OnewayDestinationcontroller = new TextEditingController();
   String OnewayDeparturestr = '';
   String OnewayArrivalstr = '';
+  String Oneway_Destinationiatacode = '';
+  String Oneway_DestinationCityname = '';
   bool _isLoading = true;
-  String Oneway_Cityname = '';
-  String Oneway_iatacode = '';
 
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,12 +37,12 @@ class _HomePageState extends State<SourceDestinationCityVC> {
   }
 
 
-      // Get json result and convert it to model. Then add
+  // Get json result and convert it to model. Then add
 
 
-    Future<dynamic> getUserDetails() async {
+  Future<dynamic> getUserDetails() async {
 
-      print('calling....');
+    print('calling....');
     // final response = await http.get(url as Uri);
     // final responseJson = json.decode(response.body);
     // print('response data...');
@@ -51,9 +52,9 @@ class _HomePageState extends State<SourceDestinationCityVC> {
 
     String baseUrl = 'https://staging.abisiniya.com/api/v1/amadeus/airportlist';
     http.Response response = await http.get(Uri.parse(baseUrl));
-      if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
 
-        List<String> items = [];
+      List<String> items = [];
       var jsonData = json.decode(response.body);
       print('Airport list.....');
       print(jsonData.toString());
@@ -144,9 +145,10 @@ class _HomePageState extends State<SourceDestinationCityVC> {
                 print((_userDetails[index].Name +
                     '  - ' +
                     _userDetails[index].iata));
-                controller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata;
-                Oneway_iatacode = _userDetails[index].iata;
-                Oneway_Cityname = _userDetails[index].Name;
+                OnewayDestinationcontroller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata;
+
+                Oneway_Destinationiatacode = _userDetails[index].iata;
+                Oneway_DestinationCityname = _userDetails[index].Name;
 
                 Navigator.push(
                   context,
@@ -154,10 +156,9 @@ class _HomePageState extends State<SourceDestinationCityVC> {
                       builder: (context) => FlightSearchVC()),
                 );
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString("sourcekey", controller.text);
-                prefs.setString("Oneway_iatacodekey", Oneway_iatacode);
-                prefs.setString("Oneway_Citynamekey", Oneway_Cityname);
-
+                prefs.setString("destinationkey", OnewayDestinationcontroller.text);
+                prefs.setString("Oneway_Destinationiatacodekey", Oneway_Destinationiatacode);
+                prefs.setString("Oneway_DestinationCitynamekey", Oneway_DestinationCityname);
 
               }
           ),
@@ -190,20 +191,19 @@ class _HomePageState extends State<SourceDestinationCityVC> {
                   _searchResult[index].Name + '   -' +(_searchResult[index].iata)),
               onTap: () async{
                 print('filter....');
-                print(controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata);
-                controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata;
-                Oneway_iatacode = _searchResult[index].iata;
-                Oneway_Cityname = _searchResult[index].Name;
-
+                print(OnewayDestinationcontroller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata);
+                OnewayDestinationcontroller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata;
+                Oneway_Destinationiatacode = _searchResult[index].iata;
+                Oneway_DestinationCityname = _searchResult[index].Name;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => FlightSearchVC()),
                 );
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString("sourcekey", controller.text);
-                prefs.setString("Oneway_iatacodekey", Oneway_iatacode);
-                prefs.setString("Oneway_Citynamekey", Oneway_Cityname);
+                prefs.setString("destinationkey", OnewayDestinationcontroller.text);
+                prefs.setString("Oneway_Destinationiatacodekey", Oneway_Destinationiatacode);
+                prefs.setString("Oneway_DestinationCitynamekey", Oneway_DestinationCityname);
 
 
               }
@@ -224,7 +224,7 @@ class _HomePageState extends State<SourceDestinationCityVC> {
 
             child: _buildSearchBox()),
         new Expanded(
-            child: _searchResult.length != 0 || controller.text.isNotEmpty
+            child: _searchResult.length != 0 || OnewayDestinationcontroller.text.isNotEmpty
                 ? _buildSearchResults()
                 : _buildUsersList()),
       ],
@@ -237,7 +237,7 @@ class _HomePageState extends State<SourceDestinationCityVC> {
         child: new ListTile(
           leading: new Icon(Icons.search),
           title: new TextField(
-            controller: controller,
+            controller: OnewayDestinationcontroller,
             decoration: new InputDecoration(
                 hintText: 'Search', border: InputBorder.none),
             onChanged: onSearchTextChanged,
@@ -245,7 +245,7 @@ class _HomePageState extends State<SourceDestinationCityVC> {
           trailing: new IconButton(
             icon: new Icon(Icons.cancel),
             onPressed: () {
-              controller.clear();
+              OnewayDestinationcontroller.clear();
               onSearchTextChanged('');
             },
           ),

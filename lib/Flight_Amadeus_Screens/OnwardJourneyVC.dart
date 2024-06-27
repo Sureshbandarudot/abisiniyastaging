@@ -52,11 +52,10 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   String Airlinecodestr = '';
   String Airlinenamestr = '';
   String Airlinelogostr = '';
-
-  // bool _isLoading = false;
-
-  //bool isLoading = true;
-
+  String Retrived_Oneway_iatacodestr = '';
+  String Retrived_Oneway_Citynamestr = '';
+  String RetrivedOneway_Oneway_Destinationiatacodestr = '';
+  String RetrivedOnew_Oneway_DestinationCitynamestr = '';
   var OnwardJourneylist = [];
   var OnwardJourney_depiataCodelist = [];
   var OnwardJourney_arrivaliataCodelist = [];
@@ -68,6 +67,11 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   var OnwardJourney_airlineCodeArray = [];
   var OnwardJourney_airlineNameArray = [];
   var OnwardJourney_airlineLogoArray = [];
+
+  //List<Map<String, dynamic>> mapList = [];
+  Map<String, dynamic> travellers = {};
+
+
 
 
   String sourcevalue = '';
@@ -82,7 +86,22 @@ class _userDashboardState extends State<FlightOnWardJourney> {
       print('Onward journey token...');
       print(flightTokenstr);
 
-    });
+      Retrived_Oneway_iatacodestr = prefs.getString('Oneway_iatacodekey') ?? '';
+      Retrived_Oneway_Citynamestr = prefs.getString('Oneway_Citynamekey') ?? '';
+      print('received values in onward...');
+      print(Retrived_Oneway_iatacodestr);
+      print(Retrived_Oneway_Citynamestr);
+
+  RetrivedOneway_Oneway_Destinationiatacodestr = prefs.getString('Oneway_Destinationiatacodekey') ?? '';
+  RetrivedOnew_Oneway_DestinationCitynamestr = prefs.getString('Oneway_DestinationCitynamekey') ?? '';
+
+      print('received values in dest onward...');
+      print(RetrivedOneway_Oneway_Destinationiatacodestr);
+      print(RetrivedOnew_Oneway_DestinationCitynamestr);
+
+
+
+  });
   }
 //@override
   void initState() {
@@ -91,6 +110,45 @@ class _userDashboardState extends State<FlightOnWardJourney> {
     _retrieveValues();
     _postData();
     getUserDetails();
+    Map<String, dynamic> _portaInfoMap = {
+      "name": "Vitalflux.com",
+      "domains": ["Data Science", "Mobile", "Web"],
+      "noOfArticles": [
+        {"type": "data science", "count": 50},
+        {"type": "web", "count": 75}
+      ]
+    };
+    print('mapping...');
+    print(_portaInfoMap);
+
+    travellers = {
+      "travelers": [
+        {
+          "id": "1",
+          "travelerType": "ADULT",
+          "fareOptions": [
+            "STANDARD"
+          ]
+        }
+      ],
+    };
+
+    for (var i = 0; i < 5; i = i + 1) {
+      // code here
+
+    }
+
+
+
+    // "travelers": [
+    // {
+    // "id": "1",
+    // "travelerType": "ADULT",
+    // "fareOptions": [
+    // "STANDARD"
+    // ]
+    // }
+    // ],
 
   }
   Future<dynamic> _postData() async {
@@ -166,20 +224,20 @@ class _userDashboardState extends State<FlightOnWardJourney> {
           "originDestinations": [
             {
               "id": "1",
-              "originLocationCode": "CDG",
-              "destinationLocationCode": "WAW",
+              "originLocationCode": Retrived_Oneway_iatacodestr,
+              "destinationLocationCode": RetrivedOneway_Oneway_Destinationiatacodestr,
               "departureDateTimeRange": {
                 "date": "2024-09-12"
               }
             },
-            {
-              "id": "2",
-              "originLocationCode": "WAW",
-              "destinationLocationCode": "CDG",
-              "departureDateTimeRange": {
-                "date": "2024-09-17"
-              }
-            }
+            // {
+            //   "id": "2",
+            //   "originLocationCode": "WAW",
+            //   "destinationLocationCode": "CDG",
+            //   "departureDateTimeRange": {
+            //     "date": "2024-09-17"
+            //   }
+            // }
           ],
           "travelers": [
             {
@@ -311,7 +369,6 @@ class _userDashboardState extends State<FlightOnWardJourney> {
         OnwardJourney_airlineCodeArray.add(Airlinecodestr);
         print(OnwardJourney_carrierCodeArray.toList());
          List<Map<String, dynamic>> mapList = [];
-
          OnwardJourney_carrierCodeArray.forEach((e) {
            Map<String, dynamic> item = {"name": e, "selected": false};
            mapList.add(item);
@@ -343,13 +400,13 @@ class _userDashboardState extends State<FlightOnWardJourney> {
         home: Scaffold(
           appBar: AppBar(
 
-            backgroundColor: Colors.lightGreen,
+            backgroundColor: Colors.pinkAccent,
             flexibleSpace: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: <Color>[Colors.white, Colors.green]),
+                    colors: <Color>[Colors.white, Colors.pinkAccent]),
               ),
             ),
             actions: <Widget>[
@@ -358,7 +415,7 @@ class _userDashboardState extends State<FlightOnWardJourney> {
             iconTheme: IconThemeData(
                 color: Colors.white
             ),
-            title: Text('Onward Journey', textAlign: TextAlign.center,
+            title: Text('Flight Search', textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white,
                     fontFamily: 'Baloo',
                     fontWeight: FontWeight.w900,
@@ -409,25 +466,55 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                       ),
                           Expanded(
                             child: Container(
-                              color: Colors.white70,
+                             // color: Colors.pinkAccent,
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: <Color>[Colors.white, Colors.pinkAccent]),
+                                ),
+
                               child: LayoutBuilder(
                                 builder: (context, constraint) {
+                                  var Departuretextstr = 'Departure To ' + ' '+  RetrivedOneway_Oneway_Destinationiatacodestr;
                                   return SingleChildScrollView(
                                     physics: ScrollPhysics(),
                                     child: Column(
                                       children: <Widget>[
                                         //Text('Your Apartments'),
-                                        Text('My Vehicles',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                                        Container(
+                                          height: 70,
+                                          width: 380,
+                                          child: Column(
+                                          children: [
+
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                Departuretextstr,
+                                                style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Price per passenger, taxes and fees included',
+                                                style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
+                                            ),
+
+                                          ],
+                                          ),
+                                        ),
+
                                         ListView.separated(
 
                                             physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             // itemCount: snapshot.data['data'].length ?? '',
-                                            itemCount: OnwardJourney_airlineNameArray.length,
+                                            itemCount: OnwardJourney_dateArray.length,
                                             separatorBuilder: (BuildContext context, int index) => const Divider(),
                                             itemBuilder: (BuildContext context, int index) {
-                                            print('loading data from api.......');
-                                            print(OnwardJourney_airlineNameArray[index].toString());
+                                            // print('loading data from api.......');
+                                            // print(OnwardJourney_airlineNameArray[index].toString());
 
                                               return Padding(
                                                 padding: const EdgeInsets.all(1.0),
@@ -437,90 +524,375 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                       Column(
                                                         children: [
                                                           Column(
+
+
                                                             children: [
+
+                                                              SizedBox(
+                                                                height: 5,
+                                                              ),
+
+                                                              Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.black45
+                                                              ),),
+                                                              Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.black45
+                                                              ),),
+
+                                                              Text(OnwardJourney_durationArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.black45
+                                                              ),),
+                                                              SizedBox(),
+                                                              Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.black45
+                                                              ),),
                                                               Container(
-                                                                height: 180,
-                                                                width: 320,
-                                                                // color: Colors.cyan,
-                                                                child: Column(
+                                                                height: 80,
+                                                                width: 360,
+                                                                color: Colors.transparent,
+                                                                child: Row(
                                                                   children: [
                                                                     SizedBox(
-                                                                      height: 5,
+                                                                      width: 10,
                                                                     ),
-                                                                    Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                                    ),),
-                                                                    Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.deepPurple
-                                                                    ),),
 
-                                                                    Text(OnwardJourney_durationArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                                    ),),
-                                                                    SizedBox(),
-                                                                    Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.deepPurple
-                                                                    ),),
                                                                     Container(
-                                                                      height: 80,
-                                                                      width: 360,
-                                                                      color: Colors.transparent,
-                                                                      child: Row(
-                                                                        children: [
-                                                                          SizedBox(
-                                                                            width: 10,
-                                                                          ),
+                                                                      height: 70,
+                                                                      width: 70,
+                                                                      //color: Colors.green,
 
-                                                                          Container(
-                                                                            height: 70,
-                                                                            width: 70,
-                                                                            //color: Colors.green,
+                                                                      // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                                      //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
 
-                                                                            // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                                            //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
-
-                                                                            decoration: BoxDecoration(
-                                                                              // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
-                                                                              // ]['imageUrl']),
-                                                                                image: DecorationImage(image: NetworkImage(OnwardJourney_airlineLogoArray[index].toString()),
-                                                                                    fit: BoxFit.cover)
-                                                                            ),
-                                                                          ),
-
-                                                                          // Container(
-                                                                          //     height: 45,
-                                                                          //     width: 45,
-                                                                          //     color: Colors.transparent,
-                                                                          //     child: CircleAvatar(
-                                                                          //       backgroundColor: Colors.transparent,
-                                                                          //       radius: 50.0,
-                                                                          //       child: Image.asset(
-                                                                          //           "images/airplane.png",
-                                                                          //           height: 40.0,
-                                                                          //           width: 40.0,
-                                                                          //           fit: BoxFit.fill
-                                                                          //       ),
-                                                                          //     )
-                                                                          // ),
-                                                                          Container(
-                                                                            height: 45,
-                                                                            width: 200,
-                                                                            color: Colors.transparent,
-                                                                            child: Column(
-                                                                              children: [
-                                                                                SizedBox(height: 20,),
-                                                                                Text(OnwardJourney_airlineNameArray[index].toString() + "   -" + OnwardJourney_carrierCodeArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.deepPurple
-                                                                                ),),
-                                                                              ],
-                                                                            ),
-
-                                                                            // child: Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                                            //),),
-                                                                          )
-                                                                        ],
+                                                                      decoration: BoxDecoration(
+                                                                        // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                                                        // ]['imageUrl']),
+                                                                          image: DecorationImage(image: NetworkImage(OnwardJourney_airlineLogoArray[index].toString()),
+                                                                              fit: BoxFit.cover)
                                                                       ),
                                                                     ),
-                                                                    // Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                                    // ),),
+
+                                                                    Container(
+                                                                      height: 45,
+                                                                      width: 200,
+                                                                      color: Colors.transparent,
+                                                                      child: Column(
+                                                                        children: [
+                                                                          SizedBox(height: 20,),
+                                                                          Text(OnwardJourney_airlineNameArray[index].toString() + "   -" + OnwardJourney_carrierCodeArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black45
+                                                                          ),),
+                                                                        ],
+                                                                      ),
+
+                                                                    ),
                                                                   ],
                                                                 ),
                                                               ),
+
+
+
+                                                              ExpansionTile(
+
+                                                                title: Container(
+                                                                  //width: 100,
+                                                                  //transform: Matrix4.translationValues(20, 0, 0),
+                                                                  color: Colors.transparent,
+                                                                  child:     Align(
+                                                                    alignment: Alignment.centerRight,
+                                                                    child: Text('Detailes')
+                                                                  ),
+
+                                                                ),
+                                                                leading: const SizedBox(width: 0.00,),
+                                                                children: [
+                                                                  Container(
+                                                                    height: 170,
+                                                                    width: 360,
+                                                                    color: Colors.transparent,
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Container(
+                                                                          margin: const EdgeInsets.only(left: 10.0, right: 0.0),
+
+                                                                          height: 160,
+                                                                          width: 80,
+                                                                          color: Colors.transparent,
+                                                                          child: Column(
+                                                                            children: [
+                                                                              Text(OnwardJourney_DeptimeArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black45
+                                                                              ),),
+                                                                              SizedBox(height: 40,),
+                                                                              Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,color: Colors.black45
+                                                                              ),),
+
+                                                                              SizedBox(height: 50,),
+                                                                              Text(OnwardJourney_ArrivaltimeArray[index].toString() ,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black45
+                                                                              ),),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          margin: const EdgeInsets.only(left: 0.0, right: 0.0),
+
+                                                                          height: 160,
+                                                                          width: 30,
+                                                                          color: Colors.transparent,
+                                                                                  child:Container(
+                                                                                      width: 20,
+                                                                                      child: CircleAvatar(
+                                                                                        backgroundColor: Colors.transparent,
+                                                                                        radius: 50.0,
+                                                                                        child: Image.asset(
+                                                                                            "images/flight-path-icon.png",
+                                                                                            height: 150.0,
+                                                                                            width: 200.0,
+                                                                                            fit: BoxFit.fill
+                                                                                        ),
+                                                                                      )
+                                                                                  ),
+                                                                        ),
+                                                                        Container(
+                                                                          margin: const EdgeInsets.only(left: 0.0, right: 0.0),
+
+                                                                          height: 160,
+                                                                          width: 240,
+                                                                          color: Colors.transparent,
+                                                                          child: Column(
+                                                                            children: [
+
+                                                                              // Text(OnwardJourney_depiataCodelist[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: Colors.black45
+                                                                              // ),),
+                                                                              // Text(Retrived_Oneway_Citynamestr,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.black45
+                                                                              // ),),
+
+                                                                              Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  OnwardJourney_depiataCodelist[index].toString(),
+                                                                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
+                                                                              ),
+                                                                              Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  Retrived_Oneway_Citynamestr,
+                                                                                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
+                                                                              ),
+
+                                                                              Container(
+                                                                                height: 50,
+                                                                                width: 360,
+                                                                                color: Colors.transparent,
+                                                                                child: Row(
+                                                                                  children: [
+
+
+                                                                                    Container(
+                                                                                      height: 40,
+                                                                                      width: 40,
+                                                                                      //color: Colors.green,
+
+                                                                                      // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                                                      //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
+
+                                                                                      decoration: BoxDecoration(
+                                                                                        // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                                                                        // ]['imageUrl']),
+                                                                                          image: DecorationImage(image: NetworkImage(OnwardJourney_airlineLogoArray[index].toString()),
+                                                                                              fit: BoxFit.cover)
+                                                                                      ),
+                                                                                    ),
+
+                                                                                    Container(
+                                                                                      height: 25,
+                                                                                      width: 200,
+                                                                                      color: Colors.transparent,
+                                                                                      child: Column(
+                                                                                        children: [
+                                                                                         // SizedBox(height: 20,),
+                                                                                          Text(OnwardJourney_airlineNameArray[index].toString() + "   -" + OnwardJourney_carrierCodeArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.black45
+                                                                                          ),),
+                                                                                        ],
+                                                                                      ),
+
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              // Text(OnwardJourney_arrivaliataCodelist[index].toString() ,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black45
+                                                                              // ),),
+                                                                              // Text(RetrivedOnew_Oneway_DestinationCitynamestr,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.black45
+                                                                              // ),),
+
+                                                                              Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  OnwardJourney_arrivaliataCodelist[index].toString(),
+                                                                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
+                                                                              ),
+                                                                              Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  RetrivedOnew_Oneway_DestinationCitynamestr,
+                                                                                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
+                                                                              ),
+
+
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    height: 50,
+                                                                    width: 360,
+                                                                    color: Colors.transparent,
+                                                                    child: Container(
+                                                                      height: 45,
+                                                                      width: 250,
+                                                                      margin: const EdgeInsets.only(left: 125.0, right: 0.0),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          InkWell(
+                                                                            child: Container(
+                                                                                height: 35,
+                                                                                width: 100,
+                                                                                color: Colors.pink,
+                                                                                child: Align(
+                                                                                  alignment: Alignment.center,
+                                                                                  child: Text(
+                                                                                      "Add Cart",
+                                                                                      style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white),
+                                                                                      textAlign: TextAlign.center
+                                                                                  ),
+                                                                                )
+
+                                                                            ),
+                                                                            onTap: () async {
+
+
+                                                                              print('Tapped onward....');
+
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width: 20,
+                                                                          ),
+                                                                          InkWell(
+                                                                            child: Container(
+                                                                                height: 35,
+                                                                                width: 100,
+                                                                                color: Colors.pink,
+                                                                                child: Align(
+                                                                                  alignment: Alignment.center,
+                                                                                  child: Text(
+                                                                                      "Book",
+                                                                                      style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800,color: Colors.white),
+                                                                                      textAlign: TextAlign.center
+                                                                                  ),
+                                                                                )
+
+                                                                            ),
+                                                                            onTap: () async {
+
+
+                                                                              print('Tapped onward....');
+
+                                                                            },
+                                                                          )
+                                                                        ],
+                                                                      ),
+
+
+
+                                                                    ),
+                                                                  )
+                                                                ],
+
+                                                                //title: Text('Details'),
+                                                                //subtitle: Text('Expand this tile to see its contents'),
+                                                                // onExpansionChanged: (newExpanded) {
+                                                                //   setState(() {
+                                                                //     expanded = newExpanded;
+                                                                //   });
+                                                                // },
+                                                                // Contents
+                                                                //children: [],
+                                                              )
+                                                              // Container(
+                                                              //   height: 180,
+                                                              //   width: 320,
+                                                              //   // color: Colors.cyan,
+                                                              //   child: Column(
+                                                              //     children: [
+                                                              //       // SizedBox(
+                                                              //       //   height: 5,
+                                                              //       // ),
+                                                              //       //
+                                                              //       // Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+                                                              //       // ),),
+                                                              //       // Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.deepPurple
+                                                              //       // ),),
+                                                              //       //
+                                                              //       // Text(OnwardJourney_durationArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+                                                              //       // ),),
+                                                              //       // SizedBox(),
+                                                              //       // Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.deepPurple
+                                                              //       // ),),
+                                                              //       // Container(
+                                                              //       //   height: 80,
+                                                              //       //   width: 360,
+                                                              //       //   color: Colors.transparent,
+                                                              //       //   child: Row(
+                                                              //       //     children: [
+                                                              //       //       SizedBox(
+                                                              //       //         width: 10,
+                                                              //       //       ),
+                                                              //       //
+                                                              //       //       Container(
+                                                              //       //         height: 70,
+                                                              //       //         width: 70,
+                                                              //       //         //color: Colors.green,
+                                                              //       //
+                                                              //       //         // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                              //       //         //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
+                                                              //       //
+                                                              //       //         decoration: BoxDecoration(
+                                                              //       //           // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                                              //       //           // ]['imageUrl']),
+                                                              //       //             image: DecorationImage(image: NetworkImage(OnwardJourney_airlineLogoArray[index].toString()),
+                                                              //       //                 fit: BoxFit.cover)
+                                                              //       //         ),
+                                                              //       //       ),
+                                                              //       //
+                                                              //       //       Container(
+                                                              //       //         height: 45,
+                                                              //       //         width: 200,
+                                                              //       //         color: Colors.transparent,
+                                                              //       //         child: Column(
+                                                              //       //           children: [
+                                                              //       //             SizedBox(height: 20,),
+                                                              //       //             Text(OnwardJourney_airlineNameArray[index].toString() + "   -" + OnwardJourney_carrierCodeArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.deepPurple
+                                                              //       //             ),),
+                                                              //       //           ],
+                                                              //       //         ),
+                                                              //       //
+                                                              //       //       ),
+                                                              //             ExpansionTile(
+                                                              //               title: Text('Colors'),
+                                                              //               subtitle: Text('Expand this tile to see its contents'),
+                                                              //               // onExpansionChanged: (newExpanded) {
+                                                              //               //   setState(() {
+                                                              //               //     expanded = newExpanded;
+                                                              //               //   });
+                                                              //               // },
+                                                              //               // Contents
+                                                              //               children: [],
+                                                              //             ),
+                                                              //           //],
+                                                              //         //),
+                                                              //       //),
+                                                              //       // Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+                                                              //       // ),),
+                                                              //     ],
+                                                              //   ),
+                                                              // ),
                                                             ],
                                                           )
                                                         ],

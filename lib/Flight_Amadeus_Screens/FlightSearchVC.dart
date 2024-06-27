@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../flyScreens/Flights.dart';
 import '../flyScreens/airlineVC.dart';
+import 'OneWay_DestinationSelection/Oneway-DestinationJsonVC.dart';
 import 'OnwardJourneyVC.dart';
 import 'OriginDestSelectionVC.dart';
 import 'flightClasstypesVC.dart';
@@ -24,6 +25,11 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
   int currentpage = 0;
   String OrginAirportcitystr = '';
   String DestinationAirportcitystr = '';
+  String Retrived_Oneway_iatacodestr = '';
+  String Retrived_Oneway_Citynamestr = '';
+  String RetrivedOneway_Oneway_Destinationiatacodestr = '';
+  String RetrivedOnew_Oneway_DestinationCitynamestr = '';
+
   //TabController _tabController;
   late TabController _tabController;
 
@@ -39,6 +45,10 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
       OrginAirportcitystr = prefs.getString('sourcekey') ?? '';
       DestinationAirportcitystr = prefs.getString('destinationkey') ?? '';
 
+  Retrived_Oneway_iatacodestr = prefs.getString('Oneway_iatacodekey') ?? '';
+  Retrived_Oneway_Citynamestr = prefs.getString('Oneway_Citynamekey') ?? '';
+      RetrivedOneway_Oneway_Destinationiatacodestr = prefs.getString('Oneway_Destinationiatacodekey') ?? '';
+      RetrivedOnew_Oneway_DestinationCitynamestr = prefs.getString('Oneway_DestinationCitynamekey') ?? '';
       print('flight token received...');
       print(flightTokenstr);
       print('current page...');
@@ -208,9 +218,11 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       child: TextField(
                         controller: OriginAirportCityController,
                         readOnly: true,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 12),
 
                         onTap: () async{
+                          print('One way source clicked...');
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -221,9 +233,8 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setInt('selectedIndexkey', selectedindex);
                           prefs.setString("OnewayDeparturekey", 'OnewayDeparture');
-
-
-
+                          prefs.setString("Oneway_iatacodekey", Retrived_Oneway_iatacodestr);
+                          prefs.setString("Oneway_Citynamekey", Retrived_Oneway_Citynamestr);
                         },
                         decoration: InputDecoration(
                           filled: true,
@@ -250,21 +261,22 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                         child: TextField(
                           controller: DestinationAirportCityController,
                           readOnly: true,
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 12),
 
                           onTap: () async{
-                            print('Economy class clicked...');
+                            print('One way destination clicked...');
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SourceDestinationCityVC()),
+                                  builder: (context) => OnewwayDestinationCityVC()),
                             );
                             print('selected ind v');
                             print(selectedindex);
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.setInt('selectedIndexkey', selectedindex);
                             prefs.setString("OnewayArrivalkey", 'OnewayArrival');
-
+                            prefs.setString("Oneway_Destinationiatacodekey", RetrivedOneway_Oneway_Destinationiatacodestr);
+                            prefs.setString("Oneway_DestinationCitynamekey", RetrivedOnew_Oneway_DestinationCitynamestr);
 
                           },
                         decoration: InputDecoration(
