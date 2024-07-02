@@ -6,6 +6,9 @@ import '../flyScreens/airlineVC.dart';
 import 'OneWay_DestinationSelection/Oneway-DestinationJsonVC.dart';
 import 'OnwardJourneyVC.dart';
 import 'OriginDestSelectionVC.dart';
+import 'ReturnJourney/Roundtrip_Destinationscreens/Rndtrp_DestinationJsonVC.dart';
+import 'ReturnJourney/Roundtrip_OriginScreens/Rndtrp_OriginJsonVC.dart';
+import 'ReturnJourney_flightsearch/forwardJourneyVC.dart';
 import 'flightClasstypesVC.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +33,18 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
   String RetrivedOneway_Oneway_Destinationiatacodestr = '';
   String RetrivedOnew_Oneway_DestinationCitynamestr = '';
 
+  String RndOriginAirportcitystr = '';
+  String Retrived_Rndtrp_iatacodestr = '';
+  String Retrived_Rndtrp_Citynamestr = '';
+
+  String RndDestinationAirportcitystr = '';
+  String Retrived_Rndtrp_Destination_iatacodestr = '';
+  String Retrived_Rndtrp_Destination_Citynamestr = '';
+
+
+
+
+
   //TabController _tabController;
   late TabController _tabController;
 
@@ -42,11 +57,22 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
       passengerliststr = prefs.getString('passengerlistkey') ?? "";
       currentpage = prefs.getInt('Roundtripindexkey') ?? 0;
       flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+      //Onwway values
       OrginAirportcitystr = prefs.getString('sourcekey') ?? '';
       DestinationAirportcitystr = prefs.getString('destinationkey') ?? '';
-
   Retrived_Oneway_iatacodestr = prefs.getString('Oneway_iatacodekey') ?? '';
   Retrived_Oneway_Citynamestr = prefs.getString('Oneway_Citynamekey') ?? '';
+
+  //Roundtrip values
+
+      RndOriginAirportcitystr = prefs.getString('Rndtrp_origincitykey') ?? '';
+      Retrived_Rndtrp_iatacodestr = prefs.getString('Rndtrp_originiatacodekey') ?? '';
+      Retrived_Rndtrp_Citynamestr = prefs.getString('Rndtrp_originCitynamekey') ?? '';
+      //Roundtrip Destination city values
+      RndDestinationAirportcitystr = prefs.getString('Rndtrp_Destinationcitykey') ?? '';
+      Retrived_Rndtrp_Destination_iatacodestr = prefs.getString('Rndtrp_Destinationiatacodekey') ?? '';
+      Retrived_Rndtrp_Destination_Citynamestr = prefs.getString('Rndtrp_DestinationCitynamekey') ?? '';
+
       RetrivedOneway_Oneway_Destinationiatacodestr = prefs.getString('Oneway_Destinationiatacodekey') ?? '';
       RetrivedOnew_Oneway_DestinationCitynamestr = prefs.getString('Oneway_DestinationCitynamekey') ?? '';
       print('flight token received...');
@@ -132,16 +158,29 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
     TextEditingController returnFromdateInputController = TextEditingController();
     TextEditingController TodateInputController = TextEditingController();
     TextEditingController passengerController = TextEditingController();
+   //Oneway fields:-
     TextEditingController OriginAirportCityController = TextEditingController();
     TextEditingController DestinationAirportCityController = TextEditingController();
-    OriginAirportCityController.text = OrginAirportcitystr;
-    DestinationAirportCityController.text = DestinationAirportcitystr;
+    //OriginAirportCityController.text = OrginAirportcitystr;
+    DestinationAirportCityController.text = RetrivedOneway_Oneway_Destinationiatacodestr;
+    OriginAirportCityController.text =     Retrived_Oneway_iatacodestr;
+
+
+    //Roundtrip fields:-
+    TextEditingController Rnd_OriginAirportCityController = TextEditingController();
+    TextEditingController Rnd_DestinationAirportCityController = TextEditingController();
+    Rnd_OriginAirportCityController.text = RndOriginAirportcitystr;
+    Rnd_DestinationAirportCityController.text = RndDestinationAirportcitystr;
+    //DestinationAirportCityController.text = DestinationAirportcitystr;
+
+
     passengerController.text = passengerliststr + " ," + classstr;
     bool first = false;
     String returnfromDatestr = '';
     String toDatestr = '';
     return DefaultTabController(
       length: 2,
+      initialIndex: currentpage,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -402,10 +441,9 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                                    print(flightTokenstr);
                                   flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
                                   prefs.setString("flightTokenstrKey", flightTokenstr);
+                      prefs.setString("from_Datekey", FromdateInputController.text);
 
-
-
-                                  print('Tapped onward....');
+                      print('Tapped onward....');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -466,6 +504,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       width: 300,
                       color: Colors.white,
                         child: TextField(
+                          controller: Rnd_OriginAirportCityController,
                           readOnly: true,
                           style: TextStyle(fontSize: 16),
 
@@ -474,12 +513,20 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SourceDestinationCityVC()),
+                                  builder: (context) => RndtrpOriginCityVC()),
                             );
-                            print('selected ind v');
+                            print('Rnd trip departure....');
                             print(selectedindex);
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.setInt('selectedIndexkey', selectedindex);
+                            prefs.setString("RndtrpDeparturekey", 'RndtrpDeparture');
+                            prefs.setString("Rndtrp_originiatacodekey", Retrived_Rndtrp_iatacodestr);
+                            prefs.setString("Rndtrp_originCitynamekey", Retrived_Rndtrp_Citynamestr);
+                            //
+                            // RndOriginAirportcitystr = prefs.getString('Rndtrp_origincitykey') ?? '';
+                            // Retrived_Rndtrp_iatacodestr = prefs.getString('Rndtrp_originiatacodekey') ?? '';
+                            // Retrived_Rndtrp_Citynamestr = prefs.getString('Rndtrp_originCitynamekey') ?? '';
+
 
                           },
                         decoration: InputDecoration(
@@ -506,6 +553,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       color: Colors.white,
                         child: TextField(
                           readOnly: true,
+                          controller: Rnd_DestinationAirportCityController,
                           style: TextStyle(fontSize: 16),
 
                           onTap: () async{
@@ -513,12 +561,15 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SourceDestinationCityVC()),
+                                  builder: (context) => RndtrpDestinationCityVC()),
                             );
-                            print('selected ind v');
+                            print('Rnd trip departure....');
                             print(selectedindex);
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.setInt('selectedIndexkey', selectedindex);
+                            prefs.setString("RndtrpDestinationkey", 'RndtrpDestination');
+                            prefs.setString("Rndtrp_Destinationiatacodekey", Retrived_Rndtrp_Destination_iatacodestr);
+                            prefs.setString("Rndtrp_DestinationCitynamekey", Retrived_Rndtrp_Destination_Citynamestr);
 
                           },
                         decoration: InputDecoration(
@@ -698,24 +749,38 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                     SizedBox(
                       height: 30,
                     ),
-                    Container(
-                        height: 50,
-                        width: 300,
-                        color: Colors.deepPurple,
-                        child: Align(
+                    InkWell(
+                      child: Container(
+                          height: 50,
+                          width: 300,
+                          color: Colors.deepPurple,
+
+                          child: Align(
                             alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Text('Search',
-                                  style: TextStyle(
-                                    height: 1.2,
-                                    fontFamily: 'Dubai',
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800,
-                                  )),
-                            ))
-                    ),
+                            child: Text(
+                                "Search",
+                                style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w800,color: Colors.white),
+                                textAlign: TextAlign.center
+                            ),
+                          )
+
+                      ),
+                      onTap: () async {
+                        print("tapped on container");
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+                        print('tap..');
+                        print(flightTokenstr);
+                        flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+                        prefs.setString("flightTokenstrKey", flightTokenstr);
+                        print('Tapped onward....');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FlightforwarWardJourney()),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),

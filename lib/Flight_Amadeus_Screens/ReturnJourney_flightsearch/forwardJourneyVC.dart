@@ -17,14 +17,14 @@ import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
 
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
-class FlightOnWardJourney extends StatefulWidget {
-  const FlightOnWardJourney({super.key});
+class FlightforwarWardJourney extends StatefulWidget {
+  const FlightforwarWardJourney({super.key});
 
   @override
-  State<FlightOnWardJourney> createState() => _userDashboardState();
+  State<FlightforwarWardJourney> createState() => _userDashboardState();
 }
 
-class _userDashboardState extends State<FlightOnWardJourney> {
+class _userDashboardState extends State<FlightforwarWardJourney> {
   final baseDioSingleton = BaseSingleton();
 
   int bookingID = 0;
@@ -56,9 +56,6 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   String Retrived_Oneway_Citynamestr = '';
   String RetrivedOneway_Oneway_Destinationiatacodestr = '';
   String RetrivedOnew_Oneway_DestinationCitynamestr = '';
-  String AmadeusAPI_Careercode = '';
-  String Oneway_From_Datestr = '';
-
   var OnwardJourneylist = [];
   var OnwardJourney_depiataCodelist = [];
   var OnwardJourney_arrivaliataCodelist = [];
@@ -70,41 +67,14 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   var OnwardJourney_airlineCodeArray = [];
   var OnwardJourney_airlineNameArray = [];
   var OnwardJourney_airlineLogoArray = [];
-  var FlightEmptyArray = [];
-  var flightstatusstr = '';
-  var Departuretextstr = '';
-  var flight_departurests = '';
-
-
-
-
-  //Static values
-
-  var Static_Airline_code_array = [];
-  var Static_Airline_name_array = [];
-
 
   //List<Map<String, dynamic>> mapList = [];
   Map<String, dynamic> travellers = {};
-
-
-
-
+  String Retrived_Rndorigin_iatacodestr = '';
+  String Retrived_Rndorigin_Citynamestr = '';
+  String Retrived_Rndtrp_Destinationiatacodestr = '';
+  String Retrived_Rndtrp_DestinationCitynamestr = '';
   String sourcevalue = '';
-
-
-  //Inside widget string values
-  String airlinestring = '';
-  String departuretimestr = '';
-  String arrivaltimestr = '';
-  String durationtimestr = '';
-  String departureiatacodestr = '';
-  String arrivaliatacodestr = '';
-  String CareerCountrycodestr = '';
-  String Datastr = '';
-  String logostr = '';
-
-
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -115,24 +85,25 @@ class _userDashboardState extends State<FlightOnWardJourney> {
       flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
       print('Onward journey token...');
       print(flightTokenstr);
-      Oneway_From_Datestr = prefs.getString('from_Datekey') ?? '';
 
-      Retrived_Oneway_iatacodestr = prefs.getString('Oneway_iatacodekey') ?? '';
-      Retrived_Oneway_Citynamestr = prefs.getString('Oneway_Citynamekey') ?? '';
-      print('received values in onward...');
-      print(Retrived_Oneway_iatacodestr);
-      print(Retrived_Oneway_Citynamestr);
+      Retrived_Rndorigin_iatacodestr = prefs.getString('Rndtrp_originiatacodekey') ?? '';
+      Retrived_Rndorigin_Citynamestr = prefs.getString('Rndtrp_originCitynamekey') ?? '';
+      print('received values in forward...');
+      print(Retrived_Rndorigin_iatacodestr);
+      print(Retrived_Rndorigin_Citynamestr);
 
-  RetrivedOneway_Oneway_Destinationiatacodestr = prefs.getString('Oneway_Destinationiatacodekey') ?? '';
-  RetrivedOnew_Oneway_DestinationCitynamestr = prefs.getString('Oneway_DestinationCitynamekey') ?? '';
+      Retrived_Rndtrp_Destinationiatacodestr = prefs.getString('Rndtrp_Destinationiatacodekey') ?? '';
+      Retrived_Rndtrp_DestinationCitynamestr = prefs.getString('Rndtrp_DestinationCitynamekey') ?? '';
 
       print('received values in dest onward...');
       print(RetrivedOneway_Oneway_Destinationiatacodestr);
       print(RetrivedOnew_Oneway_DestinationCitynamestr);
+      print('received values in dest onward...');
 
 
 
-  });
+
+    });
   }
 //@override
   void initState() {
@@ -183,11 +154,11 @@ class _userDashboardState extends State<FlightOnWardJourney> {
 
   }
   Future<dynamic> _postData() async {
-      try {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
-        print('Onward journey token1...');
-        print(flightTokenstr);
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
+      print('Onward journey token1...');
+      print(flightTokenstr);
       final response = await http.post(
         Uri.parse('https://test.travel.api.amadeus.com/v2/shopping/flight-offers'),
         headers: <String, String>{
@@ -198,130 +169,69 @@ class _userDashboardState extends State<FlightOnWardJourney> {
           "Authorization": "Bearer $flightTokenstr",
 
         },
-        body: jsonEncode(<String, dynamic>
+        body: jsonEncode(<String, dynamic>{
+        "currencyCode": "USD",
+        "originDestinations": [
         {
-          "currencyCode": "USD",
-          "originDestinations": [
-            {
-              "id": "1",
-              "originLocationCode": Retrived_Oneway_iatacodestr,
-              "destinationLocationCode": RetrivedOneway_Oneway_Destinationiatacodestr,
-              // "originLocationCode": "HRE",
-              // "destinationLocationCode": "DEL",
-              "departureDateTimeRange": {
-                "date": Oneway_From_Datestr
-                // "time": "10:00:00"
-              }
-            }
-            // {
-            //   "id": "2",
-            //   "originLocationCode": "DEL",
-            //   "destinationLocationCode": "HRE",
-            //   "departureDateTimeRange": {
-            //     "date": "2024-07-02"
-            //     //"time": "17:00:00"
-            //   }
-            // }
-          ],
-          "travelers": [
-            {
-              "id": "1",
-              "travelerType": "ADULT",
-              "fareOptions": [
-                "STANDARD"
-              ]
-            }
-            // {
-            //   "id": "2",
-            //   "travelerType": "CHILD",
-            //   "fareOptions": [
-            //     "STANDARD"
-            //   ]
-            // }
-          ],
-          "sources": [
-            "GDS"
-          ],
-          "searchCriteria": {
-            "maxFlightOffers": 50,
-            "flightFilters": {
-              "cabinRestrictions": [
-                {
-                  "cabin": "BUSINESS",
-                  "coverage": "MOST_SEGMENTS",
-                  "originDestinationIds": [
-                    "1"
-                  ]
-                }
-              ],
-              "carrierRestrictions": {
-                "excludedCarrierCodes": [
-                  "AA",
-                  "TP",
-                  "AZ"
-                ]
-              }
-            }
-          }
+        "id": "1",
+        "originLocationCode": Retrived_Oneway_iatacodestr,
+        "destinationLocationCode": RetrivedOneway_Oneway_Destinationiatacodestr,
+        "departureDateTimeRange": {
+        "date": '2024-07-03'
+        // "time": "10:00:00"
         }
-
-
-
-
-          //
-          //
-          // "currencyCode": "ZAR",
-          // "originDestinations": [
-          //   {
-          //     "id": "1",
-          //     "originLocationCode": Retrived_Oneway_iatacodestr,
-          //     "destinationLocationCode": RetrivedOneway_Oneway_Destinationiatacodestr,
-          //     "departureDateTimeRange": {
-          //       "date": "2024-09-12"
-          //     }
-          //   },
-          //   // {
-          //   //   "id": "2",
-          //   //   "originLocationCode": "WAW",
-          //   //   "destinationLocationCode": "CDG",
-          //   //   "departureDateTimeRange": {
-          //   //     "date": "2024-09-17"
-          //   //   }
-          //   // }
-          // ],
-          // "travelers": [
-          //   {
-          //     "id": "1",
-          //     "travelerType": "ADULT",
-          //     "fareOptions": [
-          //       "STANDARD"
-          //     ]
-          //   }
-          // ],
-          // "sources": [
-          //   "GDS"
-          // ],
-          // "searchCriteria": {
-          //   "additionalInformation": {
-          //     "chargeableCheckedBags": false,
-          //     "brandedFares": false
-          //   },
-          //   "pricingOptions": {
-          //     "fareType": [
-          //       "PUBLISHED",
-          //       "NEGOTIATED"
-          //     ],
-          //     "includedCheckedBagsOnly": false
-          //   },
-          //   "flightFilters": {
-          //     "carrierRestrictions": {
-          //       "includedCarrierCodes": [
-          //         "LO"
-          //       ]
-          //     }
-          //   }
-          // }
-          // }
+        }
+        // {
+        //   "id": "2",
+        //   "originLocationCode": "DEL",
+        //   "destinationLocationCode": "HRE",
+        //   "departureDateTimeRange": {
+        //     "date": "2024-07-02"
+        //     //"time": "17:00:00"
+        //   }
+        // }
+        ],
+        "travelers": [
+        {
+        "id": "1",
+        "travelerType": "ADULT",
+        "fareOptions": [
+        "STANDARD"
+        ]
+        }
+        // {
+        //   "id": "2",
+        //   "travelerType": "CHILD",
+        //   "fareOptions": [
+        //     "STANDARD"
+        //   ]
+        // }
+        ],
+        "sources": [
+        "GDS"
+        ],
+        "searchCriteria": {
+        "maxFlightOffers": 50,
+        "flightFilters": {
+        "cabinRestrictions": [
+        {
+        "cabin": "BUSINESS",
+        "coverage": "MOST_SEGMENTS",
+        "originDestinationIds": [
+        "1"
+        ]
+        }
+        ],
+        "carrierRestrictions": {
+        "excludedCarrierCodes": [
+        "AA",
+        "TP",
+        "AZ"
+        ]
+        }
+        }
+        }
+        }
         ),
       );
 
@@ -332,29 +242,9 @@ class _userDashboardState extends State<FlightOnWardJourney> {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
         print('flight response data...');
-
-        var flightData = responseData['data'] ?? '';
+        var flightData = responseData['data'];
+        print('Flight availability...');
         print(flightData);
-        // FlightEmptyArray.add(flightData);
-        // print(FlightEmptyArray.length);
-        // if(FlightEmptyArray.length == 1){
-        //   print('empty array checking...');
-        //   final snackBar = SnackBar(
-        //                         content: Text('Not found flights in this route'),
-        //                       );
-        //                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }
-        // if(FlightEmptyArray.isEmpty){
-        //   print('success..');
-        // }
-        // if(flightData == []){
-        //   print('success1..');
-        //
-        // }
-        // print(flightData.toString());
-        // if(flightData == ''){
-        //   print('empty....');
-        // }
         for (var flightdataArray in flightData) {
           sourcevalue = flightdataArray['source'];
           print(sourcevalue);
@@ -425,7 +315,7 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   }
   Future<dynamic> getUserDetails() async {
 
-  //Future<Null> getUserDetails() async {
+    //Future<Null> getUserDetails() async {
     print('calling....');
     String baseUrl = 'https://staging.abisiniya.com/api/v1/amadeus/airlinelist';
     http.Response response = await http.get(Uri.parse(baseUrl));
@@ -435,93 +325,31 @@ class _userDashboardState extends State<FlightOnWardJourney> {
       var jsonData = json.decode(response.body);
       print('Airport list.....');
       print(jsonData.toString());
-
-      // for (var AirlineArray in jsonData) {
-      //   Airlinecodestr = AirlineArray['code'];
-      //   print('code...');
-      //   print(Airlinecodestr);
-      //   Static_Airline_code_array.add(Airlinecodestr);
-      //   var airlinenamestr = AirlineArray['name'];
-      //   // var airlinenamestr = AirlineArray['name'];
-      //   Static_Airline_name_array.add(airlinenamestr);
-      //
-      //
-      //
-      //
-      //
-      //   //
-      //   // if(Airlinecodestr == "KQ"){
-      //   //   var name = AirlineArray['name'];
-      //   //   print('airline..');
-      //   //   print(name);
-      //   //
-      //   //
-      //   // }
-      // }
-
-
-      // for (var AirlineArray in jsonData) {
-      //    Airlinecodestr = AirlineArray['code'];
-      //    print('code...');
-      //    print(Airlinecodestr);
-      //    OnwardJourney_airlineCodeArray.add(Airlinecodestr);
-      //    Airlinenamestr = AirlineArray['name'];
-      //    OnwardJourney_airlineNameArray.add(Airlinenamestr);
-      //    print('local airline data...');
-      //    print(OnwardJourney_airlineCodeArray);
-      //    // print('dynamic airline data...');
-      //    // print(OnwardJourney_carrierCodeArray.toList());
-      //
-      //   //
-      //   // if (OnwardJourney_airlineCodeArray.toString() == 'KQ'){
-      //   //   Airlinenamestr = AirlineArray['name'];
-      //   //   print('Airline name...');
-      //   //
-      //   //
-      //   // }
-      //    //
-      //    // print('array filter...');
-      //    // print(Set.from(OnwardJourney_airlineCodeArray).intersection(Set.from(OnwardJourney_carrierCodeArray)).toList());
-      //
-      //
-      //
-      //
-      //   // setState(() {
-      //    //   _postData();
-      //    //   OnwardJourney_airlineCodeArray.add(Airlinecodestr);
-      //    //   print('Array....1');
-      //    //   print(OnwardJourney_carrierCodeArray);
-      //    //
-      //    // });
-      //   // OnwardJourney_airlineCodeArray.add(Airlinecodestr);
-      //   // print('Array....');
-      //   print(OnwardJourney_carrierCodeArray.toString());
-      //    List<Map<String, dynamic>> mapList = [];
-      //    OnwardJourney_carrierCodeArray.forEach((e) {
-      //      Map<String, dynamic> item = {"name": e, "selected": false};
-      //      mapList.add(item);
-      //    });
-      //    for (var nameArray in mapList){
-      //      var Countrycode = nameArray['name'];
-      //      print('api Countrycode...');
-      //      print(Countrycode);
-      //      if(Countrycode == "KQ"){
-      //        print('success..');
-      //        Airlinenamestr = AirlineArray['name'];
-      //        print('airline name...');
-      //        print(Airlinenamestr);
-      //        // [OnwardJourney_airlineNameArray].add(Airlinenamestr);
-      //        // Airlinelogostr = AirlineArray['logo'];
-      //        // print('logo..');
-      //        // print(Airlinelogostr);
-      //        // OnwardJourney_airlineLogoArray.add(Airlinelogostr);
-      //        // print('calling carrier code...');
-      //      }
-      //    }
-        //print(carrierCodestr);
-      //}
-      return json.decode(response.body);
-
+      for (var AirlineArray in jsonData) {
+        Airlinecodestr = AirlineArray['code'];
+        OnwardJourney_airlineCodeArray.add(Airlinecodestr);
+        print(OnwardJourney_carrierCodeArray.toList());
+        List<Map<String, dynamic>> mapList = [];
+        OnwardJourney_carrierCodeArray.forEach((e) {
+          Map<String, dynamic> item = {"name": e, "selected": false};
+          mapList.add(item);
+        });
+        for (var nameArray in mapList){
+          var Countrycode = nameArray['name'];
+          if(Airlinecodestr == Countrycode){
+            print('success..');
+            Airlinenamestr = AirlineArray['name'];
+            print(Airlinenamestr);
+            OnwardJourney_airlineNameArray.add(Airlinenamestr);
+            Airlinelogostr = AirlineArray['logo'];
+            print('logo..');
+            print(Airlinelogostr);
+            OnwardJourney_airlineLogoArray.add(Airlinelogostr);
+            print('calling carrier code...');
+          }
+        }
+        print(carrierCodestr);
+      }
     }
   }
   @override
@@ -579,49 +407,37 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                       return Column(
                         children: <Widget>[
                           //Container(color: Colors.red, height: 50),
-                      new Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                          new Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
 
 
-                        child:Container(
-                            width: 400,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 50.0,
-                              child: Image.asset(
-                                  "images/aeroplane_image.png",
-                                  height: 125.0,
-                                  width: 400.0,
-                                  fit: BoxFit.fill
-                              ),
-                            )
-                        ),
-                      ),
+                            child:Container(
+                                width: 400,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 50.0,
+                                  child: Image.asset(
+                                      "images/aeroplane_image.png",
+                                      height: 125.0,
+                                      width: 400.0,
+                                      fit: BoxFit.fill
+                                  ),
+                                )
+                            ),
+                          ),
                           Expanded(
                             child: Container(
-                             // color: Colors.pinkAccent,
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: <Color>[Colors.white, Colors.white]),
-                                ),
+                              // color: Colors.pinkAccent,
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: <Color>[Colors.white, Colors.green]),
+                              ),
 
                               child: LayoutBuilder(
                                 builder: (context, constraint) {
-
-                                    // Departuretextstr = 'Departure To ' + ' '+  RetrivedOneway_Oneway_Destinationiatacodestr;
-                                    //
-                                    // flight_departurests = 'Price per passenger, taxes and fees included';
-
-                                  if(FlightEmptyArray.length == 1) {
-                                    flightstatusstr = 'Not found flights this route';
-                                  } else {
-                                    Departuretextstr = 'Departure To ' + ' '+  RetrivedOneway_Oneway_Destinationiatacodestr;
-
-                                    flight_departurests = 'Price per passenger, taxes and fees included';
-                                  }
-
+                                  var Departuretextstr = 'Return To ' + ' '+  RetrivedOneway_Oneway_Destinationiatacodestr;
                                   return SingleChildScrollView(
                                     physics: ScrollPhysics(),
                                     child: Column(
@@ -630,32 +446,25 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                         Container(
                                           margin: const EdgeInsets.only(left: 10.0, right: 0.0),
 
-                                          height: 80,
+                                          height: 70,
                                           width: 360,
                                           child: Column(
-                                          children: [
+                                            children: [
 
-                                            Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                Departuretextstr,
-                                                style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                flight_departurests,
-                                                style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
-                                            ),
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  Departuretextstr,
+                                                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  'Price per passenger, taxes and fees included',
+                                                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
+                                              ),
 
-                                            // Align(
-                                            //   alignment: Alignment.topLeft,
-                                            //   child: Text(
-                                            //     flightstatusstr,
-                                            //     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800),),
-                                            // ),
-
-                                          ],
+                                            ],
                                           ),
                                         ),
 
@@ -663,60 +472,12 @@ class _userDashboardState extends State<FlightOnWardJourney> {
 
                                             physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
-                                             //itemCount: snapshot.data.length + 1 ?? '',
-                                            itemCount: OnwardJourney_carrierCodeArray.length ,
+                                            // itemCount: snapshot.data['data'].length ?? '',
+                                            itemCount: OnwardJourney_dateArray.length,
                                             separatorBuilder: (BuildContext context, int index) => const Divider(),
                                             itemBuilder: (BuildContext context, int index) {
-                                              var Data = snapshot.data ;
-                                               AmadeusAPI_Careercode = OnwardJourney_carrierCodeArray[index].toString();
-                                              print('calling code...');
-                                              print(AmadeusAPI_Careercode);
-
-                                              for (var AirlineArray in Data) {
-                                                Airlinecodestr = AirlineArray['code'];
-                                                // print('airline code...');
-                                                // print(Airlinecodestr);
-                                                if(Airlinecodestr == AmadeusAPI_Careercode){
-
-                                                    print('enter name..');
-                                                    airlinestring = AirlineArray['name'];
-                                                    OnwardJourney_airlineNameArray.add(airlinestring);
-                                                    // print('airline_namestr code...');
-                                                    // print(airline_namestr);
-
-                                                    logostr = AirlineArray['logo'];
-                                                    OnwardJourney_airlineLogoArray.add(logostr);
-
-                                                }
-                                              }
-
-                                              // Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.black
-                                              // ),),
-                                              //
-
-                                              // Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.black
-                                              // ),),
-
-                                              //Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.black
-
-                                              //
-                                              //     departuretimestr = OnwardJourney_DeptimeArray[index].toString();
-                                              // arrivaltimestr = OnwardJourney_ArrivaltimeArray[index].toString();
-                                              // durationtimestr = OnwardJourney_durationArray[index].toString();
-                                              // departureiatacodestr = OnwardJourney_depiataCodelist[index].toString();
-                                              // arrivaliatacodestr = OnwardJourney_arrivaliataCodelist[index].toString();
-                                              // Datastr = OnwardJourney_dateArray[index].toString();
-                                              //  CareerCountrycodestr = OnwardJourney_carrierCodeArray[index].toString();
-                                              // // logostr = OnwardJourney_airlineLogoArray[index].toString();
-                                              // //String airlinestring = '';
-                                              // // String departuretimestr = '';
-                                              // // String arrivaltimestr = '';
-                                              // //String durationtimestr = '';
-                                              // //String departureiatacodestr = '';
-                                              // //String arrivaliatacodestr = '';
-                                              // //String CareerCountrycodestr = '';
-                                              //
-
+                                              // print('loading data from api.......');
+                                              // print(OnwardJourney_airlineNameArray[index].toString());
 
                                               return Padding(
                                                 padding: const EdgeInsets.all(1.0),
@@ -868,13 +629,13 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                                               Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  Retrived_Oneway_iatacodestr,
+                                                                                  Retrived_Rndtrp_Destinationiatacodestr,
                                                                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                                                                               ),
                                                                               Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  Retrived_Oneway_Citynamestr,
+                                                                                  Retrived_Rndtrp_DestinationCitynamestr,
                                                                                   style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
                                                                               ),
 
@@ -930,14 +691,14 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                                               Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  RetrivedOneway_Oneway_Destinationiatacodestr,
+                                                                                  Retrived_Rndorigin_iatacodestr,
                                                                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                                                                               ),
                                                                               Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  RetrivedOnew_Oneway_DestinationCitynamestr,
-                                                                                  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600),),
+                                                                                  Retrived_Rndorigin_Citynamestr,
+                                                                                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
                                                                               ),
 
 
@@ -994,7 +755,7 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            width: 5,
+                                                                            width: 125,
                                                                           ),
                                                                           InkWell(
                                                                             child: Container(
@@ -1123,7 +884,20 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                   ),
                                                 ),
                                               );
-
+                                              // return Container(
+                                              //   height: 225,
+                                              //   width: 100,
+                                              //   alignment: Alignment.center,
+                                              //   color: Colors.white,
+                                              //   child: InkWell(
+                                              //
+                                              //
+                                              //     onTap: () async{
+                                              //
+                                              //     },
+                                              //   ),
+                                              // );
+                                              //return  Text('Some text');
                                             }),
 
                                         Column(
@@ -1174,199 +948,199 @@ class _userDashboardState extends State<FlightOnWardJourney> {
 
 
 
-  //           body: isLoading
-  //               ? Center(
-  //             child: CircularProgressIndicator(),
-  //           )
-  //               : new Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       mainAxisSize: MainAxisSize.max,
-  //       children: <Widget>[
-  //
-  //       new Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
-  //
-  //
-  //         child:Container(
-  //             width: 400,
-  //             child: CircleAvatar(
-  //               backgroundColor: Colors.transparent,
-  //               radius: 50.0,
-  //               child: Image.asset(
-  //                   "images/aeroplane_image.png",
-  //                   height: 125.0,
-  //                   width: 400.0,
-  //                   fit: BoxFit.fill
-  //               ),
-  //             )
-  //         ),
-  //
-  //   ),
-  //   // Expanded(child: _isLoading
-  //   //       ? CircularProgressIndicator()
-  //   //       : ListView.builder(
-  //
-  // //       return ListView.builder(
-  // //   shrinkWrap: true,
-  // //   scrollDirection: Axis.vertical,
-  // //   itemBuilder: (context, pos) {
-  // //     return snapshot.data![pos];
-  // //   },
-  // //   );
-  // // }
-  // // case ConnectionState.waiting:
-  // // return Center(
-  // // child: CircularProgressIndicator(),
-  // // );
-  //
-  //
-  //         Expanded(child: ListView.builder(
-  //
-  //
-  //
-  //         itemCount: OnwardJourney_airlineNameArray.length,
-  //
-  //
-  //       itemBuilder: (context, index) {
-  //         // print('c  calling....');
-  //         //   isLoading = true;
-  //         //   _postData();
-  //         //   getUserDetails();
-  //         //   print(' c stoping....');
-  //         //   isLoading = false;
-  //
-  //         // setState(() {
-  //         //   print('c  calling....');
-  //         //   isLoading = true;
-  //         //   _postData();
-  //         //   getUserDetails();
-  //         //   print(' c stoping....');
-  //         //   isLoading = false;
-  //         // });
-  //         // print('calling....');
-  //         // print(OnwardJourney_carrierCodeArray[index].toString());
-  //         // print(OnwardJourney_airlineCodeArray[index].toString());
-  //         // if(((OnwardJourney_carrierCodeArray[index].toString()) == OnwardJourney_airlineCodeArray[index].toString())){
-  //         //
-  //         //   print('calling Airline names');
-  //         //   print(OnwardJourney_airlineNameArray[index].toString());
-  //         // }
-  //         return Padding(
-  //           padding: const EdgeInsets.all(1.0),
-  //           child: Card(
-  //             child: Column(
-  //               children: <Widget>[
-  //
-  //
-  //
-  //
-  //                 // insert your tree accordingly
-  //
-  //
-  //
-  //                 Column(
-  //                   children: [
-  //                     Column(
-  //
-  //                       children: [
-  //                         Container(
-  //                           height: 160,
-  //                           width: 320,
-  //                          // color: Colors.cyan,
-  //                           child: Column(
-  //
-  //
-  //                             children: [
-  //
-  //
-  //                               SizedBox(
-  //                                 height: 5,
-  //                               ),
-  //
-  //
-  //                               Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-  //                               ),),
-  //                               Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.deepPurple
-  //                               ),),
-  //
-  //                               Text(OnwardJourney_durationArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-  //                               ),),
-  //                               SizedBox(),
-  //                               Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.deepPurple
-  //                               ),),
-  //                               Container(
-  //                                 height: 50,
-  //                                 width: 360,
-  //                                 color: Colors.transparent,
-  //                                 child: Row(
-  //                                   children: [
-  //                                     SizedBox(
-  //                                       width: 10,
-  //                                     ),
-  //                                     Container(
-  //                                       height: 45,
-  //                                       width: 45,
-  //                                       color: Colors.transparent,
-  //                                         child: CircleAvatar(
-  //                                           backgroundColor: Colors.transparent,
-  //                                           radius: 50.0,
-  //                                           child: Image.asset(
-  //                                               "images/airplane.png",
-  //                                               height: 40.0,
-  //                                               width: 40.0,
-  //                                               fit: BoxFit.fill
-  //                                           ),
-  //                                         )
-  //                                     ),
-  //                                     Container(
-  //                                       height: 45,
-  //                                       width: 200,
-  //                                       color: Colors.transparent,
-  //                                       child: Column(
-  //                                         children: [
-  //                                           SizedBox(height: 10,),
-  //                                           Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.deepPurple
-  //                                           ),),
-  //                                         ],
-  //                                       ),
-  //
-  //                                       // child: Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-  //                                        //),),
-  //                                     )
-  //
-  //                                   ],
-  //                                 ),
-  //
-  //                               ),
-  //
-  //
-  //                               // Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-  //                               // ),),
-  //
-  //
-  //
-  //                             ],
-  //                           ),
-  //                         ),
-  //
-  //                       ],
-  //                     )
-  //                   ],
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //
-  //
-  //       },
-  //     ),
-  //   )
-  //
-  //   ],
-  //
-  //
-  //   ),
+          //           body: isLoading
+          //               ? Center(
+          //             child: CircularProgressIndicator(),
+          //           )
+          //               : new Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       mainAxisSize: MainAxisSize.max,
+          //       children: <Widget>[
+          //
+          //       new Padding(
+          //       padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+          //
+          //
+          //         child:Container(
+          //             width: 400,
+          //             child: CircleAvatar(
+          //               backgroundColor: Colors.transparent,
+          //               radius: 50.0,
+          //               child: Image.asset(
+          //                   "images/aeroplane_image.png",
+          //                   height: 125.0,
+          //                   width: 400.0,
+          //                   fit: BoxFit.fill
+          //               ),
+          //             )
+          //         ),
+          //
+          //   ),
+          //   // Expanded(child: _isLoading
+          //   //       ? CircularProgressIndicator()
+          //   //       : ListView.builder(
+          //
+          // //       return ListView.builder(
+          // //   shrinkWrap: true,
+          // //   scrollDirection: Axis.vertical,
+          // //   itemBuilder: (context, pos) {
+          // //     return snapshot.data![pos];
+          // //   },
+          // //   );
+          // // }
+          // // case ConnectionState.waiting:
+          // // return Center(
+          // // child: CircularProgressIndicator(),
+          // // );
+          //
+          //
+          //         Expanded(child: ListView.builder(
+          //
+          //
+          //
+          //         itemCount: OnwardJourney_airlineNameArray.length,
+          //
+          //
+          //       itemBuilder: (context, index) {
+          //         // print('c  calling....');
+          //         //   isLoading = true;
+          //         //   _postData();
+          //         //   getUserDetails();
+          //         //   print(' c stoping....');
+          //         //   isLoading = false;
+          //
+          //         // setState(() {
+          //         //   print('c  calling....');
+          //         //   isLoading = true;
+          //         //   _postData();
+          //         //   getUserDetails();
+          //         //   print(' c stoping....');
+          //         //   isLoading = false;
+          //         // });
+          //         // print('calling....');
+          //         // print(OnwardJourney_carrierCodeArray[index].toString());
+          //         // print(OnwardJourney_airlineCodeArray[index].toString());
+          //         // if(((OnwardJourney_carrierCodeArray[index].toString()) == OnwardJourney_airlineCodeArray[index].toString())){
+          //         //
+          //         //   print('calling Airline names');
+          //         //   print(OnwardJourney_airlineNameArray[index].toString());
+          //         // }
+          //         return Padding(
+          //           padding: const EdgeInsets.all(1.0),
+          //           child: Card(
+          //             child: Column(
+          //               children: <Widget>[
+          //
+          //
+          //
+          //
+          //                 // insert your tree accordingly
+          //
+          //
+          //
+          //                 Column(
+          //                   children: [
+          //                     Column(
+          //
+          //                       children: [
+          //                         Container(
+          //                           height: 160,
+          //                           width: 320,
+          //                          // color: Colors.cyan,
+          //                           child: Column(
+          //
+          //
+          //                             children: [
+          //
+          //
+          //                               SizedBox(
+          //                                 height: 5,
+          //                               ),
+          //
+          //
+          //                               Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+          //                               ),),
+          //                               Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.deepPurple
+          //                               ),),
+          //
+          //                               Text(OnwardJourney_durationArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+          //                               ),),
+          //                               SizedBox(),
+          //                               Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.deepPurple
+          //                               ),),
+          //                               Container(
+          //                                 height: 50,
+          //                                 width: 360,
+          //                                 color: Colors.transparent,
+          //                                 child: Row(
+          //                                   children: [
+          //                                     SizedBox(
+          //                                       width: 10,
+          //                                     ),
+          //                                     Container(
+          //                                       height: 45,
+          //                                       width: 45,
+          //                                       color: Colors.transparent,
+          //                                         child: CircleAvatar(
+          //                                           backgroundColor: Colors.transparent,
+          //                                           radius: 50.0,
+          //                                           child: Image.asset(
+          //                                               "images/airplane.png",
+          //                                               height: 40.0,
+          //                                               width: 40.0,
+          //                                               fit: BoxFit.fill
+          //                                           ),
+          //                                         )
+          //                                     ),
+          //                                     Container(
+          //                                       height: 45,
+          //                                       width: 200,
+          //                                       color: Colors.transparent,
+          //                                       child: Column(
+          //                                         children: [
+          //                                           SizedBox(height: 10,),
+          //                                           Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.deepPurple
+          //                                           ),),
+          //                                         ],
+          //                                       ),
+          //
+          //                                       // child: Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+          //                                        //),),
+          //                                     )
+          //
+          //                                   ],
+          //                                 ),
+          //
+          //                               ),
+          //
+          //
+          //                               // Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
+          //                               // ),),
+          //
+          //
+          //
+          //                             ],
+          //                           ),
+          //                         ),
+          //
+          //                       ],
+          //                     )
+          //                   ],
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         );
+          //
+          //
+          //       },
+          //     ),
+          //   )
+          //
+          //   ],
+          //
+          //
+          //   ),
 
 
 
