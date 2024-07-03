@@ -169,8 +169,11 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
     //Roundtrip fields:-
     TextEditingController Rnd_OriginAirportCityController = TextEditingController();
     TextEditingController Rnd_DestinationAirportCityController = TextEditingController();
-    Rnd_OriginAirportCityController.text = RndOriginAirportcitystr;
-    Rnd_DestinationAirportCityController.text = RndDestinationAirportcitystr;
+    // Rnd_OriginAirportCityController.text = RndOriginAirportcitystr;
+    // Rnd_DestinationAirportCityController.text = RndDestinationAirportcitystr;
+    Rnd_OriginAirportCityController.text = Retrived_Rndtrp_iatacodestr;
+    Rnd_DestinationAirportCityController.text = Retrived_Rndtrp_Destination_iatacodestr;
+
     //DestinationAirportCityController.text = DestinationAirportcitystr;
 
 
@@ -773,7 +776,16 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                         print(flightTokenstr);
                         flightTokenstr = prefs.getString('flightTokenstrKey') ?? '';
                         prefs.setString("flightTokenstrKey", flightTokenstr);
-                        print('Tapped onward....');
+                        prefs.setString("Oneway_iatacodekey", Retrived_Oneway_iatacodestr);
+                        prefs.setString("Oneway_Citynamekey", Retrived_Oneway_Citynamestr);
+                        prefs.setString("Oneway_Destinationiatacodekey", RetrivedOneway_Oneway_Destinationiatacodestr);
+                        prefs.setString("Oneway_DestinationCitynamekey", RetrivedOnew_Oneway_DestinationCitynamestr);
+
+                        prefs.setString("returnfrom_Datekey", returnFromdateInputController.text);
+                        prefs.setString("returnto_Datekey", TodateInputController.text);
+
+
+                        print('forward Tapped onward....');
                         Navigator.push(
                           context,
                           MaterialPageRoute(

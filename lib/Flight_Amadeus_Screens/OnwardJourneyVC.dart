@@ -139,8 +139,13 @@ class _userDashboardState extends State<FlightOnWardJourney> {
     // TODO: implement initState
     super.initState();
     _retrieveValues();
-    _postData();
-    getUserDetails();
+    setState(() {
+      _postData();
+
+    });
+    setState(() {
+      getUserDetails();
+    });
     Map<String, dynamic> _portaInfoMap = {
       "name": "Vitalflux.com",
       "domains": ["Data Science", "Mobile", "Web"],
@@ -376,7 +381,10 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                 var carrierCodestr = DeparturArray['carrierCode'];
                 print('carrierCode...');
                 print(carrierCodestr);
-                OnwardJourney_carrierCodeArray.add(carrierCodestr);
+                setState(() {
+                  OnwardJourney_carrierCodeArray.add(carrierCodestr);
+
+                });
                 var Dep = DeparturArray['departure'];
                 print('Departure....');
                 print(Dep);
@@ -661,34 +669,39 @@ class _userDashboardState extends State<FlightOnWardJourney> {
 
                                         ListView.separated(
 
+
                                             physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                              //itemCount: snapshot.data.length + 1 ?? '',
                                             itemCount: OnwardJourney_carrierCodeArray.length ,
                                             separatorBuilder: (BuildContext context, int index) => const Divider(),
                                             itemBuilder: (BuildContext context, int index) {
-                                              var Data = snapshot.data ;
+
+
+                                               var Data = snapshot.data ;
                                                AmadeusAPI_Careercode = OnwardJourney_carrierCodeArray[index].toString();
-                                              print('calling code...');
-                                              print(AmadeusAPI_Careercode);
+                                               print('calling code...');
+                                               print(AmadeusAPI_Careercode);
 
-                                              for (var AirlineArray in Data) {
-                                                Airlinecodestr = AirlineArray['code'];
-                                                // print('airline code...');
-                                                // print(Airlinecodestr);
-                                                if(Airlinecodestr == AmadeusAPI_Careercode){
+                                               for (var AirlineArray in Data) {
+                                                 Airlinecodestr = AirlineArray['code'];
+                                                 // print('airline code...');
+                                                 // print(Airlinecodestr);
+                                                 if(Airlinecodestr == AmadeusAPI_Careercode){
 
-                                                    print('enter name..');
-                                                    airlinestring = AirlineArray['name'];
-                                                    OnwardJourney_airlineNameArray.add(airlinestring);
-                                                    // print('airline_namestr code...');
-                                                    // print(airline_namestr);
+                                                   print('enter name..');
+                                                   airlinestring = AirlineArray['name'];
+                                                   OnwardJourney_airlineNameArray.add(airlinestring);
+                                                   // print('airline_namestr code...');
+                                                   // print(airline_namestr);
 
-                                                    logostr = AirlineArray['logo'];
-                                                    OnwardJourney_airlineLogoArray.add(logostr);
+                                                   logostr = AirlineArray['logo'];
+                                                   OnwardJourney_airlineLogoArray.add(logostr);
 
-                                                }
-                                              }
+                                                 }
+                                               }
+
+
 
                                               // Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.black
                                               // ),),
