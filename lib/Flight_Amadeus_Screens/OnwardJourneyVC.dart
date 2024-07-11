@@ -59,6 +59,9 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   String AmadeusAPI_Careercode = '';
   String Oneway_From_Datestr = '';
 
+
+  var OnwardJourney_postrequestrequestAPI = [];
+
   var OnwardJourneylist = [];
   var OnwardJourney_depiataCodelist = [];
   var OnwardJourney_arrivaliataCodelist = [];
@@ -91,8 +94,6 @@ class _userDashboardState extends State<FlightOnWardJourney> {
 
 
   String sourcevalue = '';
-
-
   //Inside widget string values
   String airlinestring = '';
   String departuretimestr = '';
@@ -103,8 +104,10 @@ class _userDashboardState extends State<FlightOnWardJourney> {
   String CareerCountrycodestr = '';
   String Datastr = '';
   String logostr = '';
-
-
+  String Deptimeconvert = '';
+  String arrivalcode = '';
+  String Datestr = '';
+  String depiataCode = '';
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -145,6 +148,21 @@ class _userDashboardState extends State<FlightOnWardJourney> {
     });
     setState(() {
       getUserDetails();
+    });
+
+    setState(() {
+      // OnwardJourney_carrierCodeArray.add(carrierCodestr);
+      // OnwardJourney_airlineNameArray.add(airlinestring);
+      // OnwardJourney_airlineLogoArray.add(logostr);
+      // OnwardJourney_dateArray.add(Datestr);
+      // OnwardJourney_DeptimeArray.add(Deptimeconvert);
+      // OnwardJourney_arrivaliataCodelist.add(arrivalcode);
+      // OnwardJourney_depiataCodelist.add(depiataCode);
+
+
+
+
+
     });
     Map<String, dynamic> _portaInfoMap = {
       "name": "Vitalflux.com",
@@ -330,7 +348,7 @@ class _userDashboardState extends State<FlightOnWardJourney> {
         ),
       );
 
-      print('Flight search API response.......');
+      print('post data api Flight search API response.......');
 
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -388,15 +406,15 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                 var Dep = DeparturArray['departure'];
                 print('Departure....');
                 print(Dep);
-                var depiataCode = Dep['iataCode'];
+                depiataCode = Dep['iataCode'];
                 print('depiataCode...');
                 print(depiataCode);
                 OnwardJourney_depiataCodelist.add(depiataCode);
                 var departuretime = Dep['at'];
                 print('departure time..');
                 print(departuretime);
-                var Deptimeconvert = (new DateFormat.Hm().format(DateTime.parse(departuretime)));
-                var Datestr = (new DateFormat.yMd().format(DateTime.parse(departuretime)));
+                Deptimeconvert = (new DateFormat.Hm().format(DateTime.parse(departuretime)));
+                Datestr = (new DateFormat.yMd().format(DateTime.parse(departuretime)));
                 print('date.');
                 print(Datestr);
                 OnwardJourney_dateArray.add(Datestr);
@@ -406,7 +424,7 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                 var arrival = DeparturArray['arrival'];
                 print('arrival....');
                 print(arrival);
-                var arrivalcode = arrival['iataCode'];
+                arrivalcode = arrival['iataCode'];
                 print('arrivalcode...');
                 print(arrivalcode);
                 OnwardJourney_arrivaliataCodelist.add(arrivalcode);
@@ -421,6 +439,8 @@ class _userDashboardState extends State<FlightOnWardJourney> {
             }
           }
         }
+        return json.decode(response.body);
+
       } else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
@@ -443,6 +463,7 @@ class _userDashboardState extends State<FlightOnWardJourney> {
       var jsonData = json.decode(response.body);
       print('Airport list.....');
       print(jsonData.toString());
+
 
       // for (var AirlineArray in jsonData) {
       //   Airlinecodestr = AirlineArray['code'];
@@ -678,29 +699,35 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                             itemBuilder: (BuildContext context, int index) {
 
 
+                                              print('post data calling...');
+                                              print(OnwardJourney_depiataCodelist[index].toString());
+                                               //
+                                               // var Data = snapshot.data ;
+                                               // AmadeusAPI_Careercode = OnwardJourney_depiataCodelist[index].toString();
+                                               // print('calling code...');
+                                               // print(AmadeusAPI_Careercode);
+
                                                var Data = snapshot.data ;
-                                               AmadeusAPI_Careercode = OnwardJourney_carrierCodeArray[index].toString();
-                                               print('calling code...');
-                                               print(AmadeusAPI_Careercode);
+                                              AmadeusAPI_Careercode = OnwardJourney_carrierCodeArray[index].toString();
+                                              print('calling code...');
+                                              print(AmadeusAPI_Careercode);
 
-                                               for (var AirlineArray in Data) {
-                                                 Airlinecodestr = AirlineArray['code'];
-                                                 // print('airline code...');
-                                                 // print(Airlinecodestr);
-                                                 if(Airlinecodestr == AmadeusAPI_Careercode){
+                                              for (var AirlineArray in Data) {
+                                                Airlinecodestr = AirlineArray['code'];
+                                                // print('airline code...');
+                                                // print(Airlinecodestr);
+                                                if(Airlinecodestr == AmadeusAPI_Careercode){
+                                                  print('enter name..');
+                                                  airlinestring = AirlineArray['name'];
+                                                  OnwardJourney_airlineNameArray.add(airlinestring);
+                                                  // print('airline_namestr code...');
+                                                  // print(airline_namestr);
 
-                                                   print('enter name..');
-                                                   airlinestring = AirlineArray['name'];
-                                                   OnwardJourney_airlineNameArray.add(airlinestring);
-                                                   // print('airline_namestr code...');
-                                                   // print(airline_namestr);
+                                                  logostr = AirlineArray['logo'];
+                                                  OnwardJourney_airlineLogoArray.add(logostr);
 
-                                                   logostr = AirlineArray['logo'];
-                                                   OnwardJourney_airlineLogoArray.add(logostr);
-
-                                                 }
-                                               }
-
+                                                }
+                                              }
 
 
                                               // Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.black
@@ -757,8 +784,8 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                               SizedBox(),
                                                               Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.black
                                                               ),),
-                                                              // Text(OnwardJourney_arrivaliataCodelist[index].toString() + '                                          ' + OnwardJourney_depiataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.black
-                                                              // ),),
+                                                              Text(OnwardJourney_arrivaliataCodelist[index].toString() + '                                          ' + OnwardJourney_depiataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.black
+                                                              ),),
                                                               Container(
                                                                 height: 80,
                                                                 width: 360,
@@ -1050,84 +1077,6 @@ class _userDashboardState extends State<FlightOnWardJourney> {
                                                                 // Contents
                                                                 //children: [],
                                                               )
-                                                              // Container(
-                                                              //   height: 180,
-                                                              //   width: 320,
-                                                              //   // color: Colors.cyan,
-                                                              //   child: Column(
-                                                              //     children: [
-                                                              //       // SizedBox(
-                                                              //       //   height: 5,
-                                                              //       // ),
-                                                              //       //
-                                                              //       // Text(OnwardJourney_dateArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                              //       // ),),
-                                                              //       // Text(OnwardJourney_DeptimeArray[index].toString() + '-----------------> ' + OnwardJourney_ArrivaltimeArray[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.deepPurple
-                                                              //       // ),),
-                                                              //       //
-                                                              //       // Text(OnwardJourney_durationArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                              //       // ),),
-                                                              //       // SizedBox(),
-                                                              //       // Text(OnwardJourney_depiataCodelist[index].toString() + '                                          ' + OnwardJourney_arrivaliataCodelist[index].toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.deepPurple
-                                                              //       // ),),
-                                                              //       // Container(
-                                                              //       //   height: 80,
-                                                              //       //   width: 360,
-                                                              //       //   color: Colors.transparent,
-                                                              //       //   child: Row(
-                                                              //       //     children: [
-                                                              //       //       SizedBox(
-                                                              //       //         width: 10,
-                                                              //       //       ),
-                                                              //       //
-                                                              //       //       Container(
-                                                              //       //         height: 70,
-                                                              //       //         width: 70,
-                                                              //       //         //color: Colors.green,
-                                                              //       //
-                                                              //       //         // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                              //       //         //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
-                                                              //       //
-                                                              //       //         decoration: BoxDecoration(
-                                                              //       //           // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
-                                                              //       //           // ]['imageUrl']),
-                                                              //       //             image: DecorationImage(image: NetworkImage(OnwardJourney_airlineLogoArray[index].toString()),
-                                                              //       //                 fit: BoxFit.cover)
-                                                              //       //         ),
-                                                              //       //       ),
-                                                              //       //
-                                                              //       //       Container(
-                                                              //       //         height: 45,
-                                                              //       //         width: 200,
-                                                              //       //         color: Colors.transparent,
-                                                              //       //         child: Column(
-                                                              //       //           children: [
-                                                              //       //             SizedBox(height: 20,),
-                                                              //       //             Text(OnwardJourney_airlineNameArray[index].toString() + "   -" + OnwardJourney_carrierCodeArray[index].toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.deepPurple
-                                                              //       //             ),),
-                                                              //       //           ],
-                                                              //       //         ),
-                                                              //       //
-                                                              //       //       ),
-                                                              //             ExpansionTile(
-                                                              //               title: Text('Colors'),
-                                                              //               subtitle: Text('Expand this tile to see its contents'),
-                                                              //               // onExpansionChanged: (newExpanded) {
-                                                              //               //   setState(() {
-                                                              //               //     expanded = newExpanded;
-                                                              //               //   });
-                                                              //               // },
-                                                              //               // Contents
-                                                              //               children: [],
-                                                              //             ),
-                                                              //           //],
-                                                              //         //),
-                                                              //       //),
-                                                              //       // Text(OnwardJourney_airlineNameArray[index].toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300,color: Colors.deepPurple
-                                                              //       // ),),
-                                                              //     ],
-                                                              //   ),
-                                                              // ),
                                                             ],
                                                           )
                                                         ],

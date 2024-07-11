@@ -20,9 +20,12 @@ class _HomePageState extends State<SourceDestinationCityVC> {
   TextEditingController controller = new TextEditingController();
   String OnewayDeparturestr = '';
   String OnewayArrivalstr = '';
-  bool _isLoading = true;
+  bool isLoading = false;
   String Oneway_Cityname = '';
   String Oneway_iatacode = '';
+  String Oneway_Airportnamestr = '';
+  List<String> dogsBreedList = [];
+  List<String> tempList = [];
 
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -39,21 +42,53 @@ class _HomePageState extends State<SourceDestinationCityVC> {
       // Get json result and convert it to model. Then add
 
 
-    Future<dynamic> getUserDetails() async {
+  //   Future<dynamic> getUserDetails() async {
+  //
+  //     print('calling....');
+  //   // final response = await http.get(url as Uri);
+  //   // final responseJson = json.decode(response.body);
+  //   // print('response data...');
+  //   // print(responseJson);
+  //   //final String url = 'https://jsonplaceholder.typicode.com/users';
+  //
+  //
+  //   String baseUrl = 'https://staging.abisiniya.com/api/v1/amadeus/airportlist';
+  //   http.Response response = await http.get(Uri.parse(baseUrl));
+  //     if (response.statusCode == 200) {
+  //
+  //       List<String> items = [];
+  //     var jsonData = json.decode(response.body);
+  //     print('Airport list.....');
+  //     print(jsonData.toString());
+  //     setState(() {
+  //       for (Map user in jsonData) {
+  //         _userDetails.add(UserDetails.fromJson(user as Map<String, dynamic>));
+  //
+  //       }
+  //     }
+  //     );
+  //   }
+  // }
 
-      print('calling....');
-    // final response = await http.get(url as Uri);
-    // final responseJson = json.decode(response.body);
-    // print('response data...');
-    // print(responseJson);
-    //final String url = 'https://jsonplaceholder.typicode.com/users';
+     Future<dynamic> OriginlocationAPI() async {
 
+ // _fetchDogsBreed() async{
+    setState(() {
+      isLoading = true;
+    });
+    //tempList = List<String>();
+    //List<String> tempList = [];
+    tempList = [];
 
+    //var baseUrl = "https://dog.ceo/api/breeds/list/all";
     String baseUrl = 'https://staging.abisiniya.com/api/v1/amadeus/airportlist';
-    http.Response response = await http.get(Uri.parse(baseUrl));
-      if (response.statusCode == 200) {
 
-        List<String> items = [];
+
+    http.Response response = await http.get(Uri.parse(baseUrl));
+    //final response = await http.get('https://dog.ceo/api/breeds/list/all');
+    if (response.statusCode == 200) {
+
+      List<String> items = [];
       var jsonData = json.decode(response.body);
       print('Airport list.....');
       print(jsonData.toString());
@@ -63,15 +98,29 @@ class _HomePageState extends State<SourceDestinationCityVC> {
 
         }
       }
+
+
+
       );
     }
+    else{
+      throw Exception("Failed to load Dogs Breeds.");
+    }
+    setState(() {
+      //_userDetails = _searchResult;
+      isLoading = false;
+    });
   }
+
+
+
 
   @override
   void initState() {
     super.initState();
 
-    getUserDetails();
+    //getUserDetails();
+    OriginlocationAPI();
     _retrieveValues();
   }
 
@@ -122,7 +171,11 @@ class _HomePageState extends State<SourceDestinationCityVC> {
 
 
   Widget _buildUsersList() {
-    return new ListView.builder(
+    return Center(
+      child: isLoading?
+      CircularProgressIndicator():
+
+      ListView.builder(
       itemCount: _userDetails.length,
       itemBuilder: (context, index) {
         return new Card(
@@ -137,26 +190,33 @@ class _HomePageState extends State<SourceDestinationCityVC> {
               leading: Icon(Icons.flight),
               title: new Text(_userDetails[index].Name +
                   '  - ' +
-                  _userDetails[index].iata),
+                  _userDetails[index].iata + '  - ' +
+                  _userDetails[index].City),
               onTap: () async {
 
                 print('selected value....');
                 print((_userDetails[index].Name +
                     '  - ' +
                     _userDetails[index].iata));
-                controller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata;
+                controller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata + '  - ' + _userDetails[index].City;
+                Oneway_Airportnamestr = _userDetails[index].Name;
                 Oneway_iatacode = _userDetails[index].iata;
-                Oneway_Cityname = _userDetails[index].Name;
+                Oneway_Cityname = _userDetails[index].City;
+
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString("sourcekey", controller.text);
+                prefs.setString("Oneway_iatacodekey", Oneway_iatacode);
+                prefs.setString("Oneway_Citynamekey", Oneway_Cityname);
+                prefs.setString("Oneway_Oneway_Airportnamestrkey", Oneway_Airportnamestr);
+
+
 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => FlightSearchVC()),
                 );
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString("sourcekey", controller.text);
-                prefs.setString("Oneway_iatacodekey", Oneway_iatacode);
-                prefs.setString("Oneway_Citynamekey", Oneway_Cityname);
+
 
 
               }
@@ -166,6 +226,7 @@ class _HomePageState extends State<SourceDestinationCityVC> {
           margin: const EdgeInsets.all(0.0),
         );
       },
+      )
     );
   }
 
@@ -187,25 +248,25 @@ class _HomePageState extends State<SourceDestinationCityVC> {
               //     _searchResult[i].firstName),
 
               title: new Text(
-                  _searchResult[index].Name + '   -' +(_searchResult[index].iata)),
+                  _searchResult[index].Name + '   -' +(_searchResult[index].iata + ' -' + _searchResult[index].City)),
               onTap: () async{
                 print('filter....');
-                print(controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata);
-                controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata;
+                print(controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata + '  -' +_searchResult[index].City);
+                controller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata + ' -' + _searchResult[index].City;
                 Oneway_iatacode = _searchResult[index].iata;
                 Oneway_Cityname = _searchResult[index].Name;
+
+
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString("sourcekey", controller.text);
+                prefs.setString("Oneway_iatacodekey", Oneway_iatacode);
+                prefs.setString("Oneway_Citynamekey", Oneway_Cityname);
 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => FlightSearchVC()),
                 );
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString("sourcekey", controller.text);
-                prefs.setString("Oneway_iatacodekey", Oneway_iatacode);
-                prefs.setString("Oneway_Citynamekey", Oneway_Cityname);
-
-
               }
           ),
 
@@ -295,7 +356,7 @@ class _HomePageState extends State<SourceDestinationCityVC> {
 
     _userDetails.forEach((userDetail) {
       if (userDetail.Name.contains(text) ||
-          userDetail.iata.contains(text)) _searchResult.add(userDetail);
+          userDetail.iata.contains(text)|| userDetail.City.contains(text)) _searchResult.add(userDetail);
 
     }
 

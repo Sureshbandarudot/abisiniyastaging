@@ -23,7 +23,10 @@ class _HomePageState extends State<OnewwayDestinationCityVC> {
   String OnewayArrivalstr = '';
   String Oneway_Destinationiatacode = '';
   String Oneway_DestinationCityname = '';
-  bool _isLoading = true;
+  String Airportlistdata = '';
+  bool isLoading = false;
+  var Array = [];
+
 
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -40,18 +43,22 @@ class _HomePageState extends State<OnewwayDestinationCityVC> {
   // Get json result and convert it to model. Then add
 
 
-  Future<dynamic> getUserDetails() async {
+  Future<dynamic> OriginlocationAPI() async {
 
-    print('calling....');
-    // final response = await http.get(url as Uri);
-    // final responseJson = json.decode(response.body);
-    // print('response data...');
-    // print(responseJson);
-    //final String url = 'https://jsonplaceholder.typicode.com/users';
+    // _fetchDogsBreed() async{
+    setState(() {
+      isLoading = true;
+    });
+    //tempList = List<String>();
+    //List<String> tempList = [];
+    //tempList = [];
 
-
+    //var baseUrl = "https://dog.ceo/api/breeds/list/all";
     String baseUrl = 'https://staging.abisiniya.com/api/v1/amadeus/airportlist';
+
+
     http.Response response = await http.get(Uri.parse(baseUrl));
+    //final response = await http.get('https://dog.ceo/api/breeds/list/all');
     if (response.statusCode == 200) {
 
       List<String> items = [];
@@ -64,16 +71,25 @@ class _HomePageState extends State<OnewwayDestinationCityVC> {
 
         }
       }
+
+
+
       );
     }
+    else{
+      throw Exception("Failed to load Dogs Breeds.");
+    }
+    setState(() {
+      //_userDetails = _searchResult;
+      isLoading = false;
+    });
   }
+
 
   @override
   void initState() {
     super.initState();
-
-    getUserDetails();
-    _retrieveValues();
+    OriginlocationAPI();
   }
 
   // Widget _buildUsersList() {
@@ -120,55 +136,142 @@ class _HomePageState extends State<OnewwayDestinationCityVC> {
   //   );
   // }
   //
-
-
   Widget _buildUsersList() {
-    return new ListView.builder(
-      itemCount: _userDetails.length,
-      itemBuilder: (context, index) {
-        return new Card(
-          child: new ListTile(
-            // leading: new CircleAvatar(
-            //   // backgroundImage: new NetworkImage(
-            //   //   _userDetails[index].profileUrl,
-            //   // ),
-            // ),
-            //title: new Text(_userDetails[index].Name),
+    return Center(
+        child: isLoading?
+        CircularProgressIndicator():
 
-              leading: Icon(Icons.flight),
-              title: new Text(_userDetails[index].Name +
-                  '  - ' +
-                  _userDetails[index].iata),
-              onTap: () async {
+        ListView.builder(
+          itemCount: _userDetails.length,
+          itemBuilder: (context, index) {
+            return new Card(
+              child: new ListTile(
+                // leading: new CircleAvatar(
+                //   // backgroundImage: new NetworkImage(
+                //   //   _userDetails[index].profileUrl,
+                //   // ),
+                // ),
+                //title: new Text(_userDetails[index].Name),
 
-                print('selected value....');
-                print((_userDetails[index].Name +
-                    '  - ' +
-                    _userDetails[index].iata));
-                OnewayDestinationcontroller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata;
+                  leading: Icon(Icons.flight),
+                  title: new Text(_userDetails[index].Name +
+                      '  - ' +
+                      _userDetails[index].iata + ' -' + _userDetails[index].City),
+                onTap: () async {
+                  //
+                                print('selected value....');
+                                print((_userDetails[index].Name +
+                                    '  - ' +
+                                    _userDetails[index].iata + ' + ' + _userDetails[index].City));
+                                OnewayDestinationcontroller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata + ' -' + _userDetails[index].City;
 
-                Oneway_Destinationiatacode = _userDetails[index].iata;
-                Oneway_DestinationCityname = _userDetails[index].Name;
+                                Oneway_Destinationiatacode = _userDetails[index].iata;
+                                Oneway_DestinationCityname = _userDetails[index].Name;
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FlightSearchVC()),
-                );
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString("destinationkey", OnewayDestinationcontroller.text);
-                prefs.setString("Oneway_Destinationiatacodekey", Oneway_Destinationiatacode);
-                prefs.setString("Oneway_DestinationCitynamekey", Oneway_DestinationCityname);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FlightSearchVC()),
+                                );
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setString("destinationkey", OnewayDestinationcontroller.text);
+                                prefs.setString("Oneway_Destinationiatacodekey", Oneway_Destinationiatacode);
+                                prefs.setString("Oneway_DestinationCitynamekey", Oneway_DestinationCityname);
 
-              }
-          ),
+                              }
+              ),
 
 
-          margin: const EdgeInsets.all(0.0),
-        );
-      },
+              margin: const EdgeInsets.all(0.0),
+            );
+          },
+        )
     );
   }
+
+  // Widget _buildUsersList() {
+  //
+  //   return Stack(
+  //     children: <Widget>[
+  //   ListView.builder(
+  //   itemCount: _userDetails.length,
+  //     itemBuilder: (context, index) {
+  //        // isLoading: true;
+  //       Airportlistdata = (_userDetails[index].Name + '  - ' + _userDetails[index].iata);
+  //       print('data....');
+  //       print(Airportlistdata);
+  //       Array.add(Airportlistdata);
+  //       //
+  //       //  isLoading: false;
+  //
+  //        // if (Airportlistdata != ''){
+  //        //   print('true...');
+  //        //   isLoading: true;
+  //        //
+  //        // }else {
+  //        //   print('false...');
+  //        //   isLoading: false;
+  //        //
+  //        // }
+  //
+  //
+  //       return new Card(
+  //         child: new ListTile(
+  //           // leading: new CircleAvatar(
+  //           //   // backgroundImage: new NetworkImage(
+  //           //   //   _userDetails[index].profileUrl,
+  //           //   // ),
+  //           // ),
+  //           title: new Text(Array[index].toString()),
+  //
+  //           //leading: Icon(Icons.flight),
+  //             //title: new Text(Airportlistdata),
+  //
+  //
+  //             onTap: () async {
+  //
+  //               print('selected value....');
+  //               print((_userDetails[index].Name +
+  //                   '  - ' +
+  //                   _userDetails[index].iata));
+  //               OnewayDestinationcontroller.text = _userDetails[index].Name + '  - ' + _userDetails[index].iata;
+  //
+  //               Oneway_Destinationiatacode = _userDetails[index].iata;
+  //               Oneway_DestinationCityname = _userDetails[index].Name;
+  //
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                     builder: (context) => FlightSearchVC()),
+  //               );
+  //               SharedPreferences prefs = await SharedPreferences.getInstance();
+  //               prefs.setString("destinationkey", OnewayDestinationcontroller.text);
+  //               prefs.setString("Oneway_Destinationiatacodekey", Oneway_Destinationiatacode);
+  //               prefs.setString("Oneway_DestinationCitynamekey", Oneway_DestinationCityname);
+  //
+  //             }
+  //         ),
+  //
+  //
+  //         margin: const EdgeInsets.all(0.0),
+  //       );
+  //     },
+  //   ),
+  //       isLoading?  Container(child: Center(
+  //         child: CircularProgressIndicator(),
+  //       )): Container(
+  //
+  //
+  //
+  //         child: Column(
+  //           children: [
+  //             Text(Airportlistdata)
+  //           ],
+  //         ),
+  //       ), //if isLoading flag is true it'll display the progress indicator
+  //     ],
+  //   );
+  // }
 
   Widget _buildSearchResults() {
     return new ListView.builder(
@@ -188,10 +291,10 @@ class _HomePageState extends State<OnewwayDestinationCityVC> {
               //     _searchResult[i].firstName),
 
               title: new Text(
-                  _searchResult[index].Name + '   -' +(_searchResult[index].iata)),
+                  _searchResult[index].Name + '   -' +(_searchResult[index].iata + ' -'+ _searchResult[index].City)),
               onTap: () async{
                 print('filter....');
-                print(OnewayDestinationcontroller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata);
+                print(OnewayDestinationcontroller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata + ' _' + _searchResult[index].City);
                 OnewayDestinationcontroller.text = _searchResult[index].Name + '  - ' + _searchResult[index].iata;
                 Oneway_Destinationiatacode = _searchResult[index].iata;
                 Oneway_DestinationCityname = _searchResult[index].Name;
@@ -295,7 +398,7 @@ class _HomePageState extends State<OnewwayDestinationCityVC> {
 
     _userDetails.forEach((userDetail) {
       if (userDetail.Name.contains(text) ||
-          userDetail.iata.contains(text)) _searchResult.add(userDetail);
+          userDetail.iata.contains(text) || userDetail.City.contains(text)) _searchResult.add(userDetail);
 
     }
 

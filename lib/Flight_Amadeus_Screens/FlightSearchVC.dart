@@ -5,6 +5,7 @@ import '../flyScreens/Flights.dart';
 import '../flyScreens/airlineVC.dart';
 import 'OneWay_DestinationSelection/Oneway-DestinationJsonVC.dart';
 import 'OnwardJourneyVC.dart';
+import 'OnwardtripVC.dart';
 import 'OriginDestSelectionVC.dart';
 import 'ReturnJourney/Roundtrip_Destinationscreens/Rndtrp_DestinationJsonVC.dart';
 import 'ReturnJourney/Roundtrip_OriginScreens/Rndtrp_OriginJsonVC.dart';
@@ -30,6 +31,8 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
   String DestinationAirportcitystr = '';
   String Retrived_Oneway_iatacodestr = '';
   String Retrived_Oneway_Citynamestr = '';
+  String Retrived_Oneway_Airportnamestr = '';
+
   String RetrivedOneway_Oneway_Destinationiatacodestr = '';
   String RetrivedOnew_Oneway_DestinationCitynamestr = '';
 
@@ -62,8 +65,12 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
       DestinationAirportcitystr = prefs.getString('destinationkey') ?? '';
   Retrived_Oneway_iatacodestr = prefs.getString('Oneway_iatacodekey') ?? '';
   Retrived_Oneway_Citynamestr = prefs.getString('Oneway_Citynamekey') ?? '';
+      Retrived_Oneway_Airportnamestr = prefs.getString('Oneway_Oneway_Airportnamestrkey') ?? '';
 
-  //Roundtrip values
+
+
+
+      //Roundtrip values
 
       RndOriginAirportcitystr = prefs.getString('Rndtrp_origincitykey') ?? '';
       Retrived_Rndtrp_iatacodestr = prefs.getString('Rndtrp_originiatacodekey') ?? '';
@@ -212,7 +219,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       //color: Color(0xFF818181),
-                      color: Colors.deepPurple
+                      color: Colors.green
                   ),
                 ),
               ),
@@ -225,10 +232,22 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     //color: Color(0xFF818181),
-                    color: Colors.deepPurple,
+                    color: Colors.green,
                   ),
                 ),
               ),
+                  // Tab(
+                  //   child: Text(
+                  //     'Multi-City',
+                  //     style: TextStyle(
+                  //       //fontFamily: kFontFamily,
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.w600,
+                  //       //color: Color(0xFF818181),
+                  //       color: Colors.green,
+                  //     ),
+                  //   ),
+                  // ),
             ]),
           ),
           Container(
@@ -277,12 +296,16 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           prefs.setString("OnewayDeparturekey", 'OnewayDeparture');
                           prefs.setString("Oneway_iatacodekey", Retrived_Oneway_iatacodestr);
                           prefs.setString("Oneway_Citynamekey", Retrived_Oneway_Citynamestr);
+
+
+
+
                         },
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(
-                              Icons.flight, color: Colors.deepPurple),
+                              Icons.flight, color: Colors.green),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -325,7 +348,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           filled: true,
                           fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(
-                              Icons.flight, color: Colors.deepPurple),
+                              Icons.flight, color: Colors.green),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -347,7 +370,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                             filled: true,
                             fillColor: Color(0xFFFFFFFF),
                             prefixIcon: Icon(
-                                Icons.calendar_month, color: Colors.deepPurple),
+                                Icons.calendar_month, color: Colors.green),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(0),
@@ -406,7 +429,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           filled: true,
                           fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(Icons.account_circle_outlined,
-                              color: Colors.deepPurple),
+                              color: Colors.green),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -424,7 +447,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                     child: Container(
                     height: 50,
                     width: 300,
-                     color: Colors.deepPurple,
+                     color: Colors.green,
 
                         child: Align(
                           alignment: Alignment.center,
@@ -450,12 +473,10 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => FlightOnWardJourney()),
+                                        builder: (context) => FlightOnWardTrip()),
                                   );
                     },
                   )
-
-
 
                     // Container(
                     //     height: 50,
@@ -536,7 +557,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           filled: true,
                           fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(
-                              Icons.flight, color: Colors.deepPurple),
+                              Icons.flight, color: Colors.green),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -579,7 +600,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           filled: true,
                           fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(
-                              Icons.flight, color: Colors.deepPurple),
+                              Icons.flight, color: Colors.green),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -608,7 +629,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                                   filled: true,
                                   fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(Icons.calendar_month,
-                                      color: Colors.deepPurple),
+                                      color: Colors.green),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(0),
@@ -651,7 +672,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                                   filled: true,
                                   fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(Icons.calendar_month,
-                                      color: Colors.deepPurple),
+                                      color: Colors.green),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(0),
@@ -739,7 +760,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                           filled: true,
                           fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(Icons.account_circle_outlined,
-                              color: Colors.deepPurple),
+                              color: Colors.green),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -756,7 +777,7 @@ class _FlightSearchVCState extends State<FlightSearchVC> with SingleTickerProvid
                       child: Container(
                           height: 50,
                           width: 300,
-                          color: Colors.deepPurple,
+                          color: Colors.green,
 
                           child: Align(
                             alignment: Alignment.center,

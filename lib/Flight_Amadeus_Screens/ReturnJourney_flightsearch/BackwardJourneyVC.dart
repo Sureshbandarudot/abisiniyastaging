@@ -509,6 +509,8 @@ class _userDashboardState extends State<FlightBackWardJourney> {
             }
           }
         }
+        return json.decode(response.body);
+
       } else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
